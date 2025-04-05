@@ -1,1 +1,166 @@
-<mxGraphModel><root><mxCell id="0"/><mxCell id="1" parent="0"/></root></mxGraphModel>
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36" version="26.2.5">
+  <diagram id="AsLopXNGc7jZFYiyI0SS" name="Page-1">
+    <mxGraphModel dx="1207" dy="797" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="0" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-1" value="UserID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-2" value="Email" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-270" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-3" value="Password" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-190" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-4" value="Name" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-110" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-5" value="PATIENTS" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="20" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-6" value="DOB" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-30" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-7" value="Gender" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="50" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-8" value="Height" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="130" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-9" value="Weight" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="210" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-10" value="Pregnant" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="290" y="40" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-11" value="UserID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="100" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-12" value="Email" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-270" y="100" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-13" value="Password" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-190" y="100" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-14" value="Name" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-110" y="100" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-15" value="DOCTORS" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="80" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-21" value="Profession" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-30" y="100" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-22" value="ALLERGIES" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="140" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-23" value="allergyID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="160" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-24" value="Name" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-270" y="160" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-25" value="DRUGS" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="200" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-26" value="&lt;u&gt;drugID&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="220" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-27" value="Name" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-270" y="220" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-28" value="Active Ingredients" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-190" y="220" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-30" value="CANT MIX DRUGS" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="260" width="110" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-31" value="&lt;u&gt;drugID&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="280" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-32" value="&lt;u&gt;mixDrugID&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-270" y="280" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-33" value="Threat Level" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-190" y="280" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-34" value="CANT MIX ALLERGIES" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="320" width="140" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-35" value="drugID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="340" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-36" value="allergyID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-270" y="340" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-37" value="Threat Level" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-190" y="340" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-38" value="TAKES" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="440" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-39" value="patientID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-40" value="&lt;u&gt;drugID&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-270" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-41" value="HAS" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="380" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-42" value="patientID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="400" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-43" value="&lt;u&gt;allergyID&lt;/u&gt;" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-270" y="400" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-47" value="Start Date" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-190" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-48" value="End Date" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-110" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-49" value="Interval" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-30" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-50" value="Dose" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="50" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-51" value="Method" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="130" y="460" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-52" value="CAN SEE" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="500" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-53" value="docID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="520" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-54" value="patientID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-270" y="520" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-55" value="drugID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-190" y="520" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-56" value="Can Edit" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-110" y="520" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-57" value="GOES TO" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-350" y="560" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-58" value="patientID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-350" y="580" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-59" value="docID" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=4" vertex="1" parent="1">
+          <mxGeometry x="-270" y="580" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-60" value="Can Add" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-190" y="580" width="80" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="vmhdOPlfy4lCyZK5I_kO-61" value="Can Remove" style="rounded=0;whiteSpace=wrap;html=1;fontStyle=0" vertex="1" parent="1">
+          <mxGeometry x="-110" y="580" width="80" height="20" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
