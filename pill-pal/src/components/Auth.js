@@ -11,6 +11,14 @@ const Auth = () => {
     password: '',
     confirmPassword: '',
     userType: 'patient',
+    name: '',
+    dateOfBirth: '',
+    gender: 'male',
+    height: '',
+    weight: '',
+    pregnancyStatus: 'false',
+    profession: '',
+    placeOfWork: '',
   });
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -42,10 +50,8 @@ const Auth = () => {
       Cookies.set('user', JSON.stringify(data), { expires: 7 });
 
       if (isLogin) {
-        // Navigate directly to the dashboard after login
         navigate(data.userType === 'patient' ? '/patient-dashboard' : '/provider-dashboard');
       } else {
-        // Navigate to the appropriate questionnaire after registration
         navigate(data.userType === 'provider' ? '/provider-questionnaire' : '/questionnaire');
       }
     } catch (err) {
@@ -101,6 +107,107 @@ const Auth = () => {
                       <option value="provider">Provider</option>
                     </select>
                   </div>
+                  {formData.userType === 'patient' && (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="name">Name</label>
+                          <input
+                              type="text"
+                              id="name"
+                              name="name"
+                              value={formData.name}
+                              onChange={handleChange}
+                              required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="dateOfBirth">Date of Birth</label>
+                          <input
+                              type="date"
+                              id="dateOfBirth"
+                              name="dateOfBirth"
+                              value={formData.dateOfBirth}
+                              onChange={handleChange}
+                              required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="gender">Gender</label>
+                          <select
+                              id="gender"
+                              name="gender"
+                              value={formData.gender}
+                              onChange={handleChange}
+                              required
+                          >
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                          </select>
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="height">Height (cm)</label>
+                          <input
+                              type="number"
+                              id="height"
+                              name="height"
+                              value={formData.height}
+                              onChange={handleChange}
+                              required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="weight">Weight (kg)</label>
+                          <input
+                              type="number"
+                              id="weight"
+                              name="weight"
+                              value={formData.weight}
+                              onChange={handleChange}
+                              required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="pregnancyStatus">Pregnancy Status</label>
+                          <select
+                              id="pregnancyStatus"
+                              name="pregnancyStatus"
+                              value={formData.pregnancyStatus}
+                              onChange={handleChange}
+                              required
+                          >
+                            <option value="true">Yes</option>
+                            <option value="false">No</option>
+                          </select>
+                        </div>
+                      </>
+                  )}
+                  {formData.userType === 'provider' && (
+                      <>
+                        <div className="form-group">
+                          <label htmlFor="profession">Profession</label>
+                          <input
+                              type="text"
+                              id="profession"
+                              name="profession"
+                              value={formData.profession}
+                              onChange={handleChange}
+                              required
+                          />
+                        </div>
+                        <div className="form-group">
+                          <label htmlFor="placeOfWork">Place of Work</label>
+                          <input
+                              type="text"
+                              id="placeOfWork"
+                              name="placeOfWork"
+                              value={formData.placeOfWork}
+                              onChange={handleChange}
+                              required
+                          />
+                        </div>
+                      </>
+                  )}
                 </>
             )}
             <div className="form-group">

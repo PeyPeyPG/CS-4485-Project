@@ -15,25 +15,52 @@ const config = {
 };
 
 // Register a new user
+// Register a new user
 router.post('/register', async (req, res) => {
-    const { username, email, password, userType } = req.body;
+    const { username, email, password, userType, name, dateOfBirth, gender, height, weight, pregnancyStatus, profession, placeOfWork } = req.body;
 
     try {
-        console.log('Connecting to the database...');
         const pool = await sql.connect(config);
-        console.log('Connected to the database.');
 
-        console.log('Inserting user into the database...');
-        await pool.request()
+        // Insert into Users table
+        const userResult = await pool.request()
             .input('username', sql.NVarChar, username)
             .input('email', sql.NVarChar, email)
             .input('password', sql.NVarChar, password)
             .input('userType', sql.NVarChar, userType)
             .query(`
                 INSERT INTO Users (username, email, password, userType)
+                OUTPUT INSERTED.ID
                 VALUES (@username, @email, @password, @userType)
             `);
-        console.log('User registered successfully.');
+
+        const userId = userResult.recordset[0].ID;
+
+        // Insert into PatientDetails or Providers based on userType
+        if (userType === 'patient') {
+            await pool.request()
+                .input('UserID', sql.Int, userId)
+                .input('Name', sql.NVarChar, name)
+                .input('DateOfBirth', sql.Date, dateOfBirth)
+                .input('Gender', sql.NVarChar, gender)
+                .input('Height', sql.Decimal(5, 2), height)
+                .input('Weight', sql.Decimal(5, 2), weight)
+                .input('PregnancyStatus', sql.Bit, pregnancyStatus)
+                .query(`
+                    INSERT INTO Patients (UserID, Name, DateOfBirth, Gender, Height, Weight, PregnancyStatus)
+                    VALUES (@UserID, @Name, @DateOfBirth, @Gender, @Height, @Weight, @PregnancyStatus)
+                `);
+        } else if (userType === 'provider') {
+            await pool.request()
+                .input('UserID', sql.Int, userId)
+                .input('Profession', sql.NVarChar, profession)
+                .input('PlaceOfWork', sql.NVarChar, placeOfWork)
+                .query(`
+                    INSERT INTO Providers (UserID, Profession, PlaceOfWork)
+                    VALUES (@UserID, @Profession, @PlaceOfWork)
+                `);
+        }
+
         res.status(201).json({ message: 'User registered successfully', userType });
     } catch (err) {
         console.error('Error registering user:', err);
