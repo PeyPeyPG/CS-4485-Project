@@ -28,7 +28,7 @@ const MedicalQuestionnaire = () => {
     e.preventDefault();
     // In a real application, you would save this data to a database
     // For now, we'll just navigate to the dashboard
-    navigate('/dashboard');
+    navigate('/patient-dashboard');
   };
 
   const toggleUnits = () => {
