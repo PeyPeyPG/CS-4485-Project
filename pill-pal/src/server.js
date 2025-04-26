@@ -1,11 +1,14 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const sql = require('mssql');
 const cors = require('cors');
-require('dotenv').config({ path: './path/to/.env' });
+const cookieParser = require('cookie-parser');
+require('dotenv').config();
 
 const app = express();
-app.use(bodyParser.json());
+
+// Middleware
+app.use(express.json());
+app.use(cookieParser());
+
 app.use(cors({
     origin: 'http://localhost:3000', // Frontend URL
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -26,5 +29,7 @@ const apiRoutes = require('./api/index');
 app.use('/api', apiRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+});
 

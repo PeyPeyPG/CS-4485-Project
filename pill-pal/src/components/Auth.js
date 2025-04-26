@@ -39,6 +39,7 @@ const Auth = () => {
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
         body: JSON.stringify(formData),
       });
 
@@ -47,7 +48,11 @@ const Auth = () => {
       }
 
       const data = await response.json();
-      Cookies.set('user', JSON.stringify(data), { expires: 7 });
+      
+      Cookies.set('userInfo', JSON.stringify({
+        username: formData.username,
+        userType: data.userType
+      }), { expires: 7 });
 
       if (isLogin) {
         navigate(data.userType === 'patient' ? '/patient-dashboard' : '/provider-dashboard');
@@ -56,6 +61,19 @@ const Auth = () => {
       }
     } catch (err) {
       setError(err.message);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:5000/api/logout', {
+        method: 'POST',
+        credentials: 'include'
+      });
+      Cookies.remove('userInfo');
+      navigate('/auth');
+    } catch (err) {
+      console.error('Error logging out:', err);
     }
   };
 
