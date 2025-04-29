@@ -5,9 +5,12 @@
     background-color: #F5F5F5;
 }
 .medicine-stack-container{
-    width: 56.025rem;
-    height: 32.625rem;
+    width: 53.025rem;
+    min-height: 32.625rem;
+    max-height: 40rem;
+    overflow-y: hidden;
     margin-top: 2rem;
+    margin-bottom: 2rem;
     margin-left: 16rem;
     background-color: white;
     border-radius: 15px;
@@ -23,7 +26,7 @@
 }
 .daily-pill-container{
     margin-top: 1.8rem;
-    margin-left: 5rem;
+    margin-left: 4rem;
     width: 45rem;
     height: 7.2rem;
     background-color: #D9D9D9;
@@ -55,11 +58,152 @@
     border-width: 4px;
     border-color:#2AACDB;
 }
+.day-button.active{
+    border-style: solid;
+    border-width: 4px;
+    border-color:#2AACDB;
+}
 .dropdown{
     width: 40rem;
-    height: 16rem;
+    min-height: 2rem;
+    max-height: 50rem;
+    overflow-y: auto;
+    overflow-x: visible;
     background-color: #D9D9D9;
-    align-items: center;
-    margin-left: 7.3rem;
+    align-items: right;
+    margin-left: 6.5rem;
+    margin-bottom: 3rem;
     border-radius: 0 0 45px 45px;
+    transition: 400ms;
+}
+.notes-container{
+    margin-top: 2rem;
+    margin-left: 1.8rem;
+    width: 22rem;
+    height: 40rem;
+    background-color: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: start;
+    justify-content: left;
+    text-align: start;
+}
+.notes-container-circle{
+    height: 5rem;
+    width: 5rem;
+    border-radius: 45px;
+    background-color: #D9D9D9;
+    margin-top: 1rem;
+    margin-left: .5rem;
+}
+.notes-container-bar{
+    height: 3.6rem;
+    width: 16.8rem;
+    border-radius: 0px 45px 45px 0px;
+    background-color: #D9D9D9;
+    margin-top: 1.7rem;
+    margin-left: -1rem;
+    align-items: center;
+    display: flex;
+}
+.bar-text{
+    margin-left: 4rem;
+    margin-top: -.1rem;
+}
+.notes-box{
+    width: 15rem;
+    min-height: 2rem;
+    max-height: 32rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    overflow-wrap: anywhere;
+    overflow-y: auto;
+    margin-top: 5.3rem;
+    margin-left: -16.5rem;
+    background-color: rgb(241, 241, 241);
+    border-radius: 0 0 45px 45px;
+    padding-left: .2rem;
+    align-items: center;
+    list-style: none;
+}
+.medicine-items{
+    padding: 0rem;
+}
+.med-entry{
+    padding: .5rem;
+    background-color:#9acee1;
+    display: flex;
+    align-items: center;
+    margin: .5rem;
+    border-radius: 45px;
+    padding-right: 1rem
+}
+.medicine-items li{
+    list-style: none;
+    padding-left: 0rem;
+    text-align: start;
+    align-items: center;
+    display: flex;
+}
+.med{
+    padding-left: .3rem;
+    width: 13rem;
+    height: 3rem;
+    background-color: #f7f8f8;
+    margin-left: 1rem;
+    margin-top:.1rem;
+    padding: .2rem;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #2AACDB;
+}
+.med-dosage{
+    width: 6rem;
+    height: 3rem;
+    background-color: #f7f8f8;
+    margin-top:.1rem;
+    margin-left: 2rem;
+    padding: .2rem;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #2AACDB;
+}
+.med-time{
+    width: 7rem;
+    height: 3rem;
+    background-color: #f7f8f8;
+    margin-left: 2rem;
+    margin-top:.1rem;
+    padding: .2rem;
+    font-size: 1.2rem;
+    text-align: center;
+    border-radius: 20px;
+    border-style: solid;
+    border-width: 2px;
+    border-color: #2AACDB;
+}
+.note-card{
+    background-color: white;
+    width: 14rem;
+    border-radius: 5px;
+    margin-top: .5rem;
+    margin-bottom: .5rem;
+    margin-left: .2rem;
+    padding:.2rem;
+}
+.note-card-doctor{
+    border-bottom: #868484;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    margin-bottom: .2rem; 
+}
+.note-card-subject{
+    color: #e38f8f;
+    margin-bottom: .1rem;
 }
