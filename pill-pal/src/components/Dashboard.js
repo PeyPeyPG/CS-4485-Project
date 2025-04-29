@@ -1,4 +1,4 @@
-import './Dashboard.css';
+import './Dashboard1.css';
 import React, { useState } from 'react';
 const Dashboard = () => {
 
@@ -75,7 +75,7 @@ const Dashboard = () => {
     }
 
     return(
-        <div className = "dashboard-container">
+        <div className = "main-dashboard-container">
             <div className = "medicine-stack-container">
                 <div className = "stack-text">Medicine Stack</div>
                 <div className = "daily-pill-container">
