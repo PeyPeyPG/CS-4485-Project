@@ -55,7 +55,7 @@ const Auth = () => {
       }), { expires: 7 });
 
       if (isLogin) {
-        navigate(data.userType === 'patient' ? '/patient-dashboard' : '/provider-dashboard');
+        navigate(data.userType === 'patient' ? '/home/patient-dashboard' : '/provider-dashboard');
       } else {
         navigate(data.userType === 'provider' ? '/provider-questionnaire' : '/questionnaire');
       }

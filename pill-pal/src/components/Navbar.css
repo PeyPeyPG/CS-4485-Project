@@ -1,0 +1,90 @@
+.navbar{
+    text-align: left;
+    background-color:#E70000;
+    height: 4rem;
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    padding: .5rem;
+    color: white;
+}
+.right-section{
+    margin-left: 88%;
+    display: flex;
+    column-gap: .8rem;
+}
+.menu-bars{
+    font-size:2rem;
+    background:none;
+}
+.nav-menu{
+    background-color: #FFFCFC;
+    width: 15rem;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    transition: 900ms;
+}
+.nav-menu.active{
+    left: 0;
+    transition: 600ms;
+}
+.nav-text{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    list-style: none;
+    height: 3.75rem;
+}
+.nav-text a{
+    text-decoration: none;
+    color: #6A6969;
+    font-size: 1.2rem;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    border-radius: 4px;
+}
+.nav-text a:hover{
+    background-color: white;
+}
+.nav-menu-items{
+    list-style: none;
+    width: 100%;
+    margin: 0;
+    padding-left: 0;
+}
+.toggle{
+    width: 100%;
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 1.8rem;
+    font-family: 'Inter';
+    background-color: #DE6868;
+    gap: 1rem;
+    margin: 0;
+}
+span {
+    margin-left: 1rem;
+}
+.footer{
+    display: flex;
+    margin-top: 20rem;
+    padding-left: .7rem;
+    font-size: 2rem;
+    font-family: 'Koh Santepheap';
+    color: #9EC9F9; 
+    align-items: center;
+    gap: .3rem;
+}
+.footer-text{
+    padding-left: .2rem;
+}
