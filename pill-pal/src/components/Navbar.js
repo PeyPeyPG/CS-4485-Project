@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useRef} from 'react';
+import { Link, Outlet, useNavigate} from 'react-router-dom';
 import { NavbarData } from './NavbarData';
 import './Navbar.css';
 
@@ -7,9 +7,32 @@ import './Navbar.css';
 
 function Navbar(){
 
+    const navigate = useNavigate();
     const [sidebar, setSideBar] = useState(false);
     const showSideBar = () => setSideBar(!sidebar);
+
+    const [dropdown, setDropdown] = useState(false);
+    const showDropdown = () => setDropdown(!dropdown);
+    const dropdownRef = useRef(null);
     //const sidebar = true;
+
+    useEffect(() => {
+        function handleClickOutside(event) {
+          if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+            setDropdown(false);
+          }
+        }
+    
+        document.addEventListener('mousedown', handleClickOutside);
+    
+        return () => {
+          document.removeEventListener('mousedown', handleClickOutside);
+        };
+      }, []);
+
+    const handleLogout = () => {
+        navigate("/auth");
+      };
 
     return (
     <>
@@ -23,9 +46,16 @@ function Navbar(){
                 <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-bell-fill" viewBox="0 0 16 16">
                     <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901"/>
                 </svg>
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                    <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1 1 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0"/>
-                </svg>
+                <div className = "nav-dropdown" ref={dropdownRef}>
+                    <button onClick = {showDropdown} className="link">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="38" height="38" fill="currentColor" class="bi bi-person-fill" viewBox="0 0 16 16">
+                        <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6"/>
+                        </svg>
+                    </button>
+                    <div className = {dropdown ? 'nav-dropdown-menu active' : 'nav-dropdown-menu'}>
+                        <div onClick = {handleLogout}>logout</div>
+                    </div>
+                </div>
             </div>
         </div>
         <nav className = {sidebar ? 'nav-menu active' : 'nav-menu'}>

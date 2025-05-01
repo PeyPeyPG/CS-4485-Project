@@ -44,7 +44,7 @@
     font-size: 1.2rem;
 }
 
-ul {
+/*ul {
     list-style: none;
     padding: 0;
     width: 100%;
@@ -59,7 +59,7 @@ ul li {
     font-size: 1rem;
     color: #333;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
+}*/
 
 .form-group {
     display: flex;

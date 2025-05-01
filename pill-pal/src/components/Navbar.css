@@ -1,6 +1,6 @@
 .navbar{
     text-align: left;
-    background-color:#E70000;
+    background-color: #E70000;
     height: 4rem;
     display: flex;
     justify-content: start;
@@ -11,7 +11,37 @@
 .right-section{
     margin-left: 88%;
     display: flex;
-    column-gap: .8rem;
+    column-gap: .4rem;
+}
+.nav-dropdown{
+    position: relative;
+}
+.link{
+    cursor: pointer;
+    background-color: #E70000;
+    color: white;
+    border: none;
+    opacity: 100%;
+}
+.nav-dropdown-menu{
+    position: absolute;
+    width: 4rem;
+    left: 0;
+    top: calc(100% + .25rem);
+    background-color: #E70000;
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .4);
+    padding: .75rem;
+    text-align: center;
+    color: white;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+}
+.nav-dropdown-menu.active{
+    pointer-events: auto;
+    opacity: 1;
+    transform: translateY(0);
 }
 .menu-bars{
     font-size:2rem;

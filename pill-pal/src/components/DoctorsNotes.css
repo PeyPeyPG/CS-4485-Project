@@ -1,0 +1,91 @@
+.doctors-notes-container{
+    width: 100%;
+    height: 100vh;
+    background-color: #F5F5F5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.doctors-notes-text{
+    display: flex;
+    height: 2rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 2rem;
+    margin-left: -35rem;
+    color: #09080894;
+}
+.notes-box-container{
+    margin-top: 1rem;
+    width: 46rem;
+    min-height: 40rem;
+    background-color: white;
+    border-radius: 30px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    list-style: none;
+}
+.doctors-note-card{
+    width: 38rem;
+    height: 15rem;
+    margin-top: 1rem;
+    border-radius: 5px;
+    background-color: #ffffff;
+    border-style: dotted;
+    border-width: 2px;
+    border-color: #9EC9F9;
+    box-shadow: 1px 1px 4px 2px #cecdcd94;
+    display: flex;
+    flex-direction: row;
+}
+.card-left-section{
+    width: 10rem;
+    height: 15rem;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    text-align: left;
+    border-right-style: dotted;
+    border-right-width: 2px;
+    border-right-color: #9EC9F9;
+}
+.card-doctors-name{
+    margin-left: .3rem;
+    margin-top: .3rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: rgb(87, 87, 87);
+}
+.card-subject-line{
+    margin-left: .3rem;
+    margin-top: .3rem;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: rgb(87, 87, 87);
+}
+.card-middle-section{
+    width: 24rem;
+    height: 15rem;
+}
+.card-note-content{
+    margin-left: .5rem;
+    margin-top: .5rem;
+    text-align: start;
+}
+.card-right-section{
+    padding-top: .5rem;
+    padding-right: .1rem;
+    height: 10rem;
+    width: 4rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: .3rem;
+    color: #9EC9F9;
+}
+.card-pin{
+    color: #9EC9F9;
+}
