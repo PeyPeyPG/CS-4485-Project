@@ -7,6 +7,8 @@ import Navbar from './components/Navbar';
 import Dashboard from './components/Dashboard';
 import PatientDashboard from './components/PatientDashboard';
 import ProviderDashboard from './components/ProviderDashboard';
+import DoctorsNotes from './components/DoctorsNotes';
+import Profile from './components/Profile';
 import './App.css';
 
 function App() {
@@ -21,8 +23,8 @@ function App() {
                     <Route path="/" element={<Navigate to="/auth" replace />} />
                     <Route path="/home" element = {< Navbar />}>
                         <Route path="patient-dashboard" element = {< Dashboard/>}/>
-                        <Route path="doctors-notes" element = {<div>Doctor's Notes</div>}/>
-                        <Route path="messages" element = {<div>Messages</div>}/>
+                        <Route path="doctors-notes" element = {< DoctorsNotes/>}/>
+                        <Route path="profile" element = {< Profile/>}/>
                         <Route path="medications" element = {<PatientDashboard />}/>
                         <Route path="requests" element = {<div>Requests</div>}/>
                     </Route>
