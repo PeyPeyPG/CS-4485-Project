@@ -87,7 +87,7 @@ router.get('/getpinnednotes/:username', async (req, res) => {
     }
 });
 
-router.get('/changepin/:username/:providerUsername/:subject/', async (req, res) => {
+router.put('/changepin/:username/:providerUsername/:subject/', async (req, res) => {
     const { username, providerUsername, subject } = req.params;
     try {
         const pool = await sql.connect(config);
@@ -104,6 +104,28 @@ router.get('/changepin/:username/:providerUsername/:subject/', async (req, res) 
     } catch (err) {
         console.error('Error changing the pin status of the doctor\'s note:', err);
         res.status(500).send('Error changing the pin status of the doctor\'s note');
+    }
+});
+
+
+router.delete('/removenote/:username/:providerUsername/:subject/', async (req, res) => {
+    const { username, providerUsername, subject } = req.params;
+    try {
+        const pool = await sql.connect(config);
+        await pool.request()
+            .input('username', sql.NVarChar, username)
+            .input('providerUsername', sql.NVarChar, providerUsername)
+            .input('subject', sql.NVarChar, subject)
+            .query(`
+                DELETE FROM DoctorsNotes
+                WHERE patientUsername = @username
+                  AND providerUsername = @providerUsername
+                  AND subject = @subject
+                `);
+            res.status(200).json({message: 'Note deleted successfully'});
+    } catch (err) {
+        console.error('Error deleting the doctor\'s note:', err);
+        res.status(500).send('Error deleting the doctor\'s note:');
     }
 });
 
