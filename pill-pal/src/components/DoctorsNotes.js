@@ -26,9 +26,28 @@ const DoctorsNotes = () => {
     function deleteCard(name, subject) {
         const updatedNotes = doctorsNotes.filter(note => !(note.name === name && note.subject === subject));
         setDoctorsNotes(updatedNotes);
+
+        // Call the backend API to delete the note
+        const username = "patient1"; // Replace with the actual username
+        fetch(`http://localhost:8080/api/dashboard/removenote/${username}/${name}/${subject}`, {
+            method: 'DELETE',
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to delete note');
+                }
+                console.log(`Note deleted: ${name}, ${subject}`);
+            })
+            .catch(err => {
+                console.error('Error deleting note:', err);
+                console.log('Reverting UI update');
+                // Revert the UI update if the API call fails
+                setDoctorsNotes(prevNotes => [...prevNotes, { name, subject, note: 'error', pinned: false }]);
+            });
+    
       }
 
-      function togglePinned(name, subject) {
+    function togglePinned(name, subject) {
         setDoctorsNotes(prevNotes =>
             prevNotes.map(note =>
                 note.name === name && note.subject === subject
@@ -38,28 +57,28 @@ const DoctorsNotes = () => {
         );
 
         // Call the backend API to toggle the pinned status
-    const username = "patient1"; // Replace with the actual username
-    fetch(`http://localhost:8080/api/dashboard/changepin/${username}/${name}/${subject}`, {
-        method: 'GET', // Use the appropriate HTTP method (GET in this case)
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Failed to toggle pin status');
-            }
-            console.log(`Pin status toggled for note: ${name}, ${subject}`);
+        const username = "patient1"; // Replace with the actual username
+        fetch(`http://localhost:8080/api/dashboard/changepin/${username}/${name}/${subject}`, {
+            method: 'PUT',
         })
-        .catch(err => {
-            console.error('Error toggling pin status:', err);
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to toggle pin status');
+                }
+                console.log(`Pin status toggled for note: ${name}, ${subject}`);
+            })
+            .catch(err => {
+                console.error('Error toggling pin status:', err);
 
-            // Revert the UI update if the API call fails
-            setDoctorsNotes(prevNotes =>
-                prevNotes.map(note =>
-                    note.name === name && note.subject === subject
-                        ? { ...note, pinned: !note.pinned }
-                        : note
-                )
-            );
-        });
+                // Revert the UI update if the API call fails
+                setDoctorsNotes(prevNotes =>
+                    prevNotes.map(note =>
+                        note.name === name && note.subject === subject
+                            ? { ...note, pinned: !note.pinned }
+                            : note
+                    )
+                );
+            });
     }
 
     const displayNotes = doctorsNotes.map(doctorsNote =>( <li key={`${doctorsNote.name}-${doctorsNote.subject}`}>
