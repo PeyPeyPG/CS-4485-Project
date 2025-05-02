@@ -1,9 +1,41 @@
 //import React, { useState } from 'react';
 import './Profile.css';
+import React, { useState, useEffect } from 'react';
+
 
 const Profile = () => {
+    const [data, setProfile] = useState({});
 
-    const data = {uid: 1, name: "John Doe", email: "johnDoe@gmail.com", bdate: "4/30/2025", height: "5' 8\""}
+    // Fetch profile from the API
+    useEffect(() => {
+        const fetchProfile = async () => {
+            try {
+                const username = "test"; // Replace with the actual username
+                const response = await fetch(`http://localhost:8080/api/dashboard/getprofile/${username}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch profile');
+                } 
+                const profile = await response.json();
+                console.log(profile);
+                const formattedProfile = {
+                    username: profile.username,
+                    email: profile.email,
+                    name: profile.Name,
+                    bdate: profile.DateOfBirth,
+                    height: profile.Height,
+                    weight: profile.Weight,
+                };
+                console.log(formattedProfile);
+                setProfile(formattedProfile);
+            } catch (err) {
+                console.error('Error fetching profile:', err);
+            }
+        };
+    
+        fetchProfile();
+    }, []);
+
+    //const profile_data = {uid: 1, name: "John Doe", username: "test",email: "johnDoe@gmail.com", bdate: "4/30/2025", height: "5' 8", weight: "150 lbs"};
 
     return(
         <div className = "profile-container">
@@ -17,6 +49,10 @@ const Profile = () => {
                 <div className = "profile-name">{data.name}</div>
             </div>
             <div className = "profile-info-container">
+            <div className = "profile-info-line">
+                    <div className = "profile-info-entry-title">Username: </div>
+                    <div className = "profile-info-entry">{data.username}</div>
+                </div>
                 <div className = "profile-info-line">
                     <div className = "profile-info-entry-title">Email: </div>
                     <div className = "profile-info-entry">{data.email}</div>
@@ -28,6 +64,10 @@ const Profile = () => {
                 <div className = "profile-info-line">
                     <div className = "profile-info-entry-title">Height: </div>
                     <div className = "profile-info-entry">{data.height}</div>
+                </div>
+                <div className = "profile-info-line">
+                    <div className = "profile-info-entry-title">Weight: </div>
+                    <div className = "profile-info-entry">{data.weight}</div>
                 </div>
             </div>
         </div>
