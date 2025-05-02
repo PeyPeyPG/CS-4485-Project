@@ -5,6 +5,7 @@ const Dashboard = () => {
     const [medicines, setMedicines] = useState([]);
     const [day, updateDay] = useState("Mon");
     const [listMedicines, setListMedicines] = useState([]);
+    const [doctorsNotes, setDoctorsNotes] = useState([]);
 
     // Fetch medicines from the API
     useEffect(() => {
@@ -14,7 +15,7 @@ const Dashboard = () => {
                 const response = await fetch(`http://localhost:8080/api/dashboard/getcurmeds/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch medicines');
-                }
+                } 
                 const data = await response.json();
                 console.log(data);
                 setMedicines(data);
@@ -25,6 +26,26 @@ const Dashboard = () => {
         };
 
         fetchMedicines();
+    }, []);
+
+    // Fetch pinned doctor's notes from the API
+    useEffect(() => {
+        const fetchPinnedNotes = async () => {
+            try {
+                const username = "patient1"; // Replace with the actual username
+                const response = await fetch(`http://localhost:8080/api/dashboard/getpinnednotes/${username}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch pinned notes');
+                }
+                const notes = await response.json();
+                console.log('Pinned Notes:', notes);
+                setDoctorsNotes(notes); // Store the pinned notes in state
+            } catch (err) {
+                console.error('Error fetching pinned notes:', err);
+            }
+        };
+
+        fetchPinnedNotes();
     }, []);
 
     // Filter medicines by day
@@ -47,19 +68,13 @@ const Dashboard = () => {
         setListMedicines(dayList);
     };
 
-    const doctorsNotes = [
-        { id: 1, name: "Dr. Glogouh", subject: "Ibiprofen", pinned: true, content: "If you somehow overdose on these, then that's just natural selection at work" },
-        { id: 2, name: "Dr. Sins", subject: "Potassium Chloride", pinned: true, content: "I'm not really a doctor..." },
-    ];
 
-    const pinnedNotes = doctorsNotes.filter(doctorsNote => doctorsNote.pinned === true);
-
-    const displayNotes = pinnedNotes.map(pinnedNote => (
-        <li key={pinnedNote.id}>
+    const displayNotes = doctorsNotes.map((pinnedNote, index) => (
+        <li key={index}>
             <div className="note-card">
                 <div className="note-card-doctor">{pinnedNote.name}</div>
                 <div className="note-card-subject">Subject: {pinnedNote.subject}</div>
-                <div>{pinnedNote.content}</div>
+                <div>{pinnedNote.note}</div>
             </div>
         </li>
     ));
