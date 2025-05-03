@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './Dashboard.css';
+import '../components/Dashboard.css';
 
 const PatientDashboard = () => {
     const [medications, setMedications] = useState([]);

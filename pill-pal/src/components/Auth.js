@@ -48,42 +48,26 @@ const Auth = () => {
       }
 
       const data = await response.json();
-      
+
       Cookies.set('userInfo', JSON.stringify({
         username: formData.username,
-        userType: data.userType
+        userType: data.userType,
       }), { expires: 7 });
 
-      if (isLogin) {
-        navigate(data.userType === 'patient' ? '/home/patient-dashboard' : '/provider-dashboard');
-      } else {
-        navigate(data.userType === 'provider' ? '/provider-questionnaire' : '/questionnaire');
-      }
+      localStorage.setItem('userInfo', JSON.stringify({
+        username: formData.username,
+        userType: data.userType,
+        isNewUser: !isLogin,
+      }));
+
+      navigate(data.userType === 'patient' ? '/home/patient/dashboard' : '/home/provider/dashboard');
     } catch (err) {
       setError(err.message);
     }
   };
 
-  const handleLogout = async () => {
-    try {
-      await fetch('http://localhost:5000/api/logout', {
-        method: 'POST',
-        credentials: 'include'
-      });
-      Cookies.remove('userInfo');
-      navigate('/auth');
-    } catch (err) {
-      console.error('Error logging out:', err);
-    }
-  };
-
   return (
       <div className="auth-container">
-        <div className="logo-container">
-          <svg className="logo" viewBox="0 0 134 150" fill="none" xmlns="http://www.w3.org/2000/svg">
-            {/* SVG content */}
-          </svg>
-        </div>
         <div className="auth-box">
           <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
           {error && <div className="error-message">{error}</div>}
@@ -125,19 +109,19 @@ const Auth = () => {
                       <option value="provider">Provider</option>
                     </select>
                   </div>
+                  <div className="form-group">
+                    <label htmlFor="name">Name</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                        required
+                    />
+                  </div>
                   {formData.userType === 'patient' && (
                       <>
-                        <div className="form-group">
-                          <label htmlFor="name">Name</label>
-                          <input
-                              type="text"
-                              id="name"
-                              name="name"
-                              value={formData.name}
-                              onChange={handleChange}
-                              required
-                          />
-                        </div>
                         <div className="form-group">
                           <label htmlFor="dateOfBirth">Date of Birth</label>
                           <input
@@ -253,7 +237,7 @@ const Auth = () => {
                 </div>
             )}
             <button type="submit" className="auth-button">
-              <span>{isLogin ? 'Login' : 'Sign Up'}</span>
+              {isLogin ? 'Login' : 'Sign Up'}
             </button>
           </form>
           <p className="toggle-auth">

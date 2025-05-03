@@ -73,7 +73,6 @@ const ProviderDashboard = () => {
 
     return (
         <div>
-            <Navbar />
             <div className="provider-dashboard">
                 <h1>Provider Dashboard</h1>
 

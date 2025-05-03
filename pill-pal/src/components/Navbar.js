@@ -8,21 +8,18 @@ function Navbar() {
     const [sidebar, setSideBar] = useState(false);
     const showSideBar = () => setSideBar(!sidebar);
 
-    // Dropdown (profile menu)
     const [dropdown, setDropdown] = useState(false);
     const showDropdown = () => setDropdown(!dropdown);
     const dropdownRef = useRef(null);
 
     const navigate = useNavigate();
 
-    // User info from cookies
     const userInfo = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null;
     const dashboardPath =
         userInfo?.userType === 'provider'
-            ? '/home/provider-dashboard'
-            : '/home/patient-dashboard';
+            ? '/home/provider/dashboard'
+            : '/home/patient/dashboard';
 
-    // Dropdown close-on-outside-click
     useEffect(() => {
         function handleClickOutside(event) {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -35,7 +32,6 @@ function Navbar() {
         };
     }, []);
 
-    // Logout function (clear cookies etc as needed)
     const handleLogout = () => {
         Cookies.remove('userInfo');
         navigate('/auth');
