@@ -23,7 +23,7 @@ const Profile = () => {
                     username: profile.username,
                     email: profile.email,
                     name: profile.Name,
-                    bdate: profile.DateOfBirth,
+                    bdate: profile.DateOfBirth.split("T")[0],
                     height: profile.Height,
                     weight: profile.Weight,
                 };

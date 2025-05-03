@@ -135,93 +135,102 @@ const MedicationStack = ({ selectedPatient }) => {
     };
 
     return (
-        <div>
+        <div className = "med-stack-container">
             <h1>Medication Stack</h1>
-            <div>
-                <input
-                    type="text"
-                    placeholder="Search for a medication"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <button onClick={fetchMedicationsFromRxNorm}>Search</button>
-            </div>
-            <div>
-                <select
-                    value={selectedMedication}
-                    onChange={(e) => handleMedicationSelect(e.target.value)}
-                >
-                    <option value="">Select a Medication</option>
-                    {rxNormMedications.map((med) => (
-                        <option key={med.rxcui} value={med.name}>
-                            {med.name}
-                        </option>
-                    ))}
-                </select>
-                {dosage && <p>Dosage: {dosage}</p>}
-            </div>
-            <div>
-                <label>Days of the Week:</label>
-                <div>
-                    {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
-                        <label key={day}>
-                            <input
-                                type="checkbox"
-                                value={day}
-                                checked={days.includes(day)}
-                                onChange={(e) => {
-                                    const value = e.target.value;
-                                    setDays(prev =>
-                                        prev.includes(value)
-                                            ? prev.filter(d => d !== value)
-                                            : [...prev, value]
-                                    );
-                                }}
-                            />
-                            {day}
-                        </label>
-                    ))}
+            <div className = "add-medication">
+                <div className="select-medication">
+                    <div>
+                        <input className="search-medication"
+                            type="text"
+                            placeholder="Search for a medication"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                        />
+                        <button className = "search-med-button" onClick={fetchMedicationsFromRxNorm}>Search</button>
+                    </div>
+                    <div>
+                        <select className = "select-med-button"
+                            value={selectedMedication}
+                            onChange={(e) => handleMedicationSelect(e.target.value)}
+                        >
+                            <option className = "med-option-bar" value="">Select a Medication</option>
+                            {rxNormMedications.map((med) => (
+                                <option key={med.rxcui} value={med.name}>
+                                    {med.name}
+                                </option>
+                            ))}
+                        </select>
+                        {dosage && <p>Dosage: {dosage}</p>}
+                    </div>
+                </div>
+                <div className="days-of-week-container">
+                    <label className="days-label">Days of the Week:</label>
+                    <div className="med-dosage-intervals">
+                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
+                            <label className="med-time-container" key={day}>
+                                <input
+                                    className="day-selector"
+                                    type="checkbox"
+                                    value={day}
+                                    checked={days.includes(day)}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
+                                        setDays(prev =>
+                                            prev.includes(value)
+                                                ? prev.filter(d => d !== value)
+                                                : [...prev, value]
+                                        );
+                                    }}
+                                />
+                                {day}
+                            </label>
+                        ))}
+                    </div>
+                </div>
+                <div className = "time-per-day-container">
+                    <div className = "number-times-container">
+                        <label>Times Per Day:</label>
+                        <select
+                            value={timesPerDay}
+                            onChange={(e) => handleTimesPerDayChange(Number(e.target.value))}
+                        >
+                            {[1, 2, 3, 4].map((count) => (
+                                <option key={count} value={count}>
+                                    {count}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                    <div className = "time-clock-container">
+                        <label className = "times-header">Times:</label>
+                        <div className="times-container">
+                            {times.map((time, index) => (
+                                <input
+                                    key={index}
+                                    type="time"
+                                    value={time}
+                                    onChange={(e) => handleTimeChange(index, e.target.value)}
+                                />
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div>
-                <label>Times Per Day:</label>
-                <select
-                    value={timesPerDay}
-                    onChange={(e) => handleTimesPerDayChange(Number(e.target.value))}
-                >
-                    {[1, 2, 3, 4].map((count) => (
-                        <option key={count} value={count}>
-                            {count}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div>
-                <label>Times:</label>
-                {times.map((time, index) => (
-                    <input
-                        key={index}
-                        type="time"
-                        value={time}
-                        onChange={(e) => handleTimeChange(index, e.target.value)}
-                    />
-                ))}
-            </div>
-            <button onClick={handleAddMedication}>Add Medication</button>
-            <h2>Your Medications</h2>
-            <ul>
+            <button className = "add-medication-button"onClick={handleAddMedication}>Add Medication</button>
+            <h2 className = "user-medication-header">Your Medications</h2>
+            <ul className='user-medication-list'>
                 {userMedications.map((med) => (
                     <li key={med.id} className="medication-item">
-                        <div>
+                        <div className = "medication-item-info-container">
                             <strong>Name:</strong> {med.medicationName}
                         </div>
-                        <div>
+                        <div className = "medication-item-info-container">
                             <strong>Dosage:</strong> {med.dosage}
                         </div>
-                        <div>
+                        <div className = "medication-item-info-container">
                             <strong>Days:</strong> {Array.isArray(med.days) ? med.days.join(', ') : med.days}
                         </div>
-                        <div>
+                        <div className = "medication-item-info-container">
                             <strong>Times:</strong> {Array.isArray(med.times) ? med.times.join(', ') : med.times}
                         </div>
                         <button onClick={() => handleRemoveMedication(med.medicationName)} className="remove-button">

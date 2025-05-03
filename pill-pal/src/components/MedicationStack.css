@@ -1,0 +1,143 @@
+.med-stack-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+}
+.add-medication{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 1px 1px 4px 2px #cecdcd94;
+    margin-bottom: .5rem;
+}
+.select-medication{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    border-style: solid;
+    border-color: #2AACDB;
+    border-width: 2px;
+    border-radius: 20px;
+    padding: .5rem;
+}
+.search-medication{
+    width: 25rem;
+}
+.search-med-button{
+    height: 3rem;
+    border-radius: 10px;
+    border-width: 1px;
+    background-color: #E70000;
+    color: white;
+}
+.select-med-button{
+    justify-content: start;;
+}
+.days-of-week-container {
+    display: flex;
+    flex-direction: column;
+    border-style: solid;
+    border-color: #2AACDB;
+    border-width: 2px;
+    border-radius: 20px;
+    padding: .5rem;
+}
+
+.days-label {
+    white-space: nowrap; 
+    padding-top: 0.25rem; 
+}
+
+.med-dosage-intervals {
+    margin-left: 2rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.med-time-container {
+    display: flex;
+    align-items: center;
+}
+
+.day-selector {
+    margin-right: 1rem;
+}
+.time-per-day-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    border-style: solid;
+    border-color: #2AACDB;
+    border-width: 2px;
+    border-radius: 20px;
+    padding: .5rem;
+}
+.number-times-container{
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    gap: .5rem;
+}
+.time-clock-container{
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    gap: .3rem;
+}
+.times-container{
+    display: flex;
+    flex-direction: column;
+}
+.times-header{
+    margin-top: .5rem;
+}
+.add-medication-button{
+    height: 3rem;
+    width: 15rem;
+    font-size: 1.2rem;
+    border-radius: 10px;
+    border-width: 1px;
+    background-color: #E70000;
+    color: white;
+    
+}
+.user-medication-list{
+    display: flex;
+    flex-direction: column;
+    gap: .8rem;
+    list-style: none;
+}
+.medication-item{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 3rem;
+    gap: .5rem;
+    background-color: white;
+    padding: .5rem;
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px 2px #cecdcd94;
+}
+.remove-button{
+    border-radius: 10px;
+    border-style: none;
+    height: 1.5rem;
+    background-color: #000ce7;
+    color: white;
+}
+.user-medication-header{
+    margin-bottom:.5rem;
+}
+.medication-item-info-container{
+    border-right-style: solid;
+    border-right-width: 2px;
+    border-right-color:#2AACDB;
+    padding-right: .4rem;
+}
