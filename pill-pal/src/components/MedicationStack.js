@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './MedicationStack.css';
 import Cookies from 'js-cookie';
 
 const MedicationStack = ({ selectedPatient }) => {

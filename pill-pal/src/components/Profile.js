@@ -65,11 +65,11 @@ const Profile = () => {
                 </div>
                 <div className = "profile-info-line">
                     <div className = "profile-info-entry-title">Height: </div>
-                    <div className = "profile-info-entry">{data.height}</div>
+                    <div className = "profile-info-entry">{data.height} cm</div>
                 </div>
                 <div className = "profile-info-line">
                     <div className = "profile-info-entry-title">Weight: </div>
-                    <div className = "profile-info-entry">{data.weight}</div>
+                    <div className = "profile-info-entry">{data.weight} kg</div>
                 </div>
             </div>
         </div>
