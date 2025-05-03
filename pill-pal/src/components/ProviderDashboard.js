@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ProviderNavbar from './ProviderNavbar';
 import Cookies from 'js-cookie';
 import './Dashboard.css';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProviderDashboard = () => {
     const [accessiblePatients, setAccessiblePatients] = useState([]);
@@ -11,13 +12,13 @@ const ProviderDashboard = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const userInfo = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null;
-
     useEffect(() => {
         const fetchAccessiblePatients = async () => {
             try {
-                const response = await fetch(`/api/patients/${userInfo.username}/providers`);
+                const response = await fetch(`/api/patients/patients/${userInfo.username}/providers`);
                 if (response.ok) {
                     const data = await response.json();
+                    console.log(data)
                     setAccessiblePatients(data);
                 } else {
                     console.error('Failed to fetch accessible patients');
@@ -29,7 +30,7 @@ const ProviderDashboard = () => {
 
         const fetchAllPatients = async () => {
             try {
-                const response = await fetch('/api/patients');
+                const response = await fetch('/api/patients/patients');
                 if (response.ok) {
                     const data = await response.json();
                     setAllPatients(data.sort((a, b) => a.Name.localeCompare(b.Name)));
@@ -47,10 +48,10 @@ const ProviderDashboard = () => {
 
     const handleRequestAccess = async (patientUsername) => {
         try {
-            const response = await fetch(`/api/patients/${patientUsername}/providers`, {
+            const response = await fetch(`/api/patients/patients/${patientUsername}/providers`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ providerName: userInfo.username, accessGranted: false }),
+                body: JSON.stringify({ providerName: userInfo.username }),
             });
 
             if (response.ok) {
@@ -79,9 +80,11 @@ const ProviderDashboard = () => {
                 <section>
                     <h2>Accessible Patients</h2>
                     <ul>
+                        
                         {accessiblePatients.map((patient, index) => (
-                            <li key={index}>
-                                {patient.name} - {patient.gender} - {patient.dateOfBirth}
+                            <li class="list-group-item" key={index}>
+
+                                {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
                             </li>
                         ))}
                     </ul>
