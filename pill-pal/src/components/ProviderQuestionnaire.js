@@ -23,8 +23,9 @@ const ProviderQuestionnaire = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Save provider data to a database or state
-        navigate('/provider-dashboard');
+        // Assuming userType is stored in cookies or context
+        const userType = 'provider'; // Replace with actual logic to determine userType
+        navigate(userType === 'patient' ? '/dashboard' : '/provider-dashboard');
     };
 
     return (

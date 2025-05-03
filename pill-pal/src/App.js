@@ -8,6 +8,8 @@ import Dashboard from './components/Dashboard';
 import PatientDashboard from './components/PatientDashboard';
 import ProviderDashboard from './components/ProviderDashboard';
 import DoctorsNotes from './components/DoctorsNotes';
+import MedicationStack from './components/MedicationStack';
+import MedicalProviders from './components/MedicalProviders';
 import Profile from './components/Profile';
 import './App.css';
 
@@ -22,6 +24,8 @@ function App() {
                     <Route path="/provider-dashboard" element={<ProviderDashboard />} />
                     <Route path="/" element={<Navigate to="/auth" replace />} />
                     <Route path="/home" element = {< Navbar />}>
+                        <Route path="medication-stack" element={<MedicationStack />} />
+                        <Route path="medical-providers" element={<MedicalProviders />} />
                         <Route path="patient-dashboard" element = {< Dashboard/>}/>
                         <Route path="doctors-notes" element = {< DoctorsNotes/>}/>
                         <Route path="profile" element = {< Profile/>}/>

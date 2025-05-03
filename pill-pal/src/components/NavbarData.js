@@ -29,6 +29,24 @@ export const NavbarData = [
         cName: 'nav-text'
     },
     {
+        title: 'Manage Medications',
+        path: '/home/medication-stack',
+        icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-capsule" viewBox="0 0 16 16">
+            <path d="M11.5 0a4.5 4.5 0 0 1 3.182 7.682l-7.5 7.5a4.5 4.5 0 0 1-6.364-6.364l7.5-7.5A4.5 4.5 0 0 1 11.5 0zm0 1a3.5 3.5 0 0 0-2.475 5.975l-5.5 5.5a3.5 3.5 0 0 0 4.95 4.95l5.5-5.5A3.5 3.5 0 0 0 11.5 1z"/>
+        </svg>,
+        cName: 'nav-text'
+    },
+    {
+        title: 'Manage Providers',
+        path: '/home/medical-providers',
+        icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-badge" viewBox="0 0 16 16">
+            <path d="M6.5 2a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1h-3V2zM4.5 1a1 1 0 0 0-1 1v1h9V2a1 1 0 0 0-1-1h-7z"/>
+            <path d="M4 4h8a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zM3 6a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6z"/>
+            <path d="M8 8a2 2 0 1 0 0 4 2 2 0 0 0 0-4z"/>
+        </svg>,
+        cName: 'nav-text'
+    },
+    {
         title: 'Medications',
         path: '/home/medications',
         icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-people-fill" viewBox="0 0 16 16">

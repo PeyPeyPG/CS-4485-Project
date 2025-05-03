@@ -16,96 +16,87 @@ const config = {
 
 // Register a new user
 router.post('/register', async (req, res) => {
-    const { username, email, password, userType, name, dateOfBirth, gender, height, weight, pregnancyStatus, profession, placeOfWork } = req.body;
+    const {
+        username, email, password, userType,
+        name, dateOfBirth, gender, height, weight, pregnancyStatus,
+        profession, placeOfWork
+    } = req.body;
 
     try {
         const pool = await sql.connect(config);
 
         // Insert into Users table
-        const userResult = await pool.request()
-            .input('username', sql.NVarChar, username)
-            .input('email', sql.NVarChar, email)
-            .input('password', sql.NVarChar, password)
-            .input('userType', sql.NVarChar, userType)
+        await pool.request()
+            .input('username', sql.NVarChar(255), username)
+            .input('email', sql.NVarChar(255), email)
+            .input('password', sql.NVarChar(255), password)
+            .input('userType', sql.NVarChar(20), userType)
             .query(`
                 INSERT INTO Users (username, email, password, userType)
-                OUTPUT INSERTED.ID
                 VALUES (@username, @email, @password, @userType)
             `);
 
-        const userId = userResult.recordset[0].ID;
-
-        // Insert into PatientDetails or Providers based on userType
+        // Insert into Patients or Providers table based on userType
         if (userType === 'patient') {
             await pool.request()
-                .input('UserID', sql.Int, userId)
-                .input('Name', sql.NVarChar, name)
-                .input('DateOfBirth', sql.Date, dateOfBirth)
-                .input('Gender', sql.NVarChar, gender)
-                .input('Height', sql.Decimal(5, 2), height)
-                .input('Weight', sql.Decimal(5, 2), weight)
-                .input('PregnancyStatus', sql.Bit, pregnancyStatus)
+                .input('username', sql.NVarChar(255), username)
+                .input('name', sql.NVarChar(100), name)
+                .input('dateOfBirth', sql.Date, dateOfBirth)
+                .input('gender', sql.NVarChar(10), gender)
+                .input('height', sql.Decimal(5, 2), height)
+                .input('weight', sql.Decimal(5, 2), weight)
+                .input('pregnancyStatus', sql.Bit, pregnancyStatus)
                 .query(`
-                    INSERT INTO Patients (UserID, Name, DateOfBirth, Gender, Height, Weight, PregnancyStatus)
-                    VALUES (@UserID, @Name, @DateOfBirth, @Gender, @Height, @Weight, @PregnancyStatus)
+                    INSERT INTO Patients (username, Name, DateOfBirth, Gender, Height, Weight, PregnancyStatus)
+                    VALUES (@username, @name, @dateOfBirth, @gender, @height, @weight, @pregnancyStatus)
                 `);
         } else if (userType === 'provider') {
             await pool.request()
-                .input('UserID', sql.Int, userId)
-                .input('Profession', sql.NVarChar, profession)
-                .input('PlaceOfWork', sql.NVarChar, placeOfWork)
+                .input('username', sql.NVarChar(255), username)
+                .input('profession', sql.NVarChar(100), profession)
+                .input('placeOfWork', sql.NVarChar(255), placeOfWork)
                 .query(`
-                    INSERT INTO Providers (UserID, Profession, PlaceOfWork)
-                    VALUES (@UserID, @Profession, @PlaceOfWork)
+                    INSERT INTO Providers (username, profession, placeOfWork)
+                    VALUES (@username, @profession, @placeOfWork)
                 `);
         }
 
-        // Set secure cookie
-        res.cookie('user', JSON.stringify({ id: userId, userType }), {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === 'production',
-            sameSite: 'strict',
-            maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-        });
-
         res.status(201).json({ message: 'User registered successfully', userType });
     } catch (err) {
-        console.error('Error registering user:', err);
-        res.status(500).json({ message: 'Error registering user' });
+        console.error('Error during registration:', err);
+        res.status(500).json({ error: 'Registration failed' });
     }
 });
 
-// Log in a user
+// Login a user
 router.post('/login', async (req, res) => {
     const { username, password } = req.body;
 
     try {
         const pool = await sql.connect(config);
+
+        // Fetch user details
         const result = await pool.request()
-            .input('username', sql.NVarChar, username)
-            .input('password', sql.NVarChar, password)
+            .input('username', sql.NVarChar(255), username)
             .query(`
-                SELECT * FROM Users WHERE username = @username AND password = @password
+                SELECT username, password, userType
+                FROM Users
+                WHERE username = @username
             `);
 
-        if (result.recordset.length > 0) {
-            const user = result.recordset[0];
-            
-            // Set secure cookie
-            res.cookie('user', JSON.stringify({ id: user.ID, userType: user.userType }), {
-                httpOnly: true,
-                secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
-                maxAge: 7 * 24 * 60 * 60 * 1000 // 7 days
-            });
-
-            res.status(200).json(user);
-        } else {
-            res.status(401).send('Invalid credentials');
+        if (result.recordset.length === 0) {
+            return res.status(404).json({ error: 'User not found' });
         }
+
+        const user = result.recordset[0];
+        if (user.password !== password) {
+            return res.status(401).json({ error: 'Invalid credentials' });
+        }
+
+        res.status(200).json({ message: 'Login successful', userType: user.userType });
     } catch (err) {
-        console.error('Error logging in:', err);
-        res.status(500).send('Error logging in');
+        console.error('Error logging in user:', err);
+        res.status(500).send('Error logging in user');
     }
 });
 

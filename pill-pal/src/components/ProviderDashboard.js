@@ -1,77 +1,165 @@
 import React, { useState, useEffect } from 'react';
+import Navbar from './Navbar';
+import Cookies from 'js-cookie';
 import './Dashboard.css';
 
 const ProviderDashboard = () => {
-    const [patients, setPatients] = useState([]);
-    const [selectedPatient, setSelectedPatient] = useState(null);
+    const [accessiblePatients, setAccessiblePatients] = useState([]);
+    const [allPatients, setAllPatients] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
+
+    const userInfo = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null;
 
     useEffect(() => {
-        // Fetch all patients
-        const fetchPatients = async () => {
-            const response = await fetch('http://localhost:5000/api/patients');
-            const data = await response.json();
-            setPatients(data);
+        const fetchAccessiblePatients = async () => {
+            try {
+                const response = await fetch(`/api/patients/${userInfo.username}/providers`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setAccessiblePatients(data);
+                } else {
+                    console.error('Failed to fetch accessible patients');
+                }
+            } catch (error) {
+                console.error('Error fetching accessible patients:', error);
+            }
         };
-        fetchPatients();
-    }, []);
 
-    const handlePatientClick = async (patientId) => {
-        // Fetch patient details
-        const response = await fetch(`http://localhost:5000/api/patients/${patientId}`);
-        const data = await response.json();
+        const fetchAllPatients = async () => {
+            try {
+                const response = await fetch('/api/patients');
+                if (response.ok) {
+                    const data = await response.json();
+                    setAllPatients(data.sort((a, b) => a.Name.localeCompare(b.Name)));
+                } else {
+                    console.error('Failed to fetch all patients');
+                }
+            } catch (error) {
+                console.error('Error fetching all patients:', error);
+            }
+        };
 
-        const allergiesResponse = await fetch(`http://localhost:5000/api/patients/${patientId}/allergies`);
-        const allergies = await allergiesResponse.json();
-        setSelectedPatient(data);
+        fetchAccessiblePatients();
+        fetchAllPatients();
+    }, [userInfo]);
+
+    const handleRequestAccess = async (patientUsername) => {
+        try {
+            const response = await fetch(`/api/patients/${patientUsername}/providers`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ providerName: userInfo.username, accessGranted: false }),
+            });
+
+            if (response.ok) {
+                alert('Access request sent successfully');
+            } else {
+                alert('Failed to send access request');
+            }
+        } catch (error) {
+            console.error('Error requesting access:', error);
+        }
     };
 
-    return (
-        <div className="dashboard-container">
-            <h1>Provider Dashboard</h1>
-            <h2>Patient List</h2>
-            <div className="patient-list">
-                {patients.map((patient) => (
-                    <div
-                        key={patient.PatientID}
-                        className="patient-card"
-                        onClick={() => handlePatientClick(patient.PatientID)}
-                    >
-                        <h3>{patient.Name}</h3>
-                        <p>Gender: {patient.Gender}</p>
-                        <p>Date of Birth: {new Date(patient.DateOfBirth).toLocaleDateString()}</p>
-                    </div>
-                ))}
-            </div>
+    const filteredPatients = allPatients.filter(patient =>
+        patient.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
 
-            {selectedPatient && (
-                <div className="patient-details">
-                    <h2>Patient Details</h2>
-                    <p><strong>Name:</strong> {selectedPatient.details.Name}</p>
-                    <p><strong>Date of Birth:</strong> {new Date(selectedPatient.details.DateOfBirth).toLocaleDateString()}</p>
-                    <p><strong>Gender:</strong> {selectedPatient.details.Gender}</p>
-                    <p><strong>Height:</strong> {selectedPatient.details.Height} cm</p>
-                    <p><strong>Weight:</strong> {selectedPatient.details.Weight} kg</p>
-                    <p><strong>Pregnancy Status:</strong> {selectedPatient.details.PregnancyStatus ? 'Yes' : 'No'}</p>
-                    <h3>Medical Conditions</h3>
+    const indexOfLastRow = currentPage * rowsPerPage;
+    const indexOfFirstRow = indexOfLastRow - rowsPerPage;
+    const currentPatients = filteredPatients.slice(indexOfFirstRow, indexOfLastRow);
+
+    return (
+        <div>
+            <Navbar />
+            <div className="provider-dashboard">
+                <h1>Provider Dashboard</h1>
+
+                <section>
+                    <h2>Accessible Patients</h2>
                     <ul>
-                        {selectedPatient.conditions.map((condition, index) => (
-                            <li key={index}>{condition.ConditionName}</li>
+                        {accessiblePatients.map((patient, index) => (
+                            <li key={index}>
+                                {patient.name} - {patient.gender} - {patient.dateOfBirth}
+                            </li>
                         ))}
                     </ul>
-                    <h3>Medications</h3>
-                    <ul>
-                        {selectedPatient.medications.map((medication, index) => (
-                            <li key={index}>{medication.MedicationName}</li>
+                </section>
+
+                <section>
+                    <h2>All Patients</h2>
+                    <input
+                        type="text"
+                        placeholder="Search patients by name"
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className="search-bar"
+                    />
+                    <table className="patients-table">
+                        <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Date of Birth</th>
+                            <th>Gender</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {currentPatients.map((patient, index) => (
+                            <tr key={index}>
+                                <td>{patient.Name}</td>
+                                <td>{patient.DateOfBirth}</td>
+                                <td>{patient.Gender}</td>
+                                <td>
+                                    <button
+                                        onClick={() => handleRequestAccess(patient.username)}
+                                        className="request-access-button"
+                                    >
+                                        Request Access
+                                    </button>
+                                </td>
+                            </tr>
                         ))}
-                    </ul>
-                    <h3>Allergies</h3>
-                    <ul>
-                        {selectedPatient.allergies.map((allergy, index) => (
-                            <li key={index}>{allergy.AllergyName}</li>
-                        ))}
-                    </ul>
-                </div>
-            )}
+                        </tbody>
+                    </table>
+                    <div className="pagination">
+                        <label>
+                            Rows per page:
+                            <select
+                                value={rowsPerPage}
+                                onChange={(e) => setRowsPerPage(Number(e.target.value))}
+                            >
+                                {[5, 10, 20].map((num) => (
+                                    <option key={num} value={num}>
+                                        {num}
+                                    </option>
+                                ))}
+                            </select>
+                        </label>
+                        <button
+                            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                            disabled={currentPage === 1}
+                        >
+                            Previous
+                        </button>
+                        <span>
+                            Page {currentPage} of {Math.ceil(filteredPatients.length / rowsPerPage)}
+                        </span>
+                        <button
+                            onClick={() =>
+                                setCurrentPage((prev) =>
+                                    Math.min(prev + 1, Math.ceil(filteredPatients.length / rowsPerPage))
+                                )
+                            }
+                            disabled={currentPage === Math.ceil(filteredPatients.length / rowsPerPage)}
+                        >
+                            Next
+                        </button>
+                    </div>
+                </section>
+            </div>
         </div>
     );
 };
