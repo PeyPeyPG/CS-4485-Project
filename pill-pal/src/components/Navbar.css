@@ -107,7 +107,7 @@ span {
 }
 .footer{
     display: flex;
-    margin-top: 20rem;
+    margin-top: 150%;
     padding-left: .7rem;
     font-size: 2rem;
     font-family: 'Koh Santepheap';

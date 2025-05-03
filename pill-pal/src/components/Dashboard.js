@@ -55,19 +55,27 @@ const Dashboard = () => {
     const filterMedicineList = (selectedDay, medicinesData = medicines) => {
         updateDay(selectedDay);
         const dayListMedicines = medicinesData.filter(medicine => medicine.Days.includes(selectedDay));
-        const dayList = dayListMedicines.map(dayListMedicine => (
-            <li key={dayListMedicine.MedicationName}>
-                <div className="med-entry">
-                    <svg width="60" height="27" viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0.5" y="0.5" width="199" height="89" rx="44.5" fill="white" stroke="black" />
-                        <path d="M45 0.5H99.5V89.5H45C20.4233 89.5 0.5 69.5767 0.5 45C0.5 20.4233 20.4233 0.5 45 0.5Z" fill="#F78C8C" stroke="black" />
-                    </svg>
-                    <div className="med">{dayListMedicine.MedicationName}</div>
-                    <div className="med-dosage">{dayListMedicine.dosage}</div>
-                    <div className="med-time">{dayListMedicine.Times}</div>
-                </div>
-            </li>
-        ));
+        const dayList = dayListMedicines.map(dayListMedicine => {
+            const times = dayListMedicine.Times.split(","); // Split the time string into an array
+        
+            return (
+                <li key={dayListMedicine.MedicationName}>
+                    <div className="med-entry">
+                        <svg width="60" height="27" viewBox="0 0 200 90" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <rect x="0.5" y="0.5" width="199" height="89" rx="44.5" fill="white" stroke="black" />
+                            <path d="M45 0.5H99.5V89.5H45C20.4233 89.5 0.5 69.5767 0.5 45C0.5 20.4233 20.4233 0.5 45 0.5Z" fill="#F78C8C" stroke="black" />
+                        </svg>
+                        <div className="med">{dayListMedicine.MedicationName}</div>
+                        <div className="med-dosage">{dayListMedicine.dosage}</div>
+                        <div className="med-time">
+                            {times.map((time, index) => (
+                                <div key={index}>{time}</div>
+                            ))}
+                        </div>
+                    </div>
+                </li>
+            );
+        });
         setListMedicines(dayList);
     };
 
