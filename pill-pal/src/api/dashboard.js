@@ -31,7 +31,7 @@ router.get('/getcurmeds/:username', async (req, res) => {
     }
 });
 
-router.get('/getprofile/:username', async (req, res) => {
+router.get('/getpatientprofile/:username', async (req, res) => {
     const { username } = req.params;
     try {
         const pool = await sql.connect(config);
@@ -40,6 +40,24 @@ router.get('/getprofile/:username', async (req, res) => {
             .query(`
                 SELECT u.username, u.email, p.Name, p.DateOfBirth, p.Height, p.Weight
                 FROM Users u JOIN Patients p ON u.username = p.username
+                WHERE u.username = @username
+                `);
+            res.status(200).json(result.recordset[0]);
+    } catch (err) {
+        console.error('Error fetching patients\' profile:', err);
+        res.status(500).send('Error fetching patients\' profile');
+    }
+});
+//TODO - Make API for provider profile
+router.get('/getproviderprofile/:username', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('username', sql.NVarChar, username)
+            .query(`
+                SELECT u.username, u.email, p.Name, p.profession, p.placeOfWork
+                FROM Users u JOIN Providers p ON u.username = p.username
                 WHERE u.username = @username
                 `);
             res.status(200).json(result.recordset[0]);

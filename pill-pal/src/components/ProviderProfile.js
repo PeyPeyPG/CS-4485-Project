@@ -1,10 +1,9 @@
-//import React, { useState } from 'react';
-import './Profile.css';
+import './ProviderProfile.css';
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie'; 
 
 
-const Profile = () => {
+const ProviderProfile = () => {
     const [data, setProfile] = useState({});
 
     // Fetch profile from the API
@@ -13,7 +12,7 @@ const Profile = () => {
             try {
                 const userInfo = Cookies.get('userInfo');
                 const username = userInfo ? JSON.parse(userInfo).username : null;
-                const response = await fetch(`/api/dashboard/getpatientprofile/${username}`);
+                const response = await fetch(`/api/dashboard/getproviderprofile/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch profile');
                 } 
@@ -23,9 +22,8 @@ const Profile = () => {
                     username: profile.username,
                     email: profile.email,
                     name: profile.Name,
-                    bdate: profile.DateOfBirth,
-                    height: profile.Height,
-                    weight: profile.Weight,
+                    profession: profile.profession,
+                    placeofwork: profile.placeOfWork,
                 };
                 console.log(formattedProfile);
                 setProfile(formattedProfile);
@@ -36,8 +34,6 @@ const Profile = () => {
     
         fetchProfile();
     }, []);
-
-    //const profile_data = {uid: 1, name: "John Doe", username: "test",email: "johnDoe@gmail.com", bdate: "4/30/2025", height: "5' 8", weight: "150 lbs"};
 
     return(
         <div className = "profile-container">
@@ -60,19 +56,15 @@ const Profile = () => {
                     <div className = "profile-info-entry">{data.email}</div>
                 </div>
                 <div className = "profile-info-line">
-                    <div className = "profile-info-entry-title">DOB: </div>
-                    <div className = "profile-info-entry">{data.bdate}</div>
+                    <div className = "profile-info-entry-title">Profession: </div>
+                    <div className = "profile-info-entry">{data.profession}</div>
                 </div>
                 <div className = "profile-info-line">
-                    <div className = "profile-info-entry-title">Height: </div>
-                    <div className = "profile-info-entry">{data.height}</div>
-                </div>
-                <div className = "profile-info-line">
-                    <div className = "profile-info-entry-title">Weight: </div>
-                    <div className = "profile-info-entry">{data.weight}</div>
+                    <div className = "profile-info-entry-title">Place Of Work: </div>
+                    <div className = "profile-info-entry">{data.placeofwork}</div>
                 </div>
             </div>
         </div>
     );
 };
-export default Profile;
+export default ProviderProfile;

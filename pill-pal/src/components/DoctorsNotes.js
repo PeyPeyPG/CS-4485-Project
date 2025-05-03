@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './DoctorsNotes.css';
+import Cookies from 'js-cookie';
+
 const DoctorsNotes = () => {
 
     const [doctorsNotes, setDoctorsNotes] = useState([]);
@@ -7,7 +9,8 @@ const DoctorsNotes = () => {
     useEffect(() => {
             const fetchNotes = async () => {
                 try {
-                    const username = "patient1"; // Replace with the actual username
+                    const userInfo = Cookies.get('userInfo');
+                    const username = userInfo ? JSON.parse(userInfo).username : null;       
                     const response = await fetch(`/api/dashboard/getnotes/${username}`);
                     if (!response.ok) {
                         throw new Error('Failed to fetch doctor\'s notes');
@@ -28,7 +31,8 @@ const DoctorsNotes = () => {
         setDoctorsNotes(updatedNotes);
 
         // Call the backend API to delete the note
-        const username = "patient1"; // Replace with the actual username
+        const userInfo = Cookies.get('userInfo');
+        const username = userInfo ? JSON.parse(userInfo).username : null;        
         fetch(`/api/dashboard/removenote/${username}/${name}/${subject}`, {
             method: 'DELETE',
         })
@@ -57,8 +61,9 @@ const DoctorsNotes = () => {
         );
 
         // Call the backend API to toggle the pinned status
-        const username = "patient1"; // Replace with the actual username
-        fetch(`/api/dashboard/changepin/${username}/${name}/${subject}`, {
+        const userInfo = Cookies.get('userInfo');
+        const username = userInfo ? JSON.parse(userInfo).username : null;
+                fetch(`/api/dashboard/changepin/${username}/${name}/${subject}`, {
             method: 'PUT',
         })
             .then(response => {

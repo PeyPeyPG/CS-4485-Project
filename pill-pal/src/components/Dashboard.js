@@ -1,5 +1,6 @@
 import './Dashboard1.css';
 import React, { useState, useEffect } from 'react';
+import Cookies from 'js-cookie'; 
 
 const Dashboard = () => {
     const [medicines, setMedicines] = useState([]);
@@ -11,7 +12,8 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchMedicines = async () => {
             try {
-                const username = "test"; // Replace with the actual username
+                const userInfo = Cookies.get('userInfo');
+                const username = userInfo ? JSON.parse(userInfo).username : null;
                 const response = await fetch(`/api/dashboard/getcurmeds/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch medicines');
@@ -32,7 +34,8 @@ const Dashboard = () => {
     useEffect(() => {
         const fetchPinnedNotes = async () => {
             try {
-                const username = "patient1"; // Replace with the actual username
+                const userInfo = Cookies.get('userInfo');
+                const username = userInfo ? JSON.parse(userInfo).username : null;                
                 const response = await fetch(`/api/dashboard/getpinnednotes/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch pinned notes');
