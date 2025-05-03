@@ -8,7 +8,7 @@ const DoctorsNotes = () => {
             const fetchNotes = async () => {
                 try {
                     const username = "patient1"; // Replace with the actual username
-                    const response = await fetch(`http://localhost:8080/api/dashboard/getnotes/${username}`);
+                    const response = await fetch(`/api/dashboard/getnotes/${username}`);
                     if (!response.ok) {
                         throw new Error('Failed to fetch doctor\'s notes');
                     }
@@ -29,7 +29,7 @@ const DoctorsNotes = () => {
 
         // Call the backend API to delete the note
         const username = "patient1"; // Replace with the actual username
-        fetch(`http://localhost:8080/api/dashboard/removenote/${username}/${name}/${subject}`, {
+        fetch(`/api/dashboard/removenote/${username}/${name}/${subject}`, {
             method: 'DELETE',
         })
             .then(response => {
@@ -58,7 +58,7 @@ const DoctorsNotes = () => {
 
         // Call the backend API to toggle the pinned status
         const username = "patient1"; // Replace with the actual username
-        fetch(`http://localhost:8080/api/dashboard/changepin/${username}/${name}/${subject}`, {
+        fetch(`/api/dashboard/changepin/${username}/${name}/${subject}`, {
             method: 'PUT',
         })
             .then(response => {

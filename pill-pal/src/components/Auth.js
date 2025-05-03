@@ -35,7 +35,7 @@ const Auth = () => {
     setError('');
 
     try {
-      const endpoint = isLogin ? 'http://localhost:5000/api/login' : 'http://localhost:5000/api/register';
+      const endpoint = isLogin ? '/api/login' : '/api/register';
       const response = await fetch(endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },

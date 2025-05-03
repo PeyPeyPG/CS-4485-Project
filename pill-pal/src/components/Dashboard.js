@@ -12,7 +12,7 @@ const Dashboard = () => {
         const fetchMedicines = async () => {
             try {
                 const username = "test"; // Replace with the actual username
-                const response = await fetch(`http://localhost:8080/api/dashboard/getcurmeds/${username}`);
+                const response = await fetch(`/api/dashboard/getcurmeds/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch medicines');
                 } 
@@ -33,7 +33,7 @@ const Dashboard = () => {
         const fetchPinnedNotes = async () => {
             try {
                 const username = "patient1"; // Replace with the actual username
-                const response = await fetch(`http://localhost:8080/api/dashboard/getpinnednotes/${username}`);
+                const response = await fetch(`/api/dashboard/getpinnednotes/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch pinned notes');
                 }

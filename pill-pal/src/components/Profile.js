@@ -11,7 +11,7 @@ const Profile = () => {
         const fetchProfile = async () => {
             try {
                 const username = "test"; // Replace with the actual username
-                const response = await fetch(`http://localhost:8080/api/dashboard/getprofile/${username}`);
+                const response = await fetch(`/api/dashboard/getprofile/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch profile');
                 } 
