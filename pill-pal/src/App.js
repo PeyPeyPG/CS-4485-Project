@@ -8,6 +8,8 @@ import DoctorsNotes from './components/DoctorsNotes';
 import MedicationStack from './components/MedicationStack';
 import MedicalProviders from './components/MedicalProviders';
 import Profile from './components/Profile';
+import ProviderProfile from './components/ProviderProfile';
+import ProviderNavbar from './components/ProviderNavbar';
 import './App.css';
 
 const RegistrationPrompt = ({ userType }) => {
@@ -51,12 +53,13 @@ function App() {
                         path="/home/provider"
                         element={
                             <>
-                                <Navbar />
+                                <ProviderNavbar />
                                 <RegistrationPrompt userType="provider" />
                             </>
                         }
                     >
                         <Route path="dashboard" element={<ProviderDashboard />} />
+                        <Route path="profile" element={<ProviderProfile />} />
                     </Route>
                     <Route path="/" element={<Navigate to="/auth" replace />} />
                 </Routes>

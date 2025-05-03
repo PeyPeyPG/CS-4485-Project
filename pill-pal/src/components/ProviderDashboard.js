@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import Navbar from './Navbar';
+import ProviderNavbar from './ProviderNavbar';
 import Cookies from 'js-cookie';
 import './Dashboard.css';
 
