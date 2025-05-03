@@ -50,7 +50,6 @@ router.get('/getprofile/:username', async (req, res) => {
 });
 
 router.get('/getnotes/:username', async (req, res) => {
-    console.log('Route hit: /getnotes/:username');
     const { username } = req.params;
     try {
         const pool = await sql.connect(config);
@@ -69,7 +68,6 @@ router.get('/getnotes/:username', async (req, res) => {
 });
 
 router.get('/getpinnednotes/:username', async (req, res) => {
-    console.log('Route hit: /getnotes/:username');
     const { username } = req.params;
     try {
         const pool = await sql.connect(config);
