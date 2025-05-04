@@ -51,7 +51,7 @@ router.get('/patients/:username', async (req, res) => {
                     p.Gender,
                     p.Height,
                     p.Weight,
-                    p.PregnancyStatus
+                    p.PregnancyStatus,
                     p.username
                 FROM Patients p
                 WHERE p.username = @username
