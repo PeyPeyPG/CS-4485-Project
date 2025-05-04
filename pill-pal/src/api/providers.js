@@ -34,11 +34,11 @@ router.get('/patients/:username', async (req, res) => {
 
         res.status(200).json(result.recordset);
     } catch (err) {
-        console.error('Error fetching providers:', err);
-        res.status(500).send('Error fetching providers');
+        console.error('Error fetching patients:', err);
+        res.status(500).send('Error fetching patients');
     }
 });
-    
+
 // Adds a note to the database
 router.post('/writenote', async (req, res) => {
     const { username, patientUsername, subject, note } = req.body;

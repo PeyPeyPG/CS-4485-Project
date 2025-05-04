@@ -74,17 +74,16 @@ router.get('/patients/:username/providers', async (req, res) => {
     try {
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('providerUsername', sql.NVarChar(255), username)
+            .input('patientUsername', sql.NVarChar(255), username)
             .query(`
                 SELECT
-                    p.username,
-                    p.Name,
-                    p.Gender,
-                    p.DateOfBirth
-                FROM PatientProviders pp
-                INNER JOIN Patients p
-                    ON pp.patientUsername = p.username
-                WHERE pp.providerUsername = @providerUsername
+                    pp.providerUsername AS username,
+                    pr.Name,
+                    pr.profession,
+                    pr.placeOfWork
+                FROM Providers pr
+                JOIN PatientProviders pp ON pp.providerUsername = pr.username
+                WHERE pp.patientUsername = @patientUsername
             `);
 
         res.status(200).json(result.recordset);

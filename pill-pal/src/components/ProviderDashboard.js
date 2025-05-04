@@ -16,7 +16,7 @@ const ProviderDashboard = () => {
     useEffect(() => {
         const fetchAccessiblePatients = async () => {
             try {
-                const response = await fetch(`/api/patients/patients/${userInfo.username}/providers`);
+                const response = await fetch(`/api/providers/patients/${userInfo.username}`);
                 if (response.ok) {
                     const data = await response.json();
                     setAccessiblePatients(data);
