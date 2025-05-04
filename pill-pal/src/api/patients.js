@@ -36,14 +36,14 @@ router.get('/patients', async (req, res) => {
     }
 });
 
-// Get patient details by ID
-router.get('/patients/:id', async (req, res) => {
-    const { id } = req.params;
+// Get patient details by username
+router.get('/patients/:username', async (req, res) => {
+    const { username } = req.params;
 
     try {
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('username', sql.NVarChar(255), id)
+            .input('username', sql.NVarChar(255), username)
             .query(`
                 SELECT
                     p.Name,
@@ -66,6 +66,7 @@ router.get('/patients/:id', async (req, res) => {
         res.status(500).send('Error fetching patient details');
     }
 });
+
 // Get providers linked to a patient
 router.get('/patients/:username/providers', async (req, res) => {
     const { username } = req.params;
@@ -75,11 +76,12 @@ router.get('/patients/:username/providers', async (req, res) => {
             .input('patientUsername', sql.NVarChar(255), username)
             .query(`
                 SELECT
-                    pp.providerUsername AS username,
+                    pr.Name,
                     pr.profession,
-                    pr.placeOfWork
+                    pr.placeOfWork,
+                    pr.username
                 FROM PatientProviders pp
-                JOIN Providers pr ON pp.providerUsername = pr.username
+                         JOIN Providers pr ON pp.providerUsername = pr.username
                 WHERE pp.patientUsername = @patientUsername
             `);
 
@@ -91,23 +93,22 @@ router.get('/patients/:username/providers', async (req, res) => {
 });
 
 // Add a new provider for a patient
-router.post('/patients/:id/providers', async (req, res) => {
-    const { id } = req.params;
-    const { providerName, accessGranted } = req.body;
+router.post('/patients/:username/providers', async (req, res) => {
+    const { username } = req.params;
+    const { providerUsername } = req.body;
 
-    if (!providerName) {
-        return res.status(400).json({ error: 'Provider name is required' });
+    if (!providerUsername) {
+        return res.status(400).json({ error: 'Provider username is required' });
     }
 
     try {
         const pool = await sql.connect(config);
         await pool.request()
-            .input('patientUsername', sql.NVarChar(255), id)
-            .input('providerUsername', sql.NVarChar(255), providerName)
-            .input('accessGranted', sql.Bit, accessGranted)
+            .input('patientUsername', sql.NVarChar(255), username)
+            .input('providerUsername', sql.NVarChar(255), providerUsername)
             .query(`
-                INSERT INTO PatientProviders (patientUsername, providerUsername, accessGranted)
-                VALUES (@patientUsername, @providerUsername, @accessGranted)
+                INSERT INTO PatientProviders (patientUsername, providerUsername)
+                VALUES (@patientUsername, @providerUsername)
             `);
 
         res.status(201).json({ message: 'Provider added successfully' });
@@ -118,14 +119,14 @@ router.post('/patients/:id/providers', async (req, res) => {
 });
 
 // Delete a provider for a patient
-router.delete('/patients/:id/providers/:providerId', async (req, res) => {
-    const { id, providerId } = req.params;
+router.delete('/patients/:username/providers/:providerUsername', async (req, res) => {
+    const { username, providerUsername } = req.params;
 
     try {
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('patientUsername', sql.NVarChar(255), id)
-            .input('providerUsername', sql.NVarChar(255), providerId)
+            .input('patientUsername', sql.NVarChar(255), username)
+            .input('providerUsername', sql.NVarChar(255), providerUsername)
             .query(`
                 DELETE FROM PatientProviders
                 WHERE patientUsername = @patientUsername AND providerUsername = @providerUsername

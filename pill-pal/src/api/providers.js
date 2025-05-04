@@ -38,4 +38,24 @@ router.get('/patients/:username', async (req, res) => {
     }
 });
 
+// Get all providers
+router.get('/providers', async (req, res) => {
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request().query(`
+            SELECT
+                pr.Name,
+                pr.profession,
+                pr.placeOfWork,
+                pr.username
+            FROM Providers pr
+        `);
+
+        res.status(200).json(result.recordset);
+    } catch (err) {
+        console.error('Error fetching all providers:', err);
+        res.status(500).send('Error fetching all providers');
+    }
+});
+
 module.exports = router;

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 import './ProviderDashboard.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProviderDashboard = () => {
     const [accessiblePatients, setAccessiblePatients] = useState([]);
@@ -11,6 +10,7 @@ const ProviderDashboard = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const userInfo = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null;
+
     useEffect(() => {
         const fetchAccessiblePatients = async () => {
             try {
@@ -83,7 +83,7 @@ const ProviderDashboard = () => {
                         {accessiblePatients.map((patient, index) => (
                             <li class="patient-list-group-item" key={index}>
 
-                                {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
+                                {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
                             </li>
                         ))}
                     </ul>

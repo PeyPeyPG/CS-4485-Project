@@ -85,16 +85,30 @@
     overflow-y: auto;
     border-radius: 20px;
   }
-  .patient-list-group-item{
-    background-color: white;
-    border-style: solid;
-    border-color: #e70000;
-    border-width: 2px;
-    border-radius: 20px;
-    width: 20rem;
-    height: 3rem;
-    align-items: center;
-    font-size: 1.2rem;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
+
+.patient-list-group-item {
+  background-color: white;
+  border-style: solid;
+  border-color: #e70000;
+  border-width: 2px;
+  border-radius: 20px;
+  height: 3rem; /* Keep the height fixed if needed */
+  font-size: 1.2rem;
+  padding: 1rem; /* Add padding for spacing around the content */
+  display: inline-block; /* Allow the width to adjust based on content */
+  white-space: nowrap; /* Prevent text from wrapping to the next line */
+}
+
+  /*.patient-list-group-item{*/
+  /*  background-color: white;*/
+  /*  border-style: solid;*/
+  /*  border-color: #e70000;*/
+  /*  border-width: 2px;*/
+  /*  border-radius: 20px;*/
+  /*  width: 20rem;*/
+  /*  height: 3rem;*/
+  /*  align-items: center;*/
+  /*  font-size: 1.2rem;*/
+  /*  padding-top: 1rem;*/
+  /*  padding-bottom: 1rem;*/
+  /*}*/
