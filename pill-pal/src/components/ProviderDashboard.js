@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import ProviderNavbar from './ProviderNavbar';
 import Cookies from 'js-cookie';
-import './Dashboard.css';
+import './ProviderDashboard.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
 
 const ProviderDashboard = () => {
@@ -73,16 +73,16 @@ const ProviderDashboard = () => {
     const currentPatients = filteredPatients.slice(indexOfFirstRow, indexOfLastRow);
 
     return (
-        <div>
+        <div className='provider-dashboard-container'>
             <div className="provider-dashboard">
                 <h1>Provider Dashboard</h1>
 
                 <section>
                     <h2>Accessible Patients</h2>
-                    <ul>
+                    <ul className = "accesssible-patients-container">
                         
                         {accessiblePatients.map((patient, index) => (
-                            <li class="list-group-item" key={index}>
+                            <li class="patient-list-group-item" key={index}>
 
                                 {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
                             </li>
@@ -102,17 +102,17 @@ const ProviderDashboard = () => {
                     <table className="patients-table">
                         <thead>
                         <tr>
-                            <th>Full Name</th>
-                            <th>Date of Birth</th>
-                            <th>Gender</th>
-                            <th>Action</th>
+                            <th className = "table-name">Full Name</th>
+                            <th className = "table-bdate">Date of Birth</th>
+                            <th className = "table-gender">Gender</th>
+                            <th className = "table-action">Action</th>
                         </tr>
                         </thead>
                         <tbody>
                         {currentPatients.map((patient, index) => (
                             <tr key={index}>
                                 <td>{patient.Name}</td>
-                                <td>{patient.DateOfBirth}</td>
+                                <td>{patient.DateOfBirth.split("T")[0]}</td>
                                 <td>{patient.Gender}</td>
                                 <td>
                                     <button
