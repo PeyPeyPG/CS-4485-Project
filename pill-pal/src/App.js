@@ -10,6 +10,7 @@ import MedicalProviders from './components/MedicalProviders';
 import Profile from './components/Profile';
 import ProviderProfile from './components/ProviderProfile';
 import ProviderNavbar from './components/ProviderNavbar';
+import PatientDetails from './components/PatientDetails'; // Import PatientDetails
 import './App.css';
 
 const RegistrationPrompt = ({ userType }) => {
@@ -61,6 +62,7 @@ function App() {
                         <Route path="dashboard" element={<ProviderDashboard />} />
                         <Route path="profile" element={<ProviderProfile />} />
                     </Route>
+                    <Route path="/provider/patient/:username" element={<PatientDetails />} />
                     <Route path="/" element={<Navigate to="/auth" replace />} />
                 </Routes>
             </div>

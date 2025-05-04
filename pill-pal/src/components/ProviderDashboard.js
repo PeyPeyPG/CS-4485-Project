@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Cookies from 'js-cookie';
 import './ProviderDashboard.css';
 
@@ -10,14 +11,14 @@ const ProviderDashboard = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const userInfo = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null;
+    const navigate = useNavigate(); // Initialize useNavigate
 
     useEffect(() => {
         const fetchAccessiblePatients = async () => {
             try {
-                const response = await fetch(`/api/providers/patients/${userInfo.username}`);
+                const response = await fetch(`/api/patients/patients/${userInfo.username}/providers`);
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data)
                     setAccessiblePatients(data);
                 } else {
                     console.error('Failed to fetch accessible patients');
@@ -45,24 +46,6 @@ const ProviderDashboard = () => {
         fetchAllPatients();
     }, [userInfo]);
 
-    const handleRequestAccess = async (patientUsername) => {
-        try {
-            const response = await fetch(`/api/providers/patients/${patientUsername}`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ providerName: userInfo.username }),
-            });
-
-            if (response.ok) {
-                alert('Access request sent successfully');
-            } else {
-                alert('Failed to send access request');
-            }
-        } catch (error) {
-            console.error('Error requesting access:', error);
-        }
-    };
-
     const filteredPatients = allPatients.filter(patient =>
         patient.Name.toLowerCase().includes(searchTerm.toLowerCase())
     );
@@ -78,12 +61,15 @@ const ProviderDashboard = () => {
 
                 <section>
                     <h2>Accessible Patients</h2>
-                    <ul className = "accesssible-patients-container">
-                        
+                    <ul className="accesssible-patients-container">
                         {accessiblePatients.map((patient, index) => (
-                            <li class="patient-list-group-item" key={index}>
-
-                                {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
+                            <li key={index}>
+                                <button
+                                    className="patient-list-group-item"
+                                    onClick={() => navigate(`/provider/patient/${patient.username}`)} // Navigate to patient details page
+                                >
+                                    {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
+                                </button>
                             </li>
                         ))}
                     </ul>
@@ -101,11 +87,11 @@ const ProviderDashboard = () => {
                     <table className="patients-table">
                         <thead>
                         <tr>
-                            <th className = "table-name">Username</th>
-                            <th className = "table-name">Full Name</th>
-                            <th className = "table-bdate">Date of Birth</th>
-                            <th className = "table-gender">Gender</th>
-                            <th className = "table-action">Action</th>
+                            <th className="table-name">Username</th>
+                            <th className="table-name">Full Name</th>
+                            <th className="table-bdate">Date of Birth</th>
+                            <th className="table-gender">Gender</th>
+                            <th className="table-action">Action</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -117,10 +103,10 @@ const ProviderDashboard = () => {
                                 <td>{patient.Gender}</td>
                                 <td>
                                     <button
-                                        onClick={() => handleRequestAccess(patient.username)}
+                                        onClick={() => navigate(`/patient/${patient.username}`)} // Navigate to patient details page
                                         className="request-access-button"
                                     >
-                                        Request Access
+                                        View Details
                                     </button>
                                 </td>
                             </tr>
@@ -134,7 +120,7 @@ const ProviderDashboard = () => {
                                 value={rowsPerPage}
                                 onChange={(e) => {
                                     const newRowsPerPage = Number(e.target.value);
-                                     setRowsPerPage(newRowsPerPage);
+                                    setRowsPerPage(newRowsPerPage);
                                     const maxPage = Math.ceil(filteredPatients.length / newRowsPerPage);
                                     setCurrentPage((prevPage) => Math.min(prevPage, maxPage));
                                 }}

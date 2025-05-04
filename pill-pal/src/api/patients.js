@@ -52,6 +52,7 @@ router.get('/patients/:username', async (req, res) => {
                     p.Height,
                     p.Weight,
                     p.PregnancyStatus
+                    p.username
                 FROM Patients p
                 WHERE p.username = @username
             `);
@@ -73,16 +74,17 @@ router.get('/patients/:username/providers', async (req, res) => {
     try {
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('patientUsername', sql.NVarChar(255), username)
+            .input('providerUsername', sql.NVarChar(255), username)
             .query(`
                 SELECT
-                    pr.Name,
-                    pr.profession,
-                    pr.placeOfWork,
-                    pr.username
+                    p.username,
+                    p.Name,
+                    p.Gender,
+                    p.DateOfBirth
                 FROM PatientProviders pp
-                         JOIN Providers pr ON pp.providerUsername = pr.username
-                WHERE pp.patientUsername = @patientUsername
+                INNER JOIN Patients p
+                    ON pp.patientUsername = p.username
+                WHERE pp.providerUsername = @providerUsername
             `);
 
         res.status(200).json(result.recordset);
