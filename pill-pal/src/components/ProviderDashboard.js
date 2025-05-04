@@ -87,7 +87,7 @@ const ProviderDashboard = () => {
                     <table className="patients-table">
                         <thead>
                         <tr>
-                            <th className="table-name">Username</th>
+                            <th className="table-username">Username</th>
                             <th className="table-name">Full Name</th>
                             <th className="table-bdate">Date of Birth</th>
                             <th className="table-gender">Gender</th>

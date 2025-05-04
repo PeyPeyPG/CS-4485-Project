@@ -39,7 +39,7 @@
   }
   
   .request-access-button {
-    padding: 8px 12px;
+    padding: 8px 16px;
     background-color: #007bff;
     color: white;
     border: none;
@@ -52,8 +52,18 @@
   .request-access-button:hover {
     background-color: #0056b3;
   }
+  .table-username{
+    padding: 1rem;
+    padding-right: 2rem;
+  }
   .table-name{
     padding: 1rem;
+    padding-right: 4rem;
+  }
+  .table-profession{
+    padding-right: 4rem;
+  }
+  .table-workplace{
     padding-right: 4rem;
   }
   .table-bdate{
@@ -64,7 +74,6 @@
     padding-right: 5rem;
   }
   .table-action{
-    padding-left: 1rem;
     padding-right: 4rem;
   }
   .accesssible-patients-container{
