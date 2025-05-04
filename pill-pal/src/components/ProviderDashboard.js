@@ -101,6 +101,7 @@ const ProviderDashboard = () => {
                     <table className="patients-table">
                         <thead>
                         <tr>
+                            <th className = "table-name">Username</th>
                             <th className = "table-name">Full Name</th>
                             <th className = "table-bdate">Date of Birth</th>
                             <th className = "table-gender">Gender</th>
@@ -110,6 +111,7 @@ const ProviderDashboard = () => {
                         <tbody>
                         {currentPatients.map((patient, index) => (
                             <tr key={index}>
+                                <td>{patient.username}</td>
                                 <td>{patient.Name}</td>
                                 <td>{patient.DateOfBirth.split("T")[0]}</td>
                                 <td>{patient.Gender}</td>

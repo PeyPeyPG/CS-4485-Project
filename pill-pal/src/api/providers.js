@@ -22,6 +22,7 @@ router.get('/patients/:username', async (req, res) => {
             .input('providerUsername', sql.NVarChar(255), username)
             .query(`
                 SELECT
+                    p.username,
                     p.Name,
                     p.Gender,
                     p.DateOfBirth
