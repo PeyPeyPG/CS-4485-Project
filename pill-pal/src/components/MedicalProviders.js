@@ -28,10 +28,11 @@ const MedicalProviders = () => {
 
         const fetchAllProviders = async () => {
             try {
-                const response = await fetch('/api/provider');
+                const response = await fetch('/api/providers/providers');
                 if (response.ok) {
                     const data = await response.json();
                     setAllProviders(data.sort((a, b) => a.Name.localeCompare(b.Name)));
+                    //setAllProviders(data);
                 } else {
                     console.error('Failed to fetch all providers');
                 }
