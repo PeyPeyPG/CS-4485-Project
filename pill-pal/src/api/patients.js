@@ -66,23 +66,22 @@ router.get('/patients/:id', async (req, res) => {
         res.status(500).send('Error fetching patient details');
     }
 });
-
 // Get providers linked to a patient
 router.get('/patients/:username/providers', async (req, res) => {
     const { username } = req.params;
+    console.log('Fetching providers for patient:', username);
     try {
         const pool = await sql.connect(config);
         const result = await pool.request()
-            .input('providerUsername', sql.NVarChar(255), username)
+            .input('patientUsername', sql.NVarChar(255), username)
             .query(`
                 SELECT
-                    p.Name,
-                    p.Gender,
-                    p.DateOfBirth
+                    pp.providerUsername AS username,
+                    pr.profession,
+                    pr.placeOfWork
                 FROM PatientProviders pp
-                INNER JOIN Patients p
-                    ON pp.patientUsername = p.username
-                WHERE pp.providerUsername = @providerUsername
+                JOIN Providers pr ON pp.providerUsername = pr.username
+                WHERE pp.patientUsername = @patientUsername
             `);
 
         res.status(200).json(result.recordset);
