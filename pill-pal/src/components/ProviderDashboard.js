@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import ProviderNavbar from './ProviderNavbar';
 import Cookies from 'js-cookie';
 import './ProviderDashboard.css';
 //import 'bootstrap/dist/css/bootstrap.min.css';
@@ -15,7 +14,7 @@ const ProviderDashboard = () => {
     useEffect(() => {
         const fetchAccessiblePatients = async () => {
             try {
-                const response = await fetch(`/api/patients/patients/${userInfo.username}/providers`);
+                const response = await fetch(`/api/providers/patients/${userInfo.username}`);
                 if (response.ok) {
                     const data = await response.json();
                     console.log(data)
@@ -48,7 +47,7 @@ const ProviderDashboard = () => {
 
     const handleRequestAccess = async (patientUsername) => {
         try {
-            const response = await fetch(`/api/patients/patients/${patientUsername}/providers`, {
+            const response = await fetch(`/api/providers/patients/${patientUsername}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ providerName: userInfo.username }),
