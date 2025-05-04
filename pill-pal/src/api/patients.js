@@ -69,7 +69,6 @@ router.get('/patients/:id', async (req, res) => {
 // Get providers linked to a patient
 router.get('/patients/:username/providers', async (req, res) => {
     const { username } = req.params;
-    console.log('Fetching providers for patient:', username);
     try {
         const pool = await sql.connect(config);
         const result = await pool.request()

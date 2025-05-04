@@ -130,7 +130,12 @@ const ProviderDashboard = () => {
                             Rows per page:
                             <select
                                 value={rowsPerPage}
-                                onChange={(e) => setRowsPerPage(Number(e.target.value))}
+                                onChange={(e) => {
+                                    const newRowsPerPage = Number(e.target.value);
+                                     setRowsPerPage(newRowsPerPage);
+                                    const maxPage = Math.ceil(filteredPatients.length / newRowsPerPage);
+                                    setCurrentPage((prevPage) => Math.min(prevPage, maxPage));
+                                }}
                             >
                                 {[5, 10, 20].map((num) => (
                                     <option key={num} value={num}>
