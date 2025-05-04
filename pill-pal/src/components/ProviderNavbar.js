@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
-import { NavbarData } from './ProviderNavbarData';
+import { ProviderNavbarData } from './ProviderNavbarData';
 import Cookies from 'js-cookie';
 import './ProviderNavbar.css';
 
@@ -39,7 +39,7 @@ function ProviderNavbar() {
 
     return (
         <div className="navbar-container">
-            <div className="navbar">
+            <div className="provider-navbar">
                 <div>
                     <svg
                         cursor="pointer"
@@ -57,7 +57,7 @@ function ProviderNavbar() {
                         />
                     </svg>
                 </div>
-                <div className="right-section">
+                <div className="provider-right-section">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="32"
@@ -68,8 +68,8 @@ function ProviderNavbar() {
                     >
                         <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
                     </svg>
-                    <div className="nav-dropdown" ref={dropdownRef}>
-                        <button onClick={showDropdown} className="link">
+                    <div className="provider-nav-dropdown" ref={dropdownRef}>
+                        <button onClick={showDropdown} className="provider-link">
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 width="38"
@@ -81,15 +81,15 @@ function ProviderNavbar() {
                                 <path d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6" />
                             </svg>
                         </button>
-                        <div className={dropdown ? 'nav-dropdown-menu active' : 'nav-dropdown-menu'}>
+                        <div className={dropdown ? 'provider-nav-dropdown-menu active' : 'provider-nav-dropdown-menu'}>
                             <div onClick={handleLogout}>logout</div>
                         </div>
                     </div>
                 </div>
             </div>
-            <nav className={sidebar ? 'nav-menu active' : 'nav-menu'}>
-                <ul className="nav-menu-items">
-                    <li className="toggle">
+            <nav className={sidebar ? 'provider-nav-menu active' : 'provider-nav-menu'}>
+                <ul className="provider-nav-menu-items">
+                    <li className="provider-toggle">
                         <div>Navigation</div>
                         <svg
                             cursor="pointer"
@@ -104,7 +104,7 @@ function ProviderNavbar() {
                             <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z" />
                         </svg>
                     </li>
-                    {NavbarData.map((item, index) => {
+                    {ProviderNavbarData.map((item, index) => {
                         const path = item.title === 'dashboard' ? dashboardPath : item.path;
                         return (
                             <li key={index} className={item.cName}>

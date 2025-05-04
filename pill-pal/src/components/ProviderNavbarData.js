@@ -1,6 +1,6 @@
 //import React, { useState } from 'react';
 
-export const NavbarData = [
+export const ProviderNavbarData = [
     {
         title: 'dashboard',
         path: '/home/provider/dashboard',
