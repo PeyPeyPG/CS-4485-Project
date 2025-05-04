@@ -19,7 +19,6 @@ const PatientDetails = () => {
         const fetchPatientDetails = async () => {
             try {
                 const response = await fetch(`/api/patients/patients/${username}`);
-                console.log(response)
                 if (response.ok) {
                     const data = await response.json();
                     setPatient(data);
@@ -31,7 +30,22 @@ const PatientDetails = () => {
             }
         };
 
+        const fetchPatientMedications = async () => {
+            try {
+                const response = await fetch(`/api/medications/${username}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserMedications(data);
+                } else {
+                    console.error('Failed to fetch patient medications');
+                }
+            } catch (error) {
+                console.error('Error fetching patient medications:', error);
+            }
+        };
+
         fetchPatientDetails();
+        fetchPatientMedications();
     }, [username]);
 
     if (!patient) {
