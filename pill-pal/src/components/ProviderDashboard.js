@@ -83,7 +83,7 @@ const ProviderDashboard = () => {
                         {accessiblePatients.map((patient, index) => (
                             <li class="patient-list-group-item" key={index}>
 
-                                {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
+                                {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
                             </li>
                         ))}
                     </ul>
