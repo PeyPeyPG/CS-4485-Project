@@ -62,7 +62,8 @@ const Auth = () => {
 
       navigate(data.userType === 'patient' ? '/home/patient/dashboard' : '/home/provider/dashboard');
     } catch (err) {
-      setError(err.message);
+      console.log(err)
+      setError(err.message.split('\"')[3]);
     }
   };
 
