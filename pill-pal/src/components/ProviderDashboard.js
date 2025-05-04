@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import './ProviderDashboard.css';
+
 
 const ProviderDashboard = () => {
     const [accessiblePatients, setAccessiblePatients] = useState([]);
@@ -11,7 +12,7 @@ const ProviderDashboard = () => {
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const userInfo = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null;
-    const navigate = useNavigate(); // Initialize useNavigate
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchAccessiblePatients = async () => {

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './MedicationStack.css';
 import { useParams } from 'react-router-dom';
+import ProviderNavbar from './ProviderNavbar';
 
 const PatientDetails = () => {
     const { username } = useParams(); // Get the username from the URL
@@ -108,7 +109,6 @@ const PatientDetails = () => {
 
         const handleRemoveMedication = async (medicationName) => {
                 try {
-                    const username = username;
         
                     const response = await fetch(`/api/medications/${medicationName}/${username}`, { method: 'DELETE' });
         
@@ -132,6 +132,7 @@ const PatientDetails = () => {
 
     return (
         <div className="patient-details-container">
+            <ProviderNavbar />
             <h1>Patient Details</h1>
             <p><strong>Username:</strong> {patient.username}</p>
             <p><strong>Name:</strong> {patient.Name}</p>
