@@ -84,8 +84,13 @@ const MedicationStack = ({ selectedPatient }) => {
             });
 
             if (response.ok) {
-                const savedMedication = await response.json();
-                setUserMedications([...userMedications, savedMedication]);
+                // Fetch the updated list of medications
+                const updatedResponse = await fetch(`/api/medications/${username}`);
+                if (updatedResponse.ok) {
+                    const updatedMedications = await updatedResponse.json();
+                    setUserMedications(updatedMedications);
+                }
+                // Reset form fields
                 setSelectedMedication('');
                 setDosage('');
                 setDays([]);
