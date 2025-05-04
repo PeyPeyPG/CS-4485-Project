@@ -34,10 +34,27 @@ const ProviderNotes = () => {
         }, []);
 
     const handleSend = () => {
-        console.log('Sending email...');
-        console.log('To:', to);
-        console.log('Subject:', subject);
-        console.log('Body:', body);
+        try {
+            const response = fetch('/api/providers/writenote', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    username: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')).username : null,
+                    patientUsername: to,
+                    subject: subject,
+                    note: body,
+                }),
+            });
+            if (!response.ok) {
+                throw new Error('Failed to send note');
+            }
+            else {
+                alert('Note sent successfully');
+            }
+        }
+        catch (err) {
+            console.error('Error sending note:', err);
+        }
       };
 
     return (
@@ -89,17 +106,6 @@ const ProviderNotes = () => {
         </div>
       );
 
-    /*return (
-        <div className="provider-notes-container">
-            {providerNotes.map((note, index) => (
-                <div key={index} className="note-card">
-                    <h3>{note.name}</h3>
-                    <p>{note.subject}</p>
-                    <p>{note.note}</p>
-                </div>
-            ))}
-        </div>
-    );*/
 };
 
 export default ProviderNotes;
