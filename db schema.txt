@@ -1,0 +1,80 @@
+This database schema models an electronic health record (EHR) system, organizing information relevant to healthcare for integration with generative AI tasks. Here’s a detailed summary:
+
+---
+
+### **Core Tables and Their Purpose**
+
+#### **Users**
+- **Purpose:** Store login and role information for all system users.
+- **Key Attributes:** `username` (PK), `email`, `password`, `userType` (e.g., patient, provider).
+
+#### **Patients**
+- **Purpose:** Store patient demographic and vital info.
+- **Key Attributes:** `username` (PK, FK to Users), `Name`, `DateOfBirth`, `Gender`, `Height`, `Weight`, `PregnancyStatus`.
+
+#### **Providers**
+- **Purpose:** Store medical provider information.
+- **Key Attributes:** `username` (PK, FK to Users), `Name`, `profession`, `placeOfWork`.
+
+---
+
+### **Medical & Health Data Tables**
+
+#### **Medications**
+- **Purpose:** Catalog different medications.
+- **Key Attributes:** `medicationName` (PK), `dosage`.
+
+#### **PatientMedications**
+- **Purpose:** Map patients to their prescribed medications.
+- **Key Attributes:** `PatientUsername` (FK to Patients), `MedicationName` (FK to Medications), `Days`, `Times`, `Frequency`.
+
+#### **MedicalConditions**
+- **Purpose:** Store diagnosed conditions of patients.
+- **Key Attributes:** `patientUsername` (FK), `conditionName`.
+
+#### **Allergies**
+- **Purpose:** Store patient allergy info.
+- **Key Attributes:** `patientUsername` (FK), `allergyName`.
+
+#### **DoctorsNotes**
+- **Purpose:** Store clinical notes authored by providers about patients.
+- **Key Attributes:** `note`, `pinned`, `patientUsername` (FK), `providerUsername` (FK), `subject`.
+
+---
+
+### **Relationship & Activity Tables**
+
+#### **PatientProviders**
+- **Purpose:** Define access/relationship between patients and providers.
+- **Key Attributes:** `patientUsername`, `providerUsername`, `accessGranted`.
+
+#### **ActivityLog**
+- **Purpose:** Audit/log user actions in the system.
+- **Key Attributes:** `username`, `action`, `target`, `targetId`, `timestamp`, `id` (PK).
+
+---
+
+### **Relationship Summary**
+- **Users ↔ Patients / Providers:** Each patient/provider is a user.
+- **Patients ↔ Providers:** Linked via PatientProviders; multiple providers may be linked to a patient and vice versa.
+- **Patients ↔ Medications:** Via PatientMedications.
+- **Patients ↔ MedicalConditions / Allergies:** Direct relation.
+- **Providers ↔ DoctorsNotes:** Providers author notes for patients.
+- **ActivityLog:** Logs every user's actions for traceability.
+
+---
+
+### **Typical Use Cases**
+- Track patient demographics, medical conditions, allergies, medications, and provider relationships.
+- Providers can author notes and manage patient information.
+- System can generate logs for compliance and auditing purposes.
+- Access rights between patients and providers are controlled.
+---
+
+### **Relevance for Generative AI**
+- Structured data enables natural language questions about patient history, medication, conditions, provider actions, and more.
+- Relationships facilitate answering contextual queries such as “What medications is patient X on?” or “What notes has provider Y written about patient Z?”
+
+---
+
+Let me know if you need a more specific breakdown or a sample query!
