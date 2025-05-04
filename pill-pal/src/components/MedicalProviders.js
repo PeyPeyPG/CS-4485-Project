@@ -85,7 +85,7 @@ const MedicalProviders = () => {
                     <ul className="accesssible-patients-container">
                         {yourProviders.map((provider, index) => (
                             <li className="patient-list-group-item" key={index}>
-                                {provider.Name} - {provider.profession} - {provider.placeOfWork}
+                                {provider.username} - {provider.Name} - {provider.profession} - {provider.placeOfWork}
                             </li>
                         ))}
                     </ul>
@@ -103,6 +103,7 @@ const MedicalProviders = () => {
                     <table className="patients-table">
                         <thead>
                         <tr>
+                            <th className="table-username">Username</th>
                             <th className="table-name">Full Name</th>
                             <th className="table-profession">Profession</th>
                             <th className="table-workplace">Place of Work</th>
@@ -112,6 +113,7 @@ const MedicalProviders = () => {
                         <tbody>
                         {currentProviders.map((provider, index) => (
                             <tr key={index}>
+                                <td>{provider.username}</td>
                                 <td>{provider.Name}</td>
                                 <td>{provider.profession}</td>
                                 <td>{provider.placeOfWork}</td>
