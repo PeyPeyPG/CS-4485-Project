@@ -8,7 +8,7 @@
 }
 .med-option-bar{
     min-width: 25rem;
-    min-height: 3rem;
+    height: 3rem;
 }
 .add-medication{
     display: flex;
@@ -83,6 +83,7 @@
     border-width: 2px;
     border-radius: 20px;
     padding: .5rem;
+    gap: .3rem;
 }
 .number-times-container{
     display: flex;
@@ -100,10 +101,8 @@
     display: flex;
     flex-direction: column;
 }
-.times-header{
-    margin-top: .5rem;
-}
 .add-medication-button{
+    cursor: pointer;
     height: 3rem;
     width: 15rem;
     font-size: 1.2rem;

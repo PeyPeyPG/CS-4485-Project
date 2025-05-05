@@ -66,10 +66,10 @@ const ProviderDashboard = () => {
                     <h2>Accessible Patients</h2>
                     <ul className="accesssible-patients-container">
                         {accessiblePatients.map((patient, index) => (
-                            <li className = "provider-list-group-item" key={index}>
+                            <li className = "provider-listing-styling" key={index}>
                                 <button
                                     cursor = "pointer"
-                                    className="patient-list-group-item"
+                                    className="provider-list-group-item"
                                     onClick={() => navigate(`/provider/patient/${patient.username}`)} // Navigate to patient details page
                                 >
                                     {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
@@ -112,7 +112,7 @@ const ProviderDashboard = () => {
                                 <td>
                                     <button
                                         onClick={() => navigate(`/patient/${patient.username}`)} // Navigate to patient details page
-                                        className="request-access-button"
+                                        className="request-access-button"                                  
                                     >
                                         View Details
                                     </button>
