@@ -6,8 +6,9 @@ import ProviderNavbar from './ProviderNavbar';
 const PatientDetails = () => {
     const { username } = useParams(); // Get the username from the URL
     const [patient, setPatient] = useState(null);
-     const [searchTerm, setSearchTerm] = useState('');
-    const [rxNormMedications, setRxNormMedications] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [availableMedications, setAvailableMedications] = useState([]);
+    //const [rxNormMedications, setRxNormMedications] = useState([]);
     const [selectedMedication, setSelectedMedication] = useState('');
     const [dosage, setDosage] = useState('');
     const [days, setDays] = useState([]);
@@ -48,10 +49,24 @@ const PatientDetails = () => {
         fetchPatientMedications();
     }, [username]);
 
-    if (!patient) {
-        return <div>Loading...</div>;
-    }
 
+
+    const fetchMedicationsFromDB = async () => {
+        if (!searchTerm.trim()) return;
+        try {
+            const res = await fetch(`/api/medications/search?q=${encodeURIComponent(searchTerm)}`);
+            const data = await res.json();                            // [{ medicationName, dosage }]
+            const formatted = data.map(m => ({                        // unify shape
+                name: m.medicationName,
+                dosage: m.dosage,
+            }));
+            setAvailableMedications(formatted);
+        } catch (err) {
+            console.error('Error searching medications:', err);
+        }
+    };
+
+    /*
     const fetchMedicationsFromRxNorm = async () => {
         if (!searchTerm.trim()) return;
 
@@ -70,6 +85,7 @@ const PatientDetails = () => {
             console.error('Error fetching medications:', error);
         }
     };
+    */
 
     const handleAddMedication = async () => {
             if (!selectedMedication || !days.length || !times) {
@@ -143,11 +159,23 @@ const PatientDetails = () => {
                 }
             };
 
+        const handleMedicationSelect = (medName) => {
+            setSelectedMedication(medName);
+            const medObj = availableMedications.find(m => m.name === medName);
+            setDosage(medObj?.dosage || '');
+        };
+
+        /*
         const handleMedicationSelect = (medication) => {
             setSelectedMedication(medication);
             const dosageMatch = medication.match(/\d+(\.\d+)?\s?[a-zA-Z]+/);
             setDosage(dosageMatch ? dosageMatch[0] : '');
         };
+        */
+
+    if (!patient) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="patient-details-container">
@@ -159,34 +187,43 @@ const PatientDetails = () => {
             <p><strong>Gender:</strong> {patient.Gender}</p>
             {/* Add more details as needed */}
 
-            <div className = "med-stack-container">
-        <h1>Medication Stack</h1>
-        <div className = "add-medication">
-            <div className="select-medication">
-                <div>
-                    <input className="search-medication"
-                        type="text"
-                        placeholder="Search for a medication"
-                        value={searchTerm}
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                    />
-                    <button className = "search-med-button" onClick={fetchMedicationsFromRxNorm}>Search</button>
-                </div>
-                <div>
-                    <select className = "select-med-button"
-                        value={selectedMedication}
-                        onChange={(e) => handleMedicationSelect(e.target.value)}
-                    >
-                        <option className = "med-option-bar" value="">Select a Medication</option>
-                        {rxNormMedications.map((med) => (
-                            <option key={med.rxcui} value={med.name}>
-                                {med.name}
-                            </option>
-                        ))}
-                    </select>
-                    {dosage && <p>Dosage: {dosage}</p>}
-                </div>
-            </div>
+            <div className="med-stack-container">
+                <h1>Medication Stack</h1>
+                <div className="add-medication">
+                    <div className="select-medication">
+                        <div>
+                            <input
+                                className="search-medication"
+                                type="text"
+                                placeholder="Search for a medication"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <button
+                                className="search-med-button"
+                                onClick={fetchMedicationsFromDB}
+                            >
+                                Search
+                            </button>
+                        </div>
+                        <div>
+                            <select
+                                className="select-med-button"
+                                value={selectedMedication}
+                                onChange={(e) => handleMedicationSelect(e.target.value)}
+                            >
+                                <option className="med-option-bar" value="">
+                                    Select a Medication
+                                </option>
+                                {availableMedications.map((med) => (
+                                    <option key={med.name} value={med.name}>
+                                        {med.name}
+                                    </option>
+                                ))}
+                            </select>
+                            {dosage && <p>Dosage: {dosage}</p>}
+                        </div>
+                    </div>
             <div className="days-of-week-container">
                 <label className="days-label">Days of the Week:</label>
                 <div className="med-dosage-intervals">

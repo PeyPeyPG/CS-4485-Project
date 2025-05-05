@@ -4,7 +4,8 @@ import Cookies from 'js-cookie';
 
 const MedicationStack = ({ selectedPatient }) => {
     const [searchTerm, setSearchTerm] = useState('');
-    const [rxNormMedications, setRxNormMedications] = useState([]);
+    const [availableMedications, setAvailableMedications] = useState([]);
+    // const [rxNormMedications, setRxNormMedications] = useState([]);
     const [selectedMedication, setSelectedMedication] = useState('');
     const [dosage, setDosage] = useState('');
     const [days, setDays] = useState([]);
@@ -38,6 +39,24 @@ const MedicationStack = ({ selectedPatient }) => {
         fetchUserMedications();
     }, [selectedPatient]);
 
+    const fetchMedicationsFromDB = async () => {
+        if (!searchTerm.trim()) return;
+
+        try {
+            const response = await fetch(`/api/medications/search?q=${encodeURIComponent(searchTerm)}`);
+            const data = await response.json(); // [{ medicationName, dosage }]
+            // Convert to the previous shape used by the component
+            const formatted = data.map(med => ({
+                name: med.medicationName,
+                dosage: med.dosage,
+            }));
+            setAvailableMedications(formatted);
+        } catch (error) {
+            console.error('Error searching medications:', error);
+        }
+    };
+
+    /*
     const fetchMedicationsFromRxNorm = async () => {
         if (!searchTerm.trim()) return;
 
@@ -48,14 +67,15 @@ const MedicationStack = ({ selectedPatient }) => {
                 const medications = data.drugGroup.conceptGroup
                     .flatMap(group => group.conceptProperties || [])
                     .map(med => ({ name: med.name, rxcui: med.rxcui }));
-                setRxNormMedications(medications);
+                setAvailableMedications(medications);
             } else {
-                setRxNormMedications([]);
+                setAvailableMedications([]);
             }
         } catch (error) {
             console.error('Error fetching medications:', error);
         }
     };
+    */
 
     const handleAddMedication = async () => {
         if (!selectedMedication || !days.length || !times) {
@@ -85,7 +105,8 @@ const MedicationStack = ({ selectedPatient }) => {
 
             if (response.ok) {
                 // Fetch the updated list of medications
-                const updatedResponse = await fetch(`/api/medications/${username}`);
+                const targetUser = userType === 'patient' ? username : selectedPatient?.username;
+                const updatedResponse = await fetch(`/api/medications/${targetUser}`);
                 if (updatedResponse.ok) {
                     const updatedMedications = await updatedResponse.json();
                     setUserMedications(updatedMedications);
@@ -133,34 +154,51 @@ const MedicationStack = ({ selectedPatient }) => {
         }
     };
 
-    const handleMedicationSelect = (medication) => {
-        setSelectedMedication(medication);
-        const dosageMatch = medication.match(/\d+(\.\d+)?\s?[a-zA-Z]+/);
-        setDosage(dosageMatch ? dosageMatch[0] : '');
+    const handleMedicationSelect = (medName) => {
+        setSelectedMedication(medName);
+        const medObj = availableMedications.find(m => m.name === medName);
+        setDosage(medObj?.dosage || '');
     };
 
+    /*
+        const handleMedicationSelect = (medication) => {
+            setSelectedMedication(medication);
+            const dosageMatch = medication.match(/\d+(\.\d+)?\s?[a-zA-Z]+/);
+            setDosage(dosageMatch ? dosageMatch[0] : '');
+        };
+    */
+
     return (
-        <div className = "med-stack-container">
+        <div className="med-stack-container">
             <h1>Medication Stack</h1>
-            <div className = "add-medication">
+            <div className="add-medication">
                 <div className="select-medication">
                     <div>
-                        <input className="search-medication"
+                        <input
+                            className="search-medication"
                             type="text"
                             placeholder="Search for a medication"
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <button className = "search-med-button" onClick={fetchMedicationsFromRxNorm}>Search</button>
+                        <button
+                            className="search-med-button"
+                            onClick={fetchMedicationsFromDB /* was fetchMedicationsFromRxNorm */}
+                        >
+                            Search
+                        </button>
                     </div>
                     <div>
-                        <select className = "select-med-button"
+                        <select
+                            className="select-med-button"
                             value={selectedMedication}
                             onChange={(e) => handleMedicationSelect(e.target.value)}
                         >
-                            <option className = "med-option-bar" value="">Select a Medication</option>
-                            {rxNormMedications.map((med) => (
-                                <option key={med.rxcui} value={med.name}>
+                            <option className="med-option-bar" value="">
+                                Select a Medication
+                            </option>
+                            {availableMedications.map((med) => (
+                                <option key={med.name} value={med.name}>
                                     {med.name}
                                 </option>
                             ))}

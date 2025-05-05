@@ -13,6 +13,30 @@ const config = {
     },
 };
 
+router.get('/search', async (req, res) => {
+    const { q } = req.query;      // ?q=asp
+    if (!q || q.trim() === '') {
+        return res.status(400).json({ error: 'Query parameter `q` is required' });
+    }
+
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('query', sql.NVarChar(100), `%${q}%`)
+            .query(`
+                SELECT TOP 20 medicationName, dosage
+                FROM Medications
+                WHERE medicationName LIKE @query
+                ORDER BY medicationName
+            `);
+
+        res.status(200).json(result.recordset);   // [{ medicationName, dosage }]
+    } catch (err) {
+        console.error('Error searching medications:', err);
+        res.status(500).send('Error searching medications');
+    }
+});
+
 // Add a new medication
 router.post('/', async (req, res) => {
     const { medicationName, dosage, Days, Times, PatientUsername, Frequency } = req.body;
