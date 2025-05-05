@@ -104,10 +104,9 @@ const ProviderDashboard = () => {
                 <h2>Accessible Patients</h2>
                 <ul className="accesssible-patients-container">
                     {accessiblePatients.map((patient, index) => (
-                        <li className = "provider-list-group-item" key={index}>
-                            <button
+                        <li className = "provider-list-options"key={index}>
+                            <button className = "provider-list-group-item"
                                 cursor = "pointer"
-                                className="patient-list-group-item"
                                 onClick={() => navigate(`/provider/patient/${patient.username}`)}
                             >
                                 {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}

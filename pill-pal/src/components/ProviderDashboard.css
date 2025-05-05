@@ -76,6 +76,11 @@
   .table-action{
     padding-right: 4rem;
   }
+  .provider-list-options{
+    align-items: center;
+    display: flex;
+    gap: .5rem;
+  }
   .accesssible-patients-container{
     display: flex;
     list-style: none;
