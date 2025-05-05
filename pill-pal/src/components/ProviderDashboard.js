@@ -104,7 +104,7 @@ const ProviderDashboard = () => {
                 <h2>Accessible Patients</h2>
                 <ul className="accesssible-patients-container">
                     {accessiblePatients.map((patient, index) => (
-                        <li className = "provider-list-group-item" key={index}>
+                        <li key={index}>
                             <button
                                 cursor = "pointer"
                                 className="patient-list-group-item"
