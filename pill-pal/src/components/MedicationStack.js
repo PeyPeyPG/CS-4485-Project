@@ -69,6 +69,24 @@ const MedicationStack = ({ selectedPatient }) => {
             Times  : times.join(','),
             Frequency: timesPerDay,
         };
+        try {
+            const response = await fetch(`/api/activitylogger/logactivity`, {
+                method : 'POST',
+                headers: { 'Content-Type':'application/json' },
+                body   : JSON.stringify({
+                    username: username,
+                    action  : 'add',
+                    target  : payload.medicationName,
+                    targetId: targetUser,   
+                })
+                });
+                if (!response.ok) {
+                    console.log('Failed to log adding medication');
+                }  
+        } catch (error) {
+            console.error('Error logging adding medication:', error);
+        }
+
         const ok = await fetch('/api/medications/assign', {
             method : 'POST',
             headers: { 'Content-Type':'application/json' },
@@ -86,6 +104,24 @@ const MedicationStack = ({ selectedPatient }) => {
         const ok = await fetch(`/api/medications/${medName}/${targetUser}`, { method:'DELETE' })
             .then(r => r.ok);
         if (ok) setUserMeds(userMeds.filter(m => m.medicationName !== medName));
+
+        try {
+            const response = await fetch(`/api/activitylogger/logactivity`, {
+                method : 'POST',
+                headers: { 'Content-Type':'application/json' },
+                body   : JSON.stringify({
+                    username: username,
+                    action  : 'remove',
+                    target  : medicationName,
+                    targetId: targetUser,   
+                })
+                });
+                if (!response.ok) {
+                    console.log('Failed to log removing medication');
+                }  
+        } catch (error) {
+            console.error('Error logging removing mediction:', error);
+        }
     };
 
     const handleTimesPerDayChange = n => { setTimesPerDay(n); setTimes(Array(n).fill('08:00')); };

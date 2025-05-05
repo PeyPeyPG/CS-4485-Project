@@ -31,12 +31,13 @@ const ProviderNotes = () => {
     }, []);
 
     const handleSend = async () => {
+        const username = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')).username : null;
         try {
             const response = await fetch('/api/providers/writenote', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    username: Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')).username : null,
+                    username: username,
                     patientUsername: to,
                     subject: subject,
                     note: body,
@@ -48,6 +49,24 @@ const ProviderNotes = () => {
             }
         } catch (err) {
             console.error('Error sending note:', err);
+        }
+
+        try {
+            const response = await fetch(`/api/activitylogger/logactivity`, {
+                method : 'POST',
+                headers: { 'Content-Type':'application/json' },
+                body   : JSON.stringify({
+                    username: username,
+                    action  : 'add',
+                    target  : 'Note',
+                    targetId: to,   
+                })
+                });
+                if (!response.ok) {
+                    console.log('Failed to log sending the node');
+                }  
+        } catch (error) {
+            console.error('Error logging sending note:', error);
         }
     };
 

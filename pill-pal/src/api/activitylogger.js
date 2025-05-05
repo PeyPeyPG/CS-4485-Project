@@ -1,7 +1,21 @@
+const express = require('express');
 const sql = require('mssql');
-const config = require('../server').config;
+const router = express.Router();
+require('dotenv').config();
 
-const logActivity = async (username, action, target, targetId = null) => {
+const config = {
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    server: process.env.DB_SERVER,
+    database: process.env.DB_NAME,
+    options: {
+        encrypt: true,
+    },
+};
+
+router.post('/logactivity', async (req, res) => {
+    const { username, action, target, targetId } = req.body;
+
     try {
         const pool = await sql.connect(config);
         await pool.request()
@@ -13,9 +27,12 @@ const logActivity = async (username, action, target, targetId = null) => {
                 INSERT INTO ActivityLog (username, action, target, targetId)
                 VALUES (@username, @action, @target, @targetId)
             `);
+
+        res.status(200).json({ message: 'Activity logged successfully' });
     } catch (err) {
         console.error('Error logging activity:', err);
+        res.status(500).send('Error logging activity');
     }
-};
+});
 
-module.exports = logActivity;
+module.exports = router;
