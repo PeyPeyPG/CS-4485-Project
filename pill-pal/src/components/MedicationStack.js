@@ -163,7 +163,7 @@ const MedicationStack = ({ selectedPatient }) => {
                 </div>
             </div>
 
-            <button className="add-medication-button" onClick={handleAddMedication}>Add Medication</button>
+            <button cursor = "pointer" className="add-medication-button" onClick={handleAddMedication}>Add Medication</button>
 
             <h2 className="user-medication-header">Your Medications</h2>
             <ul className="user-medication-list">

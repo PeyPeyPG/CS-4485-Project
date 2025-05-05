@@ -48,7 +48,7 @@
     font-size: 14px;
     transition: background-color 0.3s ease;
   }
-  
+
   .request-access-button:hover {
     background-color: #0056b3;
   }
@@ -94,13 +94,12 @@
     overflow-y: auto;
     border-radius: 20px;
   }
-  .provider-list-group-item{
+  .provider-listing-styling{
     display: flex;
-    flex-direction: row;
-    gap: .5rem;
     align-items: center;
+    gap: .5rem;
   }
-  .patient-list-group-item {
+  .provider-list-group-item{
     background-color: white;
     border-style: solid;
     border-color: #e70000;
@@ -112,7 +111,31 @@
     display: inline-block; /* Allow the width to adjust based on content */
     white-space: nowrap; /* Prevent text from wrapping to the next line */
   }
+  .paitent-delete-provider-button{
+    display: flex;
+  }
+ .patient-card-info{
+    display: flex;
+ }
+  .patient-list-group-item {
+    background-color: white;
+    border-style: solid;
+    border-color: #e70000;
+    border-width: 2px;
+    border-radius: 20px;
+    height: 3rem; /* Keep the height fixed if needed */
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    padding: .5rem; /* Add padding for spacing around the content */
+  }
   .patient-list-group-item:hover{
+    background-color: #e70000;
+    color: white;
+  }
+  .provider-list-group-item:hover{
+    cursor: pointer;
     background-color: #e70000;
     color: white;
   }

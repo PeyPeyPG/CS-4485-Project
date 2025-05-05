@@ -169,7 +169,7 @@ const ProviderDashboard = () => {
                                 <td>
                                     <button
                                         onClick={() => navigate(`/patient/${patient.username}`)} // Navigate to patient details page
-                                        className="request-access-button"
+                                        className="request-access-button"                                  
                                     >
                                         View Details
                                     </button>
