@@ -38,6 +38,26 @@ const PatientDetails = () => {
         return <div>Loading...</div>;
     }
 
+    const fetchUserMedications = async () => {
+                try {
+                    const userType = 'patient';
+    
+                    let endpoint = '';
+                    if (userType === 'patient') {
+                        endpoint = `/api/medications/${username}`;
+                    }
+    
+                    if (endpoint) {
+                        const response = await fetch(endpoint);
+                        const data = await response.json();
+                        setUserMedications(data);
+                    }
+                } catch (error) {
+                    console.error('Error fetching medications:', error);
+                }
+            };
+            fetchUserMedications();
+
     const fetchMedicationsFromRxNorm = async () => {
         if (!searchTerm.trim()) return;
 
@@ -66,7 +86,7 @@ const PatientDetails = () => {
             const userType = 'patient'; // Replace with actual user type logic
     
             const newMedication = {
-                PatientUsername: userType === 'patient' ? username : username,
+                PatientUsername: username,
                 MedicationName: selectedMedication,
                 dosage,
                 Days: days.join(','),
@@ -80,6 +100,8 @@ const PatientDetails = () => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(newMedication),
                 });
+
+                console.log(response)
     
                 if (response.ok) {
                     const savedMedication = await response.json();
