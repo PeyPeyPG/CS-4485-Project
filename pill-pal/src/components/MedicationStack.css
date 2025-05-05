@@ -146,3 +146,9 @@
     border-right-color:#2AACDB;
     padding-right: .4rem;
 }
+.interaction-warning{
+    border:1px solid red;
+    padding:8px;
+    margin:12px 0;
+    background:#ffe9e9;
+}
