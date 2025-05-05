@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './MedicationStack.css';
 import { useParams } from 'react-router-dom';
 import ProviderNavbar from './ProviderNavbar';
+import debounce from 'lodash.debounce';
 
 const PatientDetails = () => {
     const { username } = useParams(); // Get the username from the URL
@@ -49,22 +50,26 @@ const PatientDetails = () => {
         fetchPatientMedications();
     }, [username]);
 
-
-
-    const fetchMedicationsFromDB = async () => {
-        if (!searchTerm.trim()) return;
+    const fetchMedicationsFromDB = async (term) => {
+        if (!term.trim()) {
+            setAvailableMedications([]);
+            return;
+        }
         try {
-            const res = await fetch(`/api/medications/search?q=${encodeURIComponent(searchTerm)}`);
-            const data = await res.json();                            // [{ medicationName, dosage }]
-            const formatted = data.map(m => ({                        // unify shape
-                name: m.medicationName,
-                dosage: m.dosage,
-            }));
-            setAvailableMedications(formatted);
+            const res = await fetch(`/api/medications/search?q=${encodeURIComponent(term)}`);
+            const data = await res.json();
+            setAvailableMedications(data.map(m => ({ name: m.medicationName, dosage: m.dosage })));
         } catch (err) {
             console.error('Error searching medications:', err);
         }
     };
+
+    const debouncedFetch = useCallback(debounce(fetchMedicationsFromDB, 300), []);
+
+    useEffect(() => {
+        debouncedFetch(searchTerm);
+        return debouncedFetch.cancel;
+    }, [searchTerm, debouncedFetch]);
 
     /*
     const fetchMedicationsFromRxNorm = async () => {
