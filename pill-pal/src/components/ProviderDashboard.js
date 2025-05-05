@@ -175,7 +175,7 @@ const ProviderDashboard = () => {
             )}
 
                 <section>
-                    <h2>All Patients</h2>
+                    <h2>Other Patients</h2>
                     <input
                         type="text"
                         placeholder="Search patients by name"
@@ -224,7 +224,7 @@ const ProviderDashboard = () => {
                                                 headers: { 'Content-Type':'application/json' },
                                                 body   : JSON.stringify({
                                                     username: userInfo.username,
-                                                    action  : 'viewed',
+                                                    action  : 'requested access',
                                                     target  : 'patient',
                                                     targetId: patient.username,   
                                                 })
