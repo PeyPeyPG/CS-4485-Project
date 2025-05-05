@@ -3,13 +3,18 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { NavbarData } from './NavbarData';
 import Cookies from 'js-cookie';
 import './Navbar.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Navbar() {
     const [sidebar, setSideBar] = useState(false);
     const showSideBar = () => setSideBar(!sidebar);
-
+    const [notificationCount, setNotificationCount] = useState(0);
     const [dropdown, setDropdown] = useState(false);
+    const [showNotifications, setShowNotifications] = useState(false);
+    const [requestedProviders, setRequestedProviders] = useState([]);
+    const [loadingRequests, setLoadingRequests] = useState(false);
     const showDropdown = () => setDropdown(!dropdown);
+    
     const dropdownRef = useRef(null);
 
     const navigate = useNavigate();
@@ -19,6 +24,26 @@ function Navbar() {
         userInfo?.userType === 'provider'
             ? '/home/provider/dashboard'
             : '/home/patient/dashboard';
+
+            useEffect(() => {
+                
+                setNotificationCount(3);
+                
+            }, []);
+            useEffect(() => {
+                if (showNotifications && userInfo?.userType === 'patient' && userInfo.username) {
+                    setLoadingRequests(true);
+                    fetch(`/api/patients/${userInfo.username}/requested-providers`)
+                        .then(res => res.json())
+                        
+                        .then(data => {
+                            console.log(data)
+                            setRequestedProviders(data);
+                            setLoadingRequests(false);
+                        })
+                        .catch(() => setLoadingRequests(false));
+                }
+            }, [showNotifications, userInfo]);
 
     useEffect(() => {
         function handleClickOutside(event) {
@@ -35,6 +60,18 @@ function Navbar() {
     const handleLogout = () => {
         Cookies.remove('userInfo');
         navigate('/auth');
+    };
+
+    const handleShowNotifications = () => {
+        setRequestedProviders([]); // Clear previous data
+        setLoadingRequests(true);  // Set loading to true
+        setShowNotifications(true);
+    };
+    
+    const handleCloseNotifications = () => {
+        setShowNotifications(false);
+        setRequestedProviders([]); // Optionally clear data on close
+        setLoadingRequests(false); // Optionally reset loading
     };
 
     return (
@@ -58,16 +95,96 @@ function Navbar() {
                     </svg>
                 </div>
                 <div className="right-section">
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
-                        fill="currentColor"
-                        className="bi bi-bell-fill"
-                        viewBox="0 0 16 16"
+                <div className="notification-bell-container">
+        <button
+            className="notification-bell-btn"
+            onClick={handleShowNotifications}
+            style={{ background: 'none', border: 'none', position: 'relative', padding: 0, cursor: 'pointer' }}
+            aria-label="Show notifications"
+        >
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="32"
+            height="32"
+            fill="white"
+            className="bi bi-bell-fill"
+            viewBox="0 0 16 16"
+        >
+            <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
+        </svg>
+        {notificationCount > 0 && (
+            <span className="notification-badge">{notificationCount}</span>
+        )}
+    </button>
+
+    {/* Bootstrap Modal */}
+    <div
+    className={`modal fade ${showNotifications ? 'show d-block' : ''}`}
+    tabIndex="-1"
+    style={{ background: showNotifications ? 'rgba(0,0,0,0.3)' : 'transparent' }}
+    onClick={handleCloseNotifications}
+    aria-modal="true"
+    role="dialog"
+>
+    <div className="modal-dialog modal-dialog-centered" onClick={e => e.stopPropagation()}>
+        <div className="modal-content">
+            <div className="modal-header">
+                <h5 className="modal-title">Notifications</h5>
+                <button type="button" className="btn-close" onClick={handleCloseNotifications}></button>
+            </div>
+            <div className="modal-body">
+            {userInfo?.userType === 'patient' ? (
+    requestedProviders.length === 0 ? (
+        <p>No providers have requested access.</p>
+    ) : (
+        <div>
+            {requestedProviders.map((provider, idx) => (
+                <div key={idx} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
+                    <span style={{ flex: 1 }}>
+                        {provider.Name} ({provider.username}) has requested access
+                    </span>
+                    <button
+                        className="btn btn-success btn-sm"
+                        style={{ marginRight: '8px' }}
+                        onClick={() => {/* handle accept logic here */}}
                     >
-                        <path d="M8 16a2 2 0 0 0 2-2H6a2 2 0 0 0 2 2m.995-14.901a1 1 0 1 0-1.99 0A5 5 0 0 0 3 6c0 1.098-.5 6-2 7h14c-1.5-1-2-5.902-2-7 0-2.42-1.72-4.44-4.005-4.901" />
-                    </svg>
+                        Accept
+                    </button>
+                    <button
+    className="btn btn-danger btn-sm"
+    onClick={async () => {
+        try {
+            const response = await fetch(
+                `/api/patients/${userInfo.username}/requested-providers/${provider.username}`,
+                { method: 'DELETE' }
+            );
+            if (response.ok) {
+                // Remove the provider from the local state
+                setRequestedProviders(prev =>
+                    prev.filter(p => p.username !== provider.username)
+                );
+            } else {
+                console.error('Failed to reject request');
+            }
+        } catch (err) {
+            console.error('Error rejecting request:', err);
+        }
+    }}
+>
+    Reject
+</button>
+                </div>
+            ))}
+        </div>
+    )
+) : (
+    <p>No new notifications.</p>
+)}
+            </div>
+        </div>
+    </div>
+</div>
+</div>
                     <div className="nav-dropdown" ref={dropdownRef}>
                         <button onClick={showDropdown} className="link">
                             <svg

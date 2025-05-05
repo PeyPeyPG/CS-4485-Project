@@ -102,4 +102,26 @@ router.delete('/deletepatient', async (req, res) => {
     }
 });
 
+router.post('/requestaccess', async (req, res) => {
+    const { providerUsername, patientUsername } = req.body;
+    if (!providerUsername || !patientUsername) {
+        return res.status(400).json({ message: 'Missing providerUsername or patientUsername' });
+    }
+    try {
+        const pool = await sql.connect(config);
+        await pool.request()
+            .input('providerUsername', sql.NVarChar(255), providerUsername)
+            .input('patientUsername', sql.NVarChar(255), patientUsername)
+            .query(`
+                INSERT INTO RequestedPatients (providerUsername, patientUsername)
+                VALUES (@providerUsername, @patientUsername)
+            `);
+
+        res.status(200).json({ message: 'Access request submitted successfully' });
+    } catch (err) {
+        console.error('Error requesting access:', err);
+        res.status(500).send('Error requesting access');
+    }
+});
+
 module.exports = router;

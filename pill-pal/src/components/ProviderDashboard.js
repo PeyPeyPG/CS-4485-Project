@@ -166,30 +166,28 @@ const ProviderDashboard = () => {
                                 <td>{patient.DateOfBirth.split("T")[0]}</td>
                                 <td>{patient.Gender}</td>
                                 <td>
-                                    <button
-                                        o                                    onClick={async () => {
-                                            try {
-                                                const response = await fetch(`/api/activitylogger/logactivity`, {
-                                                    method : 'POST',
-                                                    headers: { 'Content-Type':'application/json' },
-                                                    body   : JSON.stringify({
-                                                        username: userInfo.username,
-                                                        action  : 'viewed',
-                                                        target  : 'patient',
-                                                        targetId: patient.username,   
-                                                    })
-                                                    });
-                                                    if (!response.ok) {
-                                                        console.log('Failed to log sending the node');
-                                                    }  
-                                            } catch (error) {
-                                                console.error('Error logging sending note:', error);
-                                            }
-                                            navigate(`/provider/patient/${patient.username}`)}} // Navigate to patient details page
-                                        className="request-access-button"                                  
-                                    >
-                                        View Details
-                                    </button>
+                                <button
+    onClick={async () => {
+        try {
+            const response = await fetch(`/api/providers/requestaccess`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    providerUsername: userInfo.username,
+                    patientUsername: patient.username,
+                }),
+            });
+            if (!response.ok) {
+                console.log('Failed to request access');
+            }
+        } catch (error) {
+            console.error('Error requesting access:', error);
+        }
+    }}
+    className="request-access-button"
+>
+    Request Access
+</button>
                                 </td>
                             </tr>
                         ))}

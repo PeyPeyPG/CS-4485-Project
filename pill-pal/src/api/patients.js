@@ -139,4 +139,44 @@ router.delete('/:username/remove/:providerUsername', async (req, res) => {
     }
 });
 
+router.get('/:username/requested-providers', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('patientUsername', sql.NVarChar(255), username)
+            .query(`
+                SELECT
+                    rp.providerUsername AS username,
+                    pr.Name
+                FROM RequestedPatients rp
+                JOIN Providers pr ON rp.providerUsername = pr.username
+                WHERE rp.patientUsername = @patientUsername
+            `);
+
+        res.status(200).json(result.recordset);
+    } catch (err) {
+        console.error('Error fetching requested providers:', err);
+        res.status(500).send('Error fetching requested providers');
+    }
+});
+
+router.delete('/:username/requested-providers/:providerUsername', async (req, res) => {
+    const { username, providerUsername } = req.params;
+    try {
+        const pool = await sql.connect(config);
+        await pool.request()
+            .input('patientUsername', sql.NVarChar(255), username)
+            .input('providerUsername', sql.NVarChar(255), providerUsername)
+            .query(`
+                DELETE FROM RequestedPatients
+                WHERE patientUsername = @patientUsername AND providerUsername = @providerUsername
+            `);
+        res.status(200).json({ message: 'Request removed successfully' });
+    } catch (err) {
+        console.error('Error removing request:', err);
+        res.status(500).send('Error removing request');
+    }
+});
+
 module.exports = router;

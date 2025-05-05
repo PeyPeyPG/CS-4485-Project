@@ -119,3 +119,67 @@ span {
 .footer-text{
     padding-left: .2rem;
 }
+
+.notification-bell-container {
+    position: relative;
+    display: inline-block;
+}
+
+.notification-badge {
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    pointer-events: none;
+    z-index: 1;
+}
+
+.notification-modal-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+}
+.notification-modal {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 16px rgba(0,0,0,0.2);
+    min-width: 320px;
+    max-width: 90vw;
+    padding: 1.5rem 1.5rem 1rem 1.5rem;
+    position: relative;
+}
+.notification-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+}
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #333;
+}
+.notification-modal-content {
+    min-height: 40px;
+}
+
+.notification-modal-content {
+    color: #222;
+    background: #fff;
+    border-radius: 8px;
+    padding: 1rem;
+    min-width: 250px;
+}
