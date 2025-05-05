@@ -116,6 +116,13 @@
     background-color: #e70000;
     color: white;
   }
+
+  .request-access-button:disabled {
+    background-color: #ccc; /* Grey background */
+    color: #666; /* Grey text */
+    cursor: not-allowed; /* Show "not allowed" cursor */
+    opacity: 0.6; /* Slightly transparent */
+}
   /*
   .patient-list-group-item{
     background-color: white;

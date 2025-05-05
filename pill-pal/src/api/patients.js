@@ -120,7 +120,7 @@ router.post('/:username/addprovider', async (req, res) => {
 });
 
 // Delete a provider for a patient
-router.delete('/patients/:username/providers/:providerUsername', async (req, res) => {
+router.delete('/:username/remove/:providerUsername', async (req, res) => {
     const { username, providerUsername } = req.params;
 
     try {
@@ -132,11 +132,6 @@ router.delete('/patients/:username/providers/:providerUsername', async (req, res
                 DELETE FROM PatientProviders
                 WHERE patientUsername = @patientUsername AND providerUsername = @providerUsername
             `);
-
-        if (result.rowsAffected[0] === 0) {
-            return res.status(404).json({ error: 'Provider not found' });
-        }
-
         res.status(200).json({ message: 'Provider removed successfully' });
     } catch (err) {
         console.error('Error removing provider:', err);
