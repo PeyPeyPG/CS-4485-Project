@@ -10,9 +10,47 @@ const ProviderDashboard = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
+    const [patientToDelete, setPatientToDelete] = useState(null);
 
     const userInfo = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')) : null;
     const navigate = useNavigate();
+
+    function handleDeleteClick(patient) {
+        setPatientToDelete(patient);
+    }
+    
+    function handleCancelDelete() {
+        setPatientToDelete(null);
+    }
+    
+    function handleConfirmDelete() {
+    if (!patientToDelete || !userInfo?.username) return;
+
+    fetch('/api/providers/deletepatient', {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            providerUsername: userInfo.username,
+            patientUsername: patientToDelete.username,
+        }),
+    })
+    .then(response => {
+        if (response.ok) {
+            setAccessiblePatients(prev =>
+                prev.filter(p => p.username !== patientToDelete.username)
+            );
+        } else {
+            console.error('Failed to delete patient');
+        }
+        setPatientToDelete(null);
+    })
+    .catch(error => {
+        console.error('Error deleting patient:', error);
+        setPatientToDelete(null);
+    });
+}
 
     useEffect(() => {
         const fetchAccessiblePatients = async () => {
@@ -63,25 +101,44 @@ const ProviderDashboard = () => {
                 <h1>Provider Dashboard</h1>
 
                 <section>
-                    <h2>Accessible Patients</h2>
-                    <ul className="accesssible-patients-container">
-                        {accessiblePatients.map((patient, index) => (
-                            <li className = "provider-list-group-item" key={index}>
-                                <button
-                                    cursor = "pointer"
-                                    className="patient-list-group-item"
-                                    onClick={() => navigate(`/provider/patient/${patient.username}`)} // Navigate to patient details page
-                                >
-                                    {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
-                                </button>
-                                <svg cursor = "pointer" onClick = {deletePatient()} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                <h2>Accessible Patients</h2>
+                <ul className="accesssible-patients-container">
+                    {accessiblePatients.map((patient, index) => (
+                        <li className = "provider-list-group-item" key={index}>
+                            <button
+                                cursor = "pointer"
+                                className="patient-list-group-item"
+                                onClick={() => navigate(`/provider/patient/${patient.username}`)}
+                            >
+                                {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
+                            </button>
+                            <svg
+                                cursor="pointer"
+                                onClick={() => handleDeleteClick(patient)}
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="24"
+                                height="24"
+                                fill="currentColor"
+                                className="bi bi-x-circle"
+                                viewBox="0 0 16 16"
+                            >
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                                </svg>
-                            </li>
-                        ))}
-                    </ul>
-                </section>
+                            </svg>
+                        </li>
+                    ))}
+                </ul>
+            </section>
+            {/* Confirmation Card */}
+            {patientToDelete && (
+                <div className="modal-overlay">
+                    <div className="modal-content">
+                        <p>Are you sure you want to delete <b>{patientToDelete.username}</b>?</p>
+                        <button onClick={handleConfirmDelete} className="yes-button">Yes</button>
+                        <button onClick={handleCancelDelete} className="no-button">No</button>
+                    </div>
+                </div>
+            )}
 
                 <section>
                     <h2>All Patients</h2>

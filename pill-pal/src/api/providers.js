@@ -82,4 +82,24 @@ router.get('/providers', async (req, res) => {
     }
 });
 
+// Delete a patient for a provider
+router.delete('/deletepatient', async (req, res) => {
+    const { providerUsername, patientUsername } = req.body;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('providerUsername', sql.NVarChar(255), providerUsername)
+            .input('patientUsername', sql.NVarChar(255), patientUsername)
+            .query(`
+                DELETE FROM PatientProviders
+                WHERE providerUsername = @providerUsername AND patientUsername = @patientUsername
+            `);
+
+        res.status(200).json({ message: 'Patient deleted successfully' });
+    } catch (err) {
+        console.error('Error deleting patient:', err);
+        res.status(500).send('Error deleting patient');
+    }
+});
+
 module.exports = router;
