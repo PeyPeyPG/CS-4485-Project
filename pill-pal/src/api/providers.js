@@ -124,4 +124,31 @@ router.post('/requestaccess', async (req, res) => {
     }
 });
 
+// Get all requested patients for a provider
+router.get('/requestedpatients/:username', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('providerUsername', sql.NVarChar(255), username)
+            .query(`
+               SELECT
+                    p.username,
+                    p.Name,
+                    p.Gender,
+                    p.DateOfBirth
+                FROM RequestedPatients rp
+                INNER JOIN Patients p
+                    ON rp.patientUsername = p.username
+                WHERE rp.providerUsername = @providerUsername
+            `);
+        res.status(200).json(result.recordset);
+    } catch (err) {
+        console.error('Error fetching requested patients:', err);
+        res.status(500).send('Error fetching requested patients');
+    }
+}
+);
+
+
 module.exports = router;

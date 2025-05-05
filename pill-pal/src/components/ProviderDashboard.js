@@ -7,6 +7,7 @@ import './ProviderDashboard.css';
 const ProviderDashboard = () => {
     const [accessiblePatients, setAccessiblePatients] = useState([]);
     const [allPatients, setAllPatients] = useState([]);
+    const [requestedPatients, setRequestedPatients] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -81,12 +82,28 @@ const ProviderDashboard = () => {
             }
         };
 
+        const fetchRequestedPatients = async () => {
+            try {
+                const response = await fetch(`/api/providers/requestedpatients/${userInfo.username}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setRequestedPatients(data);
+                } else {
+                    console.error('Failed to fetch requested patients');
+                }
+            } catch (error) {
+                console.error('Error fetching requested patients:', error);
+            }
+        };
+
         fetchAccessiblePatients();
         fetchAllPatients();
+        fetchRequestedPatients();
     }, [userInfo]);
 
-    const filteredPatients = allPatients.filter(patient =>
-        patient.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredPatients = allPatients.filter((patient) =>
+        patient.Name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+        !accessiblePatients.some((accessiblePatient) => accessiblePatient.username === patient.username)
     );
 
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -185,27 +202,48 @@ const ProviderDashboard = () => {
                                 <td>{patient.Gender}</td>
                                 <td>
                                 <button
-    onClick={async () => {
-        try {
-            const response = await fetch(`/api/providers/requestaccess`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    providerUsername: userInfo.username,
-                    patientUsername: patient.username,
-                }),
-            });
-            if (!response.ok) {
-                console.log('Failed to request access');
-            }
-        } catch (error) {
-            console.error('Error requesting access:', error);
-        }
-    }}
-    className="request-access-button"
->
-    Request Access
-</button>
+                                    onClick={async () => {
+                                        try {
+                                            const response = await fetch(`/api/providers/requestaccess`, {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({
+                                                    providerUsername: userInfo.username,
+                                                    patientUsername: patient.username,
+                                                }),
+                                            });
+                                            if (!response.ok) {
+                                                console.log('Failed to request access');
+                                            }
+                                        } catch (error) {
+                                            console.error('Error requesting access:', error);
+                                        }
+                                        try {
+                                            const response = await fetch(`/api/activitylogger/logactivity`, {
+                                                method : 'POST',
+                                                headers: { 'Content-Type':'application/json' },
+                                                body   : JSON.stringify({
+                                                    username: userInfo.username,
+                                                    action  : 'viewed',
+                                                    target  : 'patient',
+                                                    targetId: patient.username,   
+                                                })
+                                                });
+                                                if (!response.ok) {
+                                                    console.log('Failed to log sending the node');
+                                                }  
+                                        } catch (error) {
+                                            console.error('Error logging sending note:', error);
+                                        }
+                                    }
+                                
+                                    }
+                                    className="request-access-button"
+                                    disabled={requestedPatients.some((p) => p.username === patient.username)}                           
+
+                                >
+                                    Request Access
+                                </button>
                                 </td>
                             </tr>
                         ))}
