@@ -9,6 +9,13 @@
     color: white;
     width: 100%;
 }
+.left-section{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align items to the left */
+    gap: 1rem; /* Add spacing between elements */
+    margin-left: 0.5rem; /* Add some margin to prevent overflow */
+}
 .right-section{
     display: flex;
     align-items: center;

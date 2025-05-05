@@ -3,7 +3,6 @@ import './ProviderNotes.css';
 import Cookies from 'js-cookie';
 
 const ProviderNotes = () => {
-    const [providerNotes, setProviderNotes] = useState([]);
     const [to, setTo] = useState('');
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
@@ -46,6 +45,12 @@ const ProviderNotes = () => {
 
             if (!response.ok) {
                 throw new Error('Failed to send note');
+            }
+            else {
+                setTo('');
+                setSubject('');
+                setBody('');
+                alert('Note sent successfully!');
             }
         } catch (err) {
             console.error('Error sending note:', err);
