@@ -1,7 +1,29 @@
 const express = require('express');
 const sql = require('mssql');
 const router = express.Router();
+const bcrypt = require('bcrypt');
+const crypto = require('crypto');
 require('dotenv').config();
+
+const ENCRYPTION_KEY = (process.env.ENCRYPTION_KEY || 'a32characterlongencryptionkey!*&!').padEnd(32, '0').slice(0, 32); // 32 chars
+const IV_LENGTH = 16;
+
+function encrypt(text) {
+    let iv = crypto.randomBytes(IV_LENGTH);
+    let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+    let encrypted = cipher.update(text, 'utf8', 'hex');
+    encrypted += cipher.final('hex');
+    return iv.toString('hex') + ':' + encrypted;
+}
+function decrypt(text) {
+    let parts = text.split(':');
+    let iv = Buffer.from(parts.shift(), 'hex');
+    let encryptedText = parts.join(':');
+    let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
+    let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
+    decrypted += decipher.final('utf8');
+    return decrypted;
+}
 
 // Database configuration
 const config = {
@@ -25,11 +47,13 @@ router.post('/register', async (req, res) => {
     try {
         const pool = await sql.connect(config);
 
+        const hashedPassword = await bcrypt.hash(password, 10);
+
         // Insert into Users table
         await pool.request()
             .input('username', sql.NVarChar(255), username)
             .input('email', sql.NVarChar(255), email)
-            .input('password', sql.NVarChar(255), password)
+            .input('password', sql.NVarChar(255), hashedPassword)
             .input('userType', sql.NVarChar(20), userType)
             .query(`
                 INSERT INTO Users (username, email, password, userType)
@@ -53,11 +77,12 @@ router.post('/register', async (req, res) => {
         } else if (userType === 'provider') {
             await pool.request()
                 .input('username', sql.NVarChar(255), username)
+                .input('name', sql.NVarChar(100), name)
                 .input('profession', sql.NVarChar(100), profession)
                 .input('placeOfWork', sql.NVarChar(255), placeOfWork)
                 .query(`
-                    INSERT INTO Providers (username, profession, placeOfWork)
-                    VALUES (@username, @profession, @placeOfWork)
+                    INSERT INTO Providers (username, name, profession, placeOfWork)
+                    VALUES (@username, @name, @profession, @placeOfWork)
                 `);
         }
 
@@ -75,7 +100,6 @@ router.post('/login', async (req, res) => {
     try {
         const pool = await sql.connect(config);
 
-        // Fetch user details
         const result = await pool.request()
             .input('username', sql.NVarChar(255), username)
             .query(`
@@ -89,7 +113,8 @@ router.post('/login', async (req, res) => {
         }
 
         const user = result.recordset[0];
-        if (user.password !== password) {
+        const passwordMatch = await bcrypt.compare(password, user.password);
+        if (!passwordMatch) {
             return res.status(401).json({ error: 'Invalid credentials' });
         }
 

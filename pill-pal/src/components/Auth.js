@@ -33,7 +33,10 @@ const Auth = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
-
+    if (!isLogin && formData.password !== formData.confirmPassword) {
+      alert('Passwords do not match. Please try again.');
+      return; // Stop form submission
+    } 
     try {
       const endpoint = isLogin ? '/api/login' : '/api/register';
       const response = await fetch(endpoint, {

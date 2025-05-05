@@ -52,6 +52,14 @@
   .request-access-button:hover {
     background-color: #0056b3;
   }
+
+  .request-access-button:disabled {
+    background-color: #ccc; /* Grey background */
+    color: #666; /* Grey text */
+    cursor: not-allowed; /* Show "not allowed" cursor */
+    opacity: 0.6; /* Slightly transparent */
+  }
+
   .table-username{
     padding: 1rem;
     padding-right: 2rem;
@@ -145,12 +153,7 @@
     color: white;
   }
 
-  .request-access-button:disabled {
-    background-color: #ccc; /* Grey background */
-    color: #666; /* Grey text */
-    cursor: not-allowed; /* Show "not allowed" cursor */
-    opacity: 0.6; /* Slightly transparent */
-}
+  
   /*
   .patient-list-group-item{
     background-color: white;

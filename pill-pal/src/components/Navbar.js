@@ -82,22 +82,24 @@ function Navbar() {
     return (
         <div className="navbar-container">
             <div className="navbar">
-                <div>
-                    <svg
-                        cursor="pointer"
-                        onClick={showSideBar}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="32"
-                        height="32"
-                        fill="currentColor"
-                        className="bi bi-list"
-                        viewBox="0 0 16 16"
-                    >
-                        <path
-                            fillRule="evenodd"
-                            d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
-                        />
-                    </svg>
+                <div className="left-section">
+                    <div>
+                        <svg
+                            cursor="pointer"
+                            onClick={showSideBar}
+                            xmlns="http://www.w3.org/2000/svg"
+                            width="32"
+                            height="32"
+                            fill="currentColor"
+                            className="bi bi-list"
+                            viewBox="0 0 16 16"
+                        >
+                            <path
+                                fillRule="evenodd"
+                                d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5"
+                            />
+                        </svg>
+                    </div>
                 </div>
                 <div className="right-section">
                     <div className="notification-bell-container">
@@ -149,31 +151,31 @@ function Navbar() {
                                                                 {provider.Name} ({provider.username}) has requested access
                                                             </span>
                                                             <button
-    className="btn btn-success btn-sm"
-    style={{ marginRight: '8px' }}
-    onClick={async () => {
-        try {
-            const response = await fetch(
-                `/api/patients/${userInfo.username}/accept-request/${provider.username}`,
-                { method: 'POST' }
-            );
-            if (response.ok) {
-                // Remove the provider from the local state
-                setRequestedProviders(prev =>
-                    prev.filter(p => p.username !== provider.username)
-                );
-                // Optionally update notification count
-                setNotificationCount(prev => Math.max(prev - 1, 0));
-            } else {
-                console.error('Failed to accept request');
-            }
-        } catch (err) {
-            console.error('Error accepting request:', err);
-        }
-    }}
->
-    Accept
-</button>
+                                                                className="btn btn-success btn-sm"
+                                                                style={{ marginRight: '8px' }}
+                                                                onClick={async () => {
+                                                                    try {
+                                                                        const response = await fetch(
+                                                                            `/api/patients/${userInfo.username}/accept-request/${provider.username}`,
+                                                                            { method: 'POST' }
+                                                                        );
+                                                                        if (response.ok) {
+                                                                            // Remove the provider from the local state
+                                                                            setRequestedProviders(prev =>
+                                                                                prev.filter(p => p.username !== provider.username)
+                                                                            );
+                                                                            // Optionally update notification count
+                                                                            setNotificationCount(prev => Math.max(prev - 1, 0));
+                                                                        } else {
+                                                                            console.error('Failed to accept request');
+                                                                        }
+                                                                    } catch (err) {
+                                                                        console.error('Error accepting request:', err);
+                                                                    }
+                                                                }}
+                                                            >
+                                                                Accept
+                                                            </button>
                                                             <button
                                                                 className="btn btn-danger btn-sm"
                                                                 onClick={async () => {

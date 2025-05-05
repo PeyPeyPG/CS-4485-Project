@@ -92,6 +92,7 @@ const MedicationStack = ({ selectedPatient }) => {
             headers: { 'Content-Type':'application/json' },
             body   : JSON.stringify(payload),
         }).then(r => r.ok);
+        
         if (ok) {
             const newList = await fetch(`/api/medications/${targetUser}`).then(r => r.json());
             setUserMeds(newList);

@@ -7,6 +7,7 @@ import './ProviderDashboard.css';
 const ProviderDashboard = () => {
     const [accessiblePatients, setAccessiblePatients] = useState([]);
     const [allPatients, setAllPatients] = useState([]);
+    const [requestedPatients, setRequestedPatients] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -81,12 +82,28 @@ const ProviderDashboard = () => {
             }
         };
 
+        const fetchRequestedPatients = async () => {
+            try {
+                const response = await fetch(`/api/providers/requestedpatients/${userInfo.username}`);
+                if (response.ok) {
+                    const data = await response.json();
+                    setRequestedPatients(data);
+                } else {
+                    console.error('Failed to fetch requested patients');
+                }
+            } catch (error) {
+                console.error('Error fetching requested patients:', error);
+            }
+        };
+
         fetchAccessiblePatients();
         fetchAllPatients();
+        fetchRequestedPatients();
     }, [userInfo]);
 
-    const filteredPatients = allPatients.filter(patient =>
-        patient.Name.toLowerCase().includes(searchTerm.toLowerCase())
+    const filteredPatients = allPatients.filter((patient) =>
+        patient.Name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+        !accessiblePatients.some((accessiblePatient) => accessiblePatient.username === patient.username)
     );
 
     const indexOfLastRow = currentPage * rowsPerPage;
@@ -138,6 +155,8 @@ const ProviderDashboard = () => {
                                 fill="currentColor"
                                 className="bi bi-x-circle"
                                 viewBox="0 0 16 16"
+                                data-bs-toggle="modal"
+                                data-bs-target="#deletePatientModal"
                             >
                                 <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
                                 <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
@@ -148,17 +167,53 @@ const ProviderDashboard = () => {
             </section>
             {/* Confirmation Card */}
             {patientToDelete && (
-                <div className="modal-overlay">
-                    <div className="modal-content">
-                        <p>Are you sure you want to delete <b>{patientToDelete.username}</b>?</p>
-                        <button onClick={handleConfirmDelete} className="yes-button">Yes</button>
-                        <button onClick={handleCancelDelete} className="no-button">No</button>
+                <div
+                    className="modal fade show"
+                    id="deletePatientModal"
+                    tabIndex="-1"
+                    style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}
+                    aria-modal="true"
+                    role="dialog"
+                >
+                    <div className="modal-dialog">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title">Confirm Deletion</h5>
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={handleCancelDelete}
+                                ></button>
+                            </div>
+                            <div className="modal-body">
+                                <p>
+                                    Are you sure you want to delete <b>{patientToDelete.username}</b>?
+                                </p>
+                            </div>
+                            <div className="modal-footer">
+                                <button
+                                    type="button"
+                                    className="btn btn-danger"
+                                    onClick={handleConfirmDelete}
+                                >
+                                    Yes
+                                </button>
+                                <button
+                                    type="button"
+                                    className="btn btn-secondary"
+                                    onClick={handleCancelDelete}
+                                >
+                                    No
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             )}
 
                 <section>
-                    <h2>All Patients</h2>
+                    <h2>Other Patients</h2>
                     <input
                         type="text"
                         placeholder="Search patients by name"
@@ -185,27 +240,48 @@ const ProviderDashboard = () => {
                                 <td>{patient.Gender}</td>
                                 <td>
                                 <button
-    onClick={async () => {
-        try {
-            const response = await fetch(`/api/providers/requestaccess`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    providerUsername: userInfo.username,
-                    patientUsername: patient.username,
-                }),
-            });
-            if (!response.ok) {
-                console.log('Failed to request access');
-            }
-        } catch (error) {
-            console.error('Error requesting access:', error);
-        }
-    }}
-    className="request-access-button"
->
-    Request Access
-</button>
+                                    onClick={async () => {
+                                        try {
+                                            const response = await fetch(`/api/providers/requestaccess`, {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({
+                                                    providerUsername: userInfo.username,
+                                                    patientUsername: patient.username,
+                                                }),
+                                            });
+                                            if (!response.ok) {
+                                                console.log('Failed to request access');
+                                            }
+                                        } catch (error) {
+                                            console.error('Error requesting access:', error);
+                                        }
+                                        try {
+                                            const response = await fetch(`/api/activitylogger/logactivity`, {
+                                                method : 'POST',
+                                                headers: { 'Content-Type':'application/json' },
+                                                body   : JSON.stringify({
+                                                    username: userInfo.username,
+                                                    action  : 'requested access',
+                                                    target  : 'patient',
+                                                    targetId: patient.username,   
+                                                })
+                                                });
+                                                if (!response.ok) {
+                                                    console.log('Failed to log sending the node');
+                                                }  
+                                        } catch (error) {
+                                            console.error('Error logging sending note:', error);
+                                        }
+                                    }
+                                
+                                    }
+                                    className="request-access-button"
+                                    disabled={requestedPatients.some((p) => p.username === patient.username)}                           
+
+                                >
+                                    Request Access
+                                </button>
                                 </td>
                             </tr>
                         ))}
