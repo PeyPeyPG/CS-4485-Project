@@ -179,4 +179,41 @@ router.delete('/:username/requested-providers/:providerUsername', async (req, re
     }
 });
 
+router.post('/:username/accept-request/:providerUsername', async (req, res) => {
+    const { username, providerUsername } = req.params;
+    try {
+        const pool = await sql.connect(config);
+
+        const transaction = new sql.Transaction(pool);
+        await transaction.begin();
+
+        try {
+            await transaction.request()
+                .input('patientUsername', sql.NVarChar(255), username)
+                .input('providerUsername', sql.NVarChar(255), providerUsername)
+                .query(`
+                    INSERT INTO PatientProviders (patientUsername, providerUsername)
+                    VALUES (@patientUsername, @providerUsername)
+                `);
+
+            await transaction.request()
+                .input('patientUsername', sql.NVarChar(255), username)
+                .input('providerUsername', sql.NVarChar(255), providerUsername)
+                .query(`
+                    DELETE FROM RequestedPatients
+                    WHERE patientUsername = @patientUsername AND providerUsername = @providerUsername
+                `);
+
+            await transaction.commit();
+            res.status(200).json({ message: 'Request accepted and provider added.' });
+        } catch (err) {
+            await transaction.rollback();
+            throw err;
+        }
+    } catch (err) {
+        console.error('Error accepting provider request:', err);
+        res.status(500).send('Error accepting provider request');
+    }
+});
+
 module.exports = router;
