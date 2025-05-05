@@ -53,11 +53,12 @@ router.post('/register', async (req, res) => {
         } else if (userType === 'provider') {
             await pool.request()
                 .input('username', sql.NVarChar(255), username)
+                .input('name', sql.NVarChar(100), name)
                 .input('profession', sql.NVarChar(100), profession)
                 .input('placeOfWork', sql.NVarChar(255), placeOfWork)
                 .query(`
-                    INSERT INTO Providers (username, profession, placeOfWork)
-                    VALUES (@username, @profession, @placeOfWork)
+                    INSERT INTO Providers (username, name, profession, placeOfWork)
+                    VALUES (@username, @name, @profession, @placeOfWork)
                 `);
         }
 
