@@ -1,19 +1,23 @@
 .navbar{
     text-align: left;
     background-color: #E70000;
-    height: 4rem;
+    height: 5rem;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
-    padding: .5rem;
+    padding: 1rem;
     color: white;
+    width: 100%;
 }
 .right-section{
-    margin-left: 88%;
     display: flex;
-    column-gap: .4rem;
+    align-items: center;
+    justify-content: flex-end; /* Align items to the right */
+    gap: 1rem; /* Add spacing between elements */
+    margin-right: 1rem; /* Add some margin to prevent overflow */
+    flex-wrap: nowrap; /* Prevent wrapping of elements */
 }
-.nav-dropdown{
+.nav-dropdown{  
     position: relative;
 }
 .link{
