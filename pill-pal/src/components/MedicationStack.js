@@ -112,7 +112,7 @@ const MedicationStack = ({ selectedPatient }) => {
                 body   : JSON.stringify({
                     username: username,
                     action  : 'remove',
-                    target  : medicationName,
+                    target  : medName,
                     targetId: targetUser,   
                 })
                 });

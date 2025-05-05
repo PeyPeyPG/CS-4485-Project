@@ -173,7 +173,7 @@ const ProviderDashboard = () => {
                                                     method : 'POST',
                                                     headers: { 'Content-Type':'application/json' },
                                                     body   : JSON.stringify({
-                                                        username: username,
+                                                        username: userInfo.username,
                                                         action  : 'viewed',
                                                         target  : 'patient',
                                                         targetId: patient.username,   
