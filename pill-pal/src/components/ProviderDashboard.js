@@ -55,6 +55,8 @@ const ProviderDashboard = () => {
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     const currentPatients = filteredPatients.slice(indexOfFirstRow, indexOfLastRow);
 
+    function deletePatient(){console.log('test atd');}
+
     return (
         <div className='provider-dashboard-container'>
             <div className="provider-dashboard">
@@ -64,13 +66,18 @@ const ProviderDashboard = () => {
                     <h2>Accessible Patients</h2>
                     <ul className="accesssible-patients-container">
                         {accessiblePatients.map((patient, index) => (
-                            <li key={index}>
+                            <li className = "provider-list-group-item" key={index}>
                                 <button
+                                    cursor = "pointer"
                                     className="patient-list-group-item"
                                     onClick={() => navigate(`/provider/patient/${patient.username}`)} // Navigate to patient details page
                                 >
                                     {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
                                 </button>
+                                <svg cursor = "pointer" onClick = {deletePatient()} xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>
                             </li>
                         ))}
                     </ul>

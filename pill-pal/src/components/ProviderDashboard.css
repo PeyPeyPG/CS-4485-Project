@@ -94,7 +94,12 @@
     overflow-y: auto;
     border-radius: 20px;
   }
-
+  .provider-list-group-item{
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+  }
   .patient-list-group-item {
     background-color: white;
     border-style: solid;
@@ -106,6 +111,10 @@
     padding: 1rem; /* Add padding for spacing around the content */
     display: inline-block; /* Allow the width to adjust based on content */
     white-space: nowrap; /* Prevent text from wrapping to the next line */
+  }
+  .patient-list-group-item:hover{
+    background-color: #e70000;
+    color: white;
   }
   /*
   .patient-list-group-item{
