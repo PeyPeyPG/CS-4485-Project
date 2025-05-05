@@ -47,14 +47,13 @@ const MedicalProviders = () => {
 
     const handleAddProvider = async (providerUsername) => {
         try {
-            const response = await fetch(`/api/patients/${userInfo.username}/providers`, {
+            const response = await fetch(`/api/patients/${userInfo.username}/addprovider`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ providerName: providerUsername }),
+                body: JSON.stringify({ providerUsername: providerUsername }),
             });
 
             if (response.ok) {
-                alert('Provider added successfully');
                 setYourProviders((prev) => [
                     ...prev,
                     allProviders.find((provider) => provider.username === providerUsername),

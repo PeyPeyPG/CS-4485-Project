@@ -94,7 +94,7 @@ router.get('/patients/:username/providers', async (req, res) => {
 });
 
 // Add a new provider for a patient
-router.post('/patients/:username/providers', async (req, res) => {
+router.post('/:username/addprovider', async (req, res) => {
     const { username } = req.params;
     const { providerUsername } = req.body;
 
