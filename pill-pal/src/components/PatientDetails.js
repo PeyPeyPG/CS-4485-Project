@@ -63,6 +63,25 @@ const PatientDetails = () => {
             Times: times.join(','),
             Frequency: timesPerDay,
         };
+
+        try {
+            const response = await fetch(`/api/activitylogger/logactivity`, {
+                method : 'POST',
+                headers: { 'Content-Type':'application/json' },
+                body   : JSON.stringify({
+                    username: userInfo.username,
+                    action  : 'add',
+                    target  : selectedMedication,
+                    targetId: username,   
+                })
+                });
+                if (!response.ok) {
+                    console.log('Failed to log adding medication');
+                }  
+        } catch (error) {
+            console.error('Error logging adding medication:', error);
+        }
+
         const ok = await fetch('/api/medications/assign',{
             method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)
         }).then(r=>r.ok);
@@ -76,6 +95,24 @@ const PatientDetails = () => {
     const handleRemoveMedication = async (medName) => {
         const ok = await fetch(`/api/medications/${medName}/${username}`,{method:'DELETE'}).then(r=>r.ok);
         if(ok) setUserMeds(userMeds.filter(m=>m.medicationName!==medName));
+
+        try {
+            const response = await fetch(`/api/activitylogger/logactivity`, {
+                method : 'POST',
+                headers: { 'Content-Type':'application/json' },
+                body   : JSON.stringify({
+                    username: userInfo.username,
+                    action  : 'remove',
+                    target  : medName,
+                    targetId: username,   
+                })
+                });
+                if (!response.ok) {
+                    console.log('Failed to log removing medication');
+                }  
+        } catch (error) {
+            console.error('Error logging removing mediction:', error);
+        }
     };
 
     const handleTimesPerDayChange = n=>{ setTimesPerDay(n); setTimes(Array(n).fill('08:00')); };

@@ -76,7 +76,7 @@ const MedicationStack = ({ selectedPatient }) => {
                 body   : JSON.stringify({
                     username: username,
                     action  : 'add',
-                    target  : payload.medicationName,
+                    target  : selectedMedication,
                     targetId: targetUser,   
                 })
                 });
