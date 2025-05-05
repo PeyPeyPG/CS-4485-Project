@@ -167,7 +167,25 @@ const ProviderDashboard = () => {
                                 <td>{patient.Gender}</td>
                                 <td>
                                     <button
-                                        onClick={() => navigate(`/patient/${patient.username}`)} // Navigate to patient details page
+                                        o                                    onClick={async () => {
+                                            try {
+                                                const response = await fetch(`/api/activitylogger/logactivity`, {
+                                                    method : 'POST',
+                                                    headers: { 'Content-Type':'application/json' },
+                                                    body   : JSON.stringify({
+                                                        username: username,
+                                                        action  : 'viewed',
+                                                        target  : 'patient',
+                                                        targetId: patient.username,   
+                                                    })
+                                                    });
+                                                    if (!response.ok) {
+                                                        console.log('Failed to log sending the node');
+                                                    }  
+                                            } catch (error) {
+                                                console.error('Error logging sending note:', error);
+                                            }
+                                            navigate(`/provider/patient/${patient.username}`)}} // Navigate to patient details page
                                         className="request-access-button"                                  
                                     >
                                         View Details
