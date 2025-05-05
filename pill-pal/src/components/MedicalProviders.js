@@ -47,18 +47,18 @@ const MedicalProviders = () => {
 
     const handleAddProvider = async (providerUsername) => {
         try {
-            const response = await fetch(`/api/patients/${userInfo.username}/providers`, {
+            const response = await fetch(`/api/patients/${userInfo.username}/addprovider`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ providerName: providerUsername }),
+                body: JSON.stringify({ providerUsername: providerUsername }),
             });
 
             if (response.ok) {
-                alert('Provider added successfully');
                 setYourProviders((prev) => [
                     ...prev,
                     allProviders.find((provider) => provider.username === providerUsername),
                 ]);
+
             } else {
                 alert('Failed to add provider');
             }
@@ -66,6 +66,22 @@ const MedicalProviders = () => {
             console.error('Error adding provider:', error);
         }
     };
+
+    const deleteProvider = async (providerUsername) => {
+        try { 
+            const response = await fetch(`/api/patients/${userInfo.username}/remove/${providerUsername}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                setYourProviders((prev) => prev.filter((provider) => provider.username !== providerUsername));
+            } else {
+                alert('Failed to delete provider');
+            }
+        } catch (error) {
+            console.error('Error deleting provider:', error);
+        }
+    }
+
 
     const filteredProviders = allProviders.filter(provider =>
         provider.Name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -84,8 +100,15 @@ const MedicalProviders = () => {
                     <h2>Your Providers</h2>
                     <ul className="accesssible-patients-container">
                         {yourProviders.map((provider, index) => (
-                            <li className="patient-list-group-item" key={index}>
-                                {provider.username} - {provider.Name} - {provider.profession} - {provider.placeOfWork}
+                            <li cursor="pointer" className="patient-list-group-item" key={index}>
+                                {provider.username} - {provider.Name} - {provider.profession} - {provider.placeOfWork} 
+                                {<svg cursor = "pointer" 
+                                onClick = {() => deleteProvider(provider.username)} 
+                                xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
+                                </svg>}
+                                
                             </li>
                         ))}
                     </ul>
@@ -121,6 +144,7 @@ const MedicalProviders = () => {
                                     <button
                                         onClick={() => handleAddProvider(provider.username)}
                                         className="request-access-button"
+                                        disabled={yourProviders.some((p) => p.username === provider.username)}
                                     >
                                         Add Provider
                                     </button>

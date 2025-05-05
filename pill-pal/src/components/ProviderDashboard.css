@@ -94,7 +94,12 @@
     overflow-y: auto;
     border-radius: 20px;
   }
-
+  .provider-list-group-item{
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+  }
   .patient-list-group-item {
     background-color: white;
     border-style: solid;
@@ -107,6 +112,17 @@
     display: inline-block; /* Allow the width to adjust based on content */
     white-space: nowrap; /* Prevent text from wrapping to the next line */
   }
+  .patient-list-group-item:hover{
+    background-color: #e70000;
+    color: white;
+  }
+
+  .request-access-button:disabled {
+    background-color: #ccc; /* Grey background */
+    color: #666; /* Grey text */
+    cursor: not-allowed; /* Show "not allowed" cursor */
+    opacity: 0.6; /* Slightly transparent */
+}
   /*
   .patient-list-group-item{
     background-color: white;

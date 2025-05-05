@@ -32,8 +32,8 @@ export const NavbarData = [
         title: 'Medicine Manager',
         path: '/home/patient/medication-stack',
         icon: <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-capsule" viewBox="0 0 16 16">
-            <path d="M11.5 0a4.5 4.5 0 0 1 3.182 7.682l-7.5 7.5a4.5 4.5 0 0 1-6.364-6.364l7.5-7.5A4.5 4.5 0 0 1 11.5 0zm0 1a3.5 3.5 0 0 0-2.475 5.975l-5.5 5.5a3.5 3.5 0 0 0 4.95 4.95l5.5-5.5A3.5 3.5 0 0 0 11.5 1z"/>
-        </svg>,
+            <path d="M1.828 8.9 8.9 1.827a4 4 0 1 1 5.657 5.657l-7.07 7.071A4 4 0 1 1 1.827 8.9Zm9.128.771 2.893-2.893a3 3 0 1 0-4.243-4.242L6.713 5.429z"/>
+            </svg>,
         cName: 'nav-text'
     },
     {

@@ -50,7 +50,7 @@ router.post('/writenote', async (req, res) => {
             .input('subject', sql.NVarChar(255), subject)
             .input('note', sql.NVarChar(sql.MAX), note)
             .query(`
-                INSERT INTO Notes (providerUsername, patientUsername, subject, note)
+                INSERT INTO DoctorsNotes (providerUsername, patientUsername, subject, note)
                 VALUES (@providerUsername, @patientUsername, @subject, @note)
             `);
 

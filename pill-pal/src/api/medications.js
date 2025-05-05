@@ -13,6 +13,30 @@ const config = {
     },
 };
 
+router.get('/search', async (req, res) => {
+    const { q } = req.query;      // ?q=asp
+    if (!q || q.trim() === '') {
+        return res.status(400).json({ error: 'Query parameter `q` is required' });
+    }
+
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('query', sql.NVarChar(100), `%${q}%`)
+            .query(`
+                SELECT TOP 20 medicationName, dosage
+                FROM Medications
+                WHERE medicationName LIKE @query
+                ORDER BY medicationName
+            `);
+
+        res.status(200).json(result.recordset);   // [{ medicationName, dosage }]
+    } catch (err) {
+        console.error('Error searching medications:', err);
+        res.status(500).send('Error searching medications');
+    }
+});
+
 // Add a new medication
 router.post('/', async (req, res) => {
     const { medicationName, dosage, Days, Times, PatientUsername, Frequency } = req.body;
@@ -139,6 +163,53 @@ router.delete('/:medicationName/:username', async (req, res) => {
     } catch (err) {
         console.error('Error deleting medication:', err);
         res.status(500).send('Error deleting medication');
+    }
+});
+
+// All interactions present in the patient’s current stack
+router.get('/interactions/:username', async (req, res) => {
+    const { username } = req.params;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('username', sql.NVarChar(255), username)
+            .query(`
+                SELECT DISTINCT mi.MedicationA, mi.MedicationB
+                FROM MedicationInteractions mi
+                JOIN PatientMedications pmA
+                     ON pmA.MedicationName = mi.MedicationA
+                    AND pmA.PatientUsername = @username
+                JOIN PatientMedications pmB
+                     ON pmB.MedicationName = mi.MedicationB
+                    AND pmB.PatientUsername = @username
+            `);
+        res.status(200).json(result.recordset);     // [{ MedicationA, MedicationB }]
+    } catch (err) {
+        console.error('Error fetching interactions: ', err);
+        res.status(500).send('Error fetching interactions');
+    }
+});
+
+// Interactions caused by adding ONE extra drug
+router.get('/interactions/:username/check/:drug', async (req, res) => {
+    const { username, drug } = req.params;
+    try {
+        const pool = await sql.connect(config);
+        const result = await pool.request()
+            .input('username', sql.NVarChar(255), username)
+            .input('drug', sql.NVarChar(100), drug)
+            .query(`
+                SELECT mi.MedicationA, mi.MedicationB
+                FROM MedicationInteractions mi
+                WHERE  (mi.MedicationA = @drug AND mi.MedicationB IN
+                            (SELECT MedicationName FROM PatientMedications WHERE PatientUsername = @username))
+                    OR (mi.MedicationB = @drug AND mi.MedicationA IN
+                            (SELECT MedicationName FROM PatientMedications WHERE PatientUsername = @username))
+            `);
+        res.status(200).json(result.recordset);
+    } catch (err) {
+        console.error('Error checking interactions: ', err);
+        res.status(500).send('Error checking interactions');
     }
 });
 
