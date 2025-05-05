@@ -107,7 +107,25 @@ const ProviderDashboard = () => {
                         <li className = "provider-list-options"key={index}>
                             <button className = "provider-list-group-item"
                                 cursor = "pointer"
-                                onClick={() => navigate(`/provider/patient/${patient.username}`)}
+                                onClick={async () => {
+                                    try {
+                                        const response = await fetch(`/api/activitylogger/logactivity`, {
+                                            method : 'POST',
+                                            headers: { 'Content-Type':'application/json' },
+                                            body   : JSON.stringify({
+                                                username: userInfo.username,
+                                                action  : 'viewed',
+                                                target  : 'patient',
+                                                targetId: patient.username,   
+                                            })
+                                            });
+                                            if (!response.ok) {
+                                                console.log('Failed to log sending the node');
+                                            }  
+                                    } catch (error) {
+                                        console.error('Error logging sending note:', error);
+                                    }
+                                    navigate(`/provider/patient/${patient.username}`)}} // Navigate to patient details page
                             >
                                 {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
                             </button>
