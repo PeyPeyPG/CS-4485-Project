@@ -47,6 +47,26 @@ router.post('/register', async (req, res) => {
     try {
         const pool = await sql.connect(config);
 
+        // Check if username or email already exists
+        const existingUser = await pool.request()
+            .input('username', sql.NVarChar(255), username)
+            .input('email', sql.NVarChar(255), email)
+            .query(`
+                SELECT username, email
+                FROM Users
+                WHERE username = @username OR email = @email
+            `);
+
+        if (existingUser.recordset.length > 0) {
+            const existing = existingUser.recordset[0];
+            if (existing.username === username) {
+                return res.status(400).json({ error: 'Username already exists' });
+            }
+            if (existing.email === email) {
+                return res.status(400).json({ error: 'Email already exists' });
+            }
+        }
+
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Insert into Users table
@@ -89,7 +109,13 @@ router.post('/register', async (req, res) => {
         res.status(201).json({ message: 'User registered successfully', userType });
     } catch (err) {
         console.error('Error during registration:', err);
-        res.status(500).json({ error: 'Registration failed' });
+
+        // Return specific SQL error if available
+        if (err.originalError && err.originalError.info) {
+            return res.status(500).json({ error: err.originalError.info.message });
+        }
+
+        res.status(500).json({ error: 'Registration failed due to an unexpected error' });
     }
 });
 
