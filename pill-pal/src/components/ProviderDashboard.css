@@ -91,7 +91,6 @@
   }
   .accesssible-patients-container{
     padding-left: 0rem;
-    margin-left: 7rem;
     display: flex;
     list-style: none;
     flex-direction: column;

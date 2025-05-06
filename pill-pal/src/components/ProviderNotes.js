@@ -7,13 +7,11 @@ const ProviderNotes = () => {
     const [subject, setSubject] = useState('');
     const [body, setBody] = useState('');
     const [patients, setPatients] = useState([]); // State to store the list of patients
+    const username = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')).username : null;
 
     useEffect(() => {
         const fetchPatients = async () => {
-            try {
-                const userInfo = Cookies.get('userInfo');
-                const username = userInfo ? JSON.parse(userInfo).username : null;
-
+            try {                
                 const response = await fetch(`/api/providers/patients/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch patients');
@@ -27,10 +25,9 @@ const ProviderNotes = () => {
         };
 
         fetchPatients();
-    }, []);
+    }, [username]);
 
     const handleSend = async () => {
-        const username = Cookies.get('userInfo') ? JSON.parse(Cookies.get('userInfo')).username : null;
         try {
             const response = await fetch('/api/providers/writenote', {
                 method: 'POST',
