@@ -64,7 +64,7 @@ This project manages various data types like user profiles, medications, and doc
 
 ### 5. Development and Logging:
 
-Code contributions, documentation updates, and software improvements are logged via GitHub at https://github.com/PeyPeyPG/CS-4485-Project.
+Code contributions, documentation updates, and software improvements are logged via GitHub at https://github.com/PeyPeyPG/CS-4485-Project. SQL servers will log information used for the website.
 
 ### 6. System Shutdown:
 
