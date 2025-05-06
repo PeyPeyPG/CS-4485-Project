@@ -1,6 +1,6 @@
 import './Dashboard1.css';
 import React, { useState, useEffect } from 'react';
-import Cookies from 'js-cookie'; 
+import Cookies from 'js-cookie';
 
 const Dashboard = () => {
     const [medicines, setMedicines] = useState([]);
@@ -17,7 +17,7 @@ const Dashboard = () => {
                 const response = await fetch(`/api/dashboard/getcurmeds/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch medicines');
-                } 
+                }
                 const data = await response.json();
                 console.log(data);
                 setMedicines(data);
@@ -35,7 +35,7 @@ const Dashboard = () => {
         const fetchPinnedNotes = async () => {
             try {
                 const userInfo = Cookies.get('userInfo');
-                const username = userInfo ? JSON.parse(userInfo).username : null;                
+                const username = userInfo ? JSON.parse(userInfo).username : null;
                 const response = await fetch(`/api/dashboard/getpinnednotes/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch pinned notes');
@@ -57,7 +57,7 @@ const Dashboard = () => {
         const dayListMedicines = medicinesData.filter(medicine => medicine.Days.includes(selectedDay));
         const dayList = dayListMedicines.map(dayListMedicine => {
             const times = dayListMedicine.Times.split(","); // Split the time string into an array
-        
+
             return (
                 <li key={dayListMedicine.MedicationName}>
                     <div className="med-entry">

@@ -62,7 +62,7 @@ function App() {
                     >
                         <Route path="dashboard" element={<ProviderDashboard />} />
                         <Route path="profile" element={<ProviderProfile />} />
-                        <Route path="doctors-notes" element={<ProviderNotes/>}/>
+                        <Route path="doctors-notes" element={<ProviderNotes />} />
                     </Route>
                     <Route path="/provider/patient/:username" element={<PatientDetails />} />
                     <Route path="/" element={<Navigate to="/auth" replace />} />

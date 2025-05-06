@@ -1,4 +1,4 @@
-.profile-container{
+.profile-container {
     width: 100%;
     height: 100vh;
     background-color: #F5F5F5;
@@ -6,7 +6,8 @@
     flex-direction: row;
     align-items: start;
 }
-.profile-picture-container{
+
+.profile-picture-container {
     margin-top: 1.5rem;
     margin-left: 16rem;
     margin-right: 3rem;
@@ -25,7 +26,8 @@
     box-shadow: 1px 1px 4px 2px #cecdcd94;
     list-style: none;
 }
-.profile-info-container{
+
+.profile-info-container {
     margin-top: 1.5rem;
     width: 40rem;
     height: 40rem;
@@ -42,7 +44,8 @@
     box-shadow: 1px 1px 4px 2px #cecdcd94;
     list-style: none;
 }
-.profile-picture{
+
+.profile-picture {
     margin-top: .5rem;
     width: 10rem;
     height: 10rem;
@@ -51,7 +54,8 @@
     justify-content: center;
     color: rgb(123, 123, 123)
 }
-.profile-name{
+
+.profile-name {
     width: 15rem;
     height: 3rem;
     text-align: center;
@@ -59,7 +63,8 @@
     font-weight: bold;
     font-size: 1.5rem;
 }
-.profile-info-line{
+
+.profile-info-line {
     width: 35rem;
     height: 3rem;
     display: flex;
@@ -69,14 +74,16 @@
     border-bottom-color: lightgray;
     align-items: center;
 }
-.profile-info-entry-title{
+
+.profile-info-entry-title {
     font-weight: bold;
     width: 10rem;
     text-align: left;
     margin-bottom: .5rem;
     font-size: 1.5rem;
 }
-.profile-info-entry{
+
+.profile-info-entry {
     font-weight: bold;
     width: 20rem;
     text-align: left;

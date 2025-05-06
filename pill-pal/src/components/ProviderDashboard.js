@@ -19,39 +19,39 @@ const ProviderDashboard = () => {
     function handleDeleteClick(patient) {
         setPatientToDelete(patient);
     }
-    
+
     function handleCancelDelete() {
         setPatientToDelete(null);
     }
-    
-    function handleConfirmDelete() {
-    if (!patientToDelete || !userInfo?.username) return;
 
-    fetch('/api/providers/deletepatient', {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            providerUsername: userInfo.username,
-            patientUsername: patientToDelete.username,
-        }),
-    })
-    .then(response => {
-        if (response.ok) {
-            setAccessiblePatients(prev =>
-                prev.filter(p => p.username !== patientToDelete.username)
-            );
-        } else {
-            console.error('Failed to delete patient');
-        }
-        setPatientToDelete(null);
-    })
-    .catch(error => {
-        console.error('Error deleting patient:', error);
-        setPatientToDelete(null);
-    });
-}
+    function handleConfirmDelete() {
+        if (!patientToDelete || !userInfo?.username) return;
+
+        fetch('/api/providers/deletepatient', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                providerUsername: userInfo.username,
+                patientUsername: patientToDelete.username,
+            }),
+        })
+            .then(response => {
+                if (response.ok) {
+                    setAccessiblePatients(prev =>
+                        prev.filter(p => p.username !== patientToDelete.username)
+                    );
+                } else {
+                    console.error('Failed to delete patient');
+                }
+                setPatientToDelete(null);
+            })
+            .catch(error => {
+                console.error('Error deleting patient:', error);
+                setPatientToDelete(null);
+            });
+    }
 
     useEffect(() => {
         const fetchAccessiblePatients = async () => {
@@ -102,7 +102,7 @@ const ProviderDashboard = () => {
     }, [userInfo]);
 
     const filteredPatients = allPatients.filter((patient) =>
-        patient.Name.toLowerCase().includes(searchTerm.toLowerCase()) && 
+        patient.Name.toLowerCase().includes(searchTerm.toLowerCase()) &&
         !accessiblePatients.some((accessiblePatient) => accessiblePatient.username === patient.username)
     );
 
@@ -110,7 +110,7 @@ const ProviderDashboard = () => {
     const indexOfFirstRow = indexOfLastRow - rowsPerPage;
     const currentPatients = filteredPatients.slice(indexOfFirstRow, indexOfLastRow);
 
-    function deletePatient(){console.log('test atd');}
+    function deletePatient() { console.log('test atd'); }
 
     return (
         <div className='provider-dashboard-container'>
@@ -118,99 +118,100 @@ const ProviderDashboard = () => {
                 <h1>Provider Dashboard</h1>
 
                 <section>
-                <h2>Accessible Patients</h2>
-                <ul className="accesssible-patients-container">
-                    {accessiblePatients.map((patient, index) => (
-                        <li className = "provider-list-options"key={index}>
-                            <button className = "provider-list-group-item"
-                                cursor = "pointer"
-                                onClick={async () => {
-                                    try {
-                                        const response = await fetch(`/api/activitylogger/logactivity`, {
-                                            method : 'POST',
-                                            headers: { 'Content-Type':'application/json' },
-                                            body   : JSON.stringify({
-                                                username: userInfo.username,
-                                                action  : 'viewed',
-                                                target  : 'patient',
-                                                targetId: patient.username,   
-                                            })
+                    <h2>Accessible Patients</h2>
+                    <ul className="accesssible-patients-container">
+                        {accessiblePatients.map((patient, index) => (
+                            <li className="provider-list-options" key={index}>
+                                <button className="provider-list-group-item"
+                                    cursor="pointer"
+                                    onClick={async () => {
+                                        try {
+                                            const response = await fetch(`/api/activitylogger/logactivity`, {
+                                                method: 'POST',
+                                                headers: { 'Content-Type': 'application/json' },
+                                                body: JSON.stringify({
+                                                    username: userInfo.username,
+                                                    action: 'viewed',
+                                                    target: 'patient',
+                                                    targetId: patient.username,
+                                                })
                                             });
                                             if (!response.ok) {
                                                 console.log('Failed to log sending the node');
-                                            }  
-                                    } catch (error) {
-                                        console.error('Error logging sending note:', error);
-                                    }
-                                    navigate(`/provider/patient/${patient.username}`)}} // Navigate to patient details page
-                            >
-                                {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
-                            </button>
-                            <svg
-                                cursor="pointer"
-                                onClick={() => handleDeleteClick(patient)}
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                fill="currentColor"
-                                className="bi bi-x-circle"
-                                viewBox="0 0 16 16"
-                                data-bs-toggle="modal"
-                                data-bs-target="#deletePatientModal"
-                            >
-                                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
-                                <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"/>
-                            </svg>
-                        </li>
-                    ))}
-                </ul>
-            </section>
-            {/* Confirmation Card */}
-            {patientToDelete && (
-                <div
-                    className="modal fade show"
-                    id="deletePatientModal"
-                    tabIndex="-1"
-                    style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}
-                    aria-modal="true"
-                    role="dialog"
-                >
-                    <div className="modal-dialog">
-                        <div className="modal-content">
-                            <div className="modal-header">
-                                <h5 className="modal-title">Confirm Deletion</h5>
-                                <button
-                                    type="button"
-                                    className="btn-close"
-                                    aria-label="Close"
-                                    onClick={handleCancelDelete}
-                                ></button>
-                            </div>
-                            <div className="modal-body">
-                                <p>
-                                    Are you sure you want to delete <b>{patientToDelete.username}</b>?
-                                </p>
-                            </div>
-                            <div className="modal-footer">
-                                <button
-                                    type="button"
-                                    className="btn btn-danger"
-                                    onClick={handleConfirmDelete}
+                                            }
+                                        } catch (error) {
+                                            console.error('Error logging sending note:', error);
+                                        }
+                                        navigate(`/provider/patient/${patient.username}`)
+                                    }} // Navigate to patient details page
                                 >
-                                    Yes
+                                    {patient.username} - {patient.Name} - {patient.Gender} - {(patient.DateOfBirth.split('T'))[0]}
                                 </button>
-                                <button
-                                    type="button"
-                                    className="btn btn-secondary"
-                                    onClick={handleCancelDelete}
+                                <svg
+                                    cursor="pointer"
+                                    onClick={() => handleDeleteClick(patient)}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    width="24"
+                                    height="24"
+                                    fill="currentColor"
+                                    className="bi bi-x-circle"
+                                    viewBox="0 0 16 16"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#deletePatientModal"
                                 >
-                                    No
-                                </button>
+                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                    <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708" />
+                                </svg>
+                            </li>
+                        ))}
+                    </ul>
+                </section>
+                {/* Confirmation Card */}
+                {patientToDelete && (
+                    <div
+                        className="modal fade show"
+                        id="deletePatientModal"
+                        tabIndex="-1"
+                        style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}
+                        aria-modal="true"
+                        role="dialog"
+                    >
+                        <div className="modal-dialog">
+                            <div className="modal-content">
+                                <div className="modal-header">
+                                    <h5 className="modal-title">Confirm Deletion</h5>
+                                    <button
+                                        type="button"
+                                        className="btn-close"
+                                        aria-label="Close"
+                                        onClick={handleCancelDelete}
+                                    ></button>
+                                </div>
+                                <div className="modal-body">
+                                    <p>
+                                        Are you sure you want to delete <b>{patientToDelete.username}</b>?
+                                    </p>
+                                </div>
+                                <div className="modal-footer">
+                                    <button
+                                        type="button"
+                                        className="btn btn-danger"
+                                        onClick={handleConfirmDelete}
+                                    >
+                                        Yes
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="btn btn-secondary"
+                                        onClick={handleCancelDelete}
+                                    >
+                                        No
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
 
                 <section>
                     <h2>Other Patients</h2>
@@ -223,68 +224,68 @@ const ProviderDashboard = () => {
                     />
                     <table className="patients-table">
                         <thead>
-                        <tr>
-                            <th className="table-username">Username</th>
-                            <th className="table-name">Full Name</th>
-                            <th className="table-bdate">Date of Birth</th>
-                            <th className="table-gender">Gender</th>
-                            <th className="table-action">Action</th>
-                        </tr>
+                            <tr>
+                                <th className="table-username">Username</th>
+                                <th className="table-name">Full Name</th>
+                                <th className="table-bdate">Date of Birth</th>
+                                <th className="table-gender">Gender</th>
+                                <th className="table-action">Action</th>
+                            </tr>
                         </thead>
                         <tbody>
-                        {currentPatients.map((patient, index) => (
-                            <tr key={index}>
-                                <td>{patient.username}</td>
-                                <td>{patient.Name}</td>
-                                <td>{patient.DateOfBirth.split("T")[0]}</td>
-                                <td>{patient.Gender}</td>
-                                <td>
-                                <button
-                                    onClick={async () => {
-                                        try {
-                                            const response = await fetch(`/api/providers/requestaccess`, {
-                                                method: 'POST',
-                                                headers: { 'Content-Type': 'application/json' },
-                                                body: JSON.stringify({
-                                                    providerUsername: userInfo.username,
-                                                    patientUsername: patient.username,
-                                                }),
-                                            });
-                                            if (!response.ok) {
-                                                console.log('Failed to request access');
+                            {currentPatients.map((patient, index) => (
+                                <tr key={index}>
+                                    <td>{patient.username}</td>
+                                    <td>{patient.Name}</td>
+                                    <td>{patient.DateOfBirth.split("T")[0]}</td>
+                                    <td>{patient.Gender}</td>
+                                    <td>
+                                        <button
+                                            onClick={async () => {
+                                                try {
+                                                    const response = await fetch(`/api/providers/requestaccess`, {
+                                                        method: 'POST',
+                                                        headers: { 'Content-Type': 'application/json' },
+                                                        body: JSON.stringify({
+                                                            providerUsername: userInfo.username,
+                                                            patientUsername: patient.username,
+                                                        }),
+                                                    });
+                                                    if (!response.ok) {
+                                                        console.log('Failed to request access');
+                                                    }
+                                                } catch (error) {
+                                                    console.error('Error requesting access:', error);
+                                                }
+                                                try {
+                                                    const response = await fetch(`/api/activitylogger/logactivity`, {
+                                                        method: 'POST',
+                                                        headers: { 'Content-Type': 'application/json' },
+                                                        body: JSON.stringify({
+                                                            username: userInfo.username,
+                                                            action: 'requested access',
+                                                            target: 'patient',
+                                                            targetId: patient.username,
+                                                        })
+                                                    });
+                                                    if (!response.ok) {
+                                                        console.log('Failed to log sending the node');
+                                                    }
+                                                } catch (error) {
+                                                    console.error('Error logging sending note:', error);
+                                                }
                                             }
-                                        } catch (error) {
-                                            console.error('Error requesting access:', error);
-                                        }
-                                        try {
-                                            const response = await fetch(`/api/activitylogger/logactivity`, {
-                                                method : 'POST',
-                                                headers: { 'Content-Type':'application/json' },
-                                                body   : JSON.stringify({
-                                                    username: userInfo.username,
-                                                    action  : 'requested access',
-                                                    target  : 'patient',
-                                                    targetId: patient.username,   
-                                                })
-                                                });
-                                                if (!response.ok) {
-                                                    console.log('Failed to log sending the node');
-                                                }  
-                                        } catch (error) {
-                                            console.error('Error logging sending note:', error);
-                                        }
-                                    }
-                                
-                                    }
-                                    className="request-access-button"
-                                    disabled={requestedPatients.some((p) => p.username === patient.username)}                           
 
-                                >
-                                    Request Access
-                                </button>
-                                </td>
-                            </tr>
-                        ))}
+                                            }
+                                            className="request-access-button"
+                                            disabled={requestedPatients.some((p) => p.username === patient.username)}
+
+                                        >
+                                            Request Access
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
                         </tbody>
                     </table>
                     <div className="pagination">

@@ -42,7 +42,7 @@ router.get('/getpatientprofile/:username', async (req, res) => {
                 FROM Users u JOIN Patients p ON u.username = p.username
                 WHERE u.username = @username
                 `);
-            res.status(200).json(result.recordset[0]);
+        res.status(200).json(result.recordset[0]);
     } catch (err) {
         console.error('Error fetching patients\' profile:', err);
         res.status(500).send('Error fetching patients\' profile');
@@ -60,7 +60,7 @@ router.get('/getproviderprofile/:username', async (req, res) => {
                 FROM Users u JOIN Providers p ON u.username = p.username
                 WHERE u.username = @username
                 `);
-            res.status(200).json(result.recordset[0]);
+        res.status(200).json(result.recordset[0]);
     } catch (err) {
         console.error('Error fetching patients\' profile:', err);
         res.status(500).send('Error fetching patients\' profile');
@@ -78,7 +78,7 @@ router.get('/getnotes/:username', async (req, res) => {
                 FROM DoctorsNotes d
                 WHERE d.patientUsername = @username
                 `);
-            res.status(200).json(result.recordset);
+        res.status(200).json(result.recordset);
     } catch (err) {
         console.error('Error fetching the patients\' doctor\'s notes:', err);
         res.status(500).send('Error fetching the patients\' doctor\'s notes');
@@ -96,7 +96,7 @@ router.get('/getpinnednotes/:username', async (req, res) => {
                 FROM DoctorsNotes d
                 WHERE d.patientUsername = @username AND d.pinned = 1
                 `);
-            res.status(200).json(result.recordset);
+        res.status(200).json(result.recordset);
     } catch (err) {
         console.error('Error fetching the patients\' doctor\'s notes:', err);
         res.status(500).send('Error fetching the patients\' doctor\'s notes');
@@ -116,7 +116,7 @@ router.put('/changepin/:username/:providerUsername/:subject/', async (req, res) 
                 SET pinned = ~pinned
                 WHERE patientUsername = @username AND providerUsername = @providerUsername AND subject = @subject
                 `);
-            res.status(200).json(result.recordset);
+        res.status(200).json(result.recordset);
     } catch (err) {
         console.error('Error changing the pin status of the doctor\'s note:', err);
         res.status(500).send('Error changing the pin status of the doctor\'s note');
@@ -138,7 +138,7 @@ router.delete('/removenote/:username/:providerUsername/:subject/', async (req, r
                   AND providerUsername = @providerUsername
                   AND subject = @subject
                 `);
-            res.status(200).json({message: 'Note deleted successfully'});
+        res.status(200).json({ message: 'Note deleted successfully' });
     } catch (err) {
         console.error('Error deleting the doctor\'s note:', err);
         res.status(500).send('Error deleting the doctor\'s note:');

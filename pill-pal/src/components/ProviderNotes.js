@@ -11,7 +11,7 @@ const ProviderNotes = () => {
 
     useEffect(() => {
         const fetchPatients = async () => {
-            try {                
+            try {
                 const response = await fetch(`/api/providers/patients/${username}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch patients');
@@ -55,18 +55,18 @@ const ProviderNotes = () => {
 
         try {
             const response = await fetch(`/api/activitylogger/logactivity`, {
-                method : 'POST',
-                headers: { 'Content-Type':'application/json' },
-                body   : JSON.stringify({
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
                     username: username,
-                    action  : 'add',
-                    target  : 'Note',
-                    targetId: to,   
+                    action: 'add',
+                    target: 'Note',
+                    targetId: to,
                 })
-                });
-                if (!response.ok) {
-                    console.log('Failed to log sending the node');
-                }  
+            });
+            if (!response.ok) {
+                console.log('Failed to log sending the node');
+            }
         } catch (error) {
             console.error('Error logging sending note:', error);
         }
@@ -126,5 +126,3 @@ const ProviderNotes = () => {
 };
 
 export default ProviderNotes;
-
-

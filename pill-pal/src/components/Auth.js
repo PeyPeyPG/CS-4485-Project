@@ -36,7 +36,7 @@ const Auth = () => {
     if (!isLogin && formData.password !== formData.confirmPassword) {
       alert('Passwords do not match. Please try again.');
       return; // Stop form submission
-    } 
+    }
     try {
       const endpoint = isLogin ? '/api/login' : '/api/register';
       const response = await fetch(endpoint, {
@@ -71,190 +71,190 @@ const Auth = () => {
   };
 
   return (
-      <div className="auth-container">
-        <div className="auth-box">
-          <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-          {error && <div className="error-message">{error}</div>}
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="username">Username</label>
-              <input
-                  type="text"
-                  id="username"
-                  name="username"
-                  value={formData.username}
+    <div className="auth-container">
+      <div className="auth-box">
+        <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
+        {error && <div className="error-message">{error}</div>}
+        <form onSubmit={handleSubmit}>
+          <div className="form-group">
+            <label htmlFor="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value={formData.username}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          {!isLogin && (
+            <>
+              <div className="form-group">
+                <label htmlFor="email">Email</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
                   onChange={handleChange}
                   required
-              />
-            </div>
-            {!isLogin && (
+                />
+              </div>
+              <div className="form-group">
+                <label htmlFor="userType">Sign up as</label>
+                <select
+                  id="userType"
+                  name="userType"
+                  value={formData.userType}
+                  onChange={handleChange}
+                  required
+                >
+                  <option value="patient">Patient</option>
+                  <option value="provider">Provider</option>
+                </select>
+              </div>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+              {formData.userType === 'patient' && (
                 <>
                   <div className="form-group">
-                    <label htmlFor="email">Email</label>
+                    <label htmlFor="dateOfBirth">Date of Birth</label>
                     <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
+                      type="date"
+                      id="dateOfBirth"
+                      name="dateOfBirth"
+                      value={formData.dateOfBirth}
+                      onChange={handleChange}
+                      required
                     />
                   </div>
                   <div className="form-group">
-                    <label htmlFor="userType">Sign up as</label>
+                    <label htmlFor="gender">Gender</label>
                     <select
-                        id="userType"
-                        name="userType"
-                        value={formData.userType}
-                        onChange={handleChange}
-                        required
+                      id="gender"
+                      name="gender"
+                      value={formData.gender}
+                      onChange={handleChange}
+                      required
                     >
-                      <option value="patient">Patient</option>
-                      <option value="provider">Provider</option>
+                      <option value="male">Male</option>
+                      <option value="female">Female</option>
+                      <option value="other">Other</option>
                     </select>
                   </div>
                   <div className="form-group">
-                    <label htmlFor="name">Name</label>
+                    <label htmlFor="height">Height (cm)</label>
                     <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        required
-                    />
-                  </div>
-                  {formData.userType === 'patient' && (
-                      <>
-                        <div className="form-group">
-                          <label htmlFor="dateOfBirth">Date of Birth</label>
-                          <input
-                              type="date"
-                              id="dateOfBirth"
-                              name="dateOfBirth"
-                              value={formData.dateOfBirth}
-                              onChange={handleChange}
-                              required
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="gender">Gender</label>
-                          <select
-                              id="gender"
-                              name="gender"
-                              value={formData.gender}
-                              onChange={handleChange}
-                              required
-                          >
-                            <option value="male">Male</option>
-                            <option value="female">Female</option>
-                            <option value="other">Other</option>
-                          </select>
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="height">Height (cm)</label>
-                          <input
-                              type="number"
-                              id="height"
-                              name="height"
-                              value={formData.height}
-                              onChange={handleChange}
-                              required
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="weight">Weight (kg)</label>
-                          <input
-                              type="number"
-                              id="weight"
-                              name="weight"
-                              value={formData.weight}
-                              onChange={handleChange}
-                              required
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="pregnancyStatus">Pregnancy Status</label>
-                          <select
-                              id="pregnancyStatus"
-                              name="pregnancyStatus"
-                              value={formData.pregnancyStatus}
-                              onChange={handleChange}
-                              required
-                          >
-                            <option value="true">Yes</option>
-                            <option value="false">No</option>
-                          </select>
-                        </div>
-                      </>
-                  )}
-                  {formData.userType === 'provider' && (
-                      <>
-                        <div className="form-group">
-                          <label htmlFor="profession">Profession</label>
-                          <input
-                              type="text"
-                              id="profession"
-                              name="profession"
-                              value={formData.profession}
-                              onChange={handleChange}
-                              required
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="placeOfWork">Place of Work</label>
-                          <input
-                              type="text"
-                              id="placeOfWork"
-                              name="placeOfWork"
-                              value={formData.placeOfWork}
-                              onChange={handleChange}
-                              required
-                          />
-                        </div>
-                      </>
-                  )}
-                </>
-            )}
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <input
-                  type="password"
-                  id="password"
-                  name="password"
-                  value={formData.password}
-                  onChange={handleChange}
-                  required
-              />
-            </div>
-            {!isLogin && (
-                <div className="form-group">
-                  <label htmlFor="confirmPassword">Confirm Password</label>
-                  <input
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      value={formData.confirmPassword}
+                      type="number"
+                      id="height"
+                      name="height"
+                      value={formData.height}
                       onChange={handleChange}
                       required
-                  />
-                </div>
-            )}
-            <button type="submit" className="auth-button">
-              {isLogin ? 'Login' : 'Sign Up'}
-            </button>
-          </form>
-          <p className="toggle-auth">
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button
-                className="toggle-button"
-                onClick={() => setIsLogin(!isLogin)}
-            >
-              {isLogin ? 'Sign Up' : 'Login'}
-            </button>
-          </p>
-        </div>
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="weight">Weight (kg)</label>
+                    <input
+                      type="number"
+                      id="weight"
+                      name="weight"
+                      value={formData.weight}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="pregnancyStatus">Pregnancy Status</label>
+                    <select
+                      id="pregnancyStatus"
+                      name="pregnancyStatus"
+                      value={formData.pregnancyStatus}
+                      onChange={handleChange}
+                      required
+                    >
+                      <option value="true">Yes</option>
+                      <option value="false">No</option>
+                    </select>
+                  </div>
+                </>
+              )}
+              {formData.userType === 'provider' && (
+                <>
+                  <div className="form-group">
+                    <label htmlFor="profession">Profession</label>
+                    <input
+                      type="text"
+                      id="profession"
+                      name="profession"
+                      value={formData.profession}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                  <div className="form-group">
+                    <label htmlFor="placeOfWork">Place of Work</label>
+                    <input
+                      type="text"
+                      id="placeOfWork"
+                      name="placeOfWork"
+                      value={formData.placeOfWork}
+                      onChange={handleChange}
+                      required
+                    />
+                  </div>
+                </>
+              )}
+            </>
+          )}
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          {!isLogin && (
+            <div className="form-group">
+              <label htmlFor="confirmPassword">Confirm Password</label>
+              <input
+                type="password"
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
+          <button type="submit" className="auth-button">
+            {isLogin ? 'Login' : 'Sign Up'}
+          </button>
+        </form>
+        <p className="toggle-auth">
+          {isLogin ? "Don't have an account? " : "Already have an account? "}
+          <button
+            className="toggle-button"
+            onClick={() => setIsLogin(!isLogin)}
+          >
+            {isLogin ? 'Sign Up' : 'Login'}
+          </button>
+        </p>
       </div>
+    </div>
   );
 };
 

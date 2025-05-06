@@ -1,10 +1,11 @@
-.main-dashboard-container{
+.main-dashboard-container {
     width: 100%;
     height: 100vh;
     display: flex;
     background-color: #F5F5F5;
 }
-.medicine-stack-container{
+
+.medicine-stack-container {
     width: 53.025rem;
     min-height: 32.625rem;
     max-height: 40rem;
@@ -17,14 +18,16 @@
     display: flex;
     flex-direction: column;
 }
-.stack-text{
+
+.stack-text {
     align-items: left;
     display: flex;
     padding-left: 2rem;
-    padding-top:.8rem;
+    padding-top: .8rem;
     font-size: 1.5rem;
 }
-.daily-pill-container{
+
+.daily-pill-container {
     margin-top: 1.8rem;
     margin-left: 4rem;
     width: 45rem;
@@ -39,7 +42,8 @@
     align-items: center;
     justify-content: center;
 }
-.day-button{
+
+.day-button {
     height: 5rem;
     width: 5rem;
     background-color: #FFC2C2;
@@ -53,17 +57,20 @@
     margin: .5rem;
 
 }
-.day-button:hover{
+
+.day-button:hover {
     border-style: solid;
     border-width: 4px;
-    border-color:#2AACDB;
+    border-color: #2AACDB;
 }
-.day-button.active{
+
+.day-button.active {
     border-style: solid;
     border-width: 4px;
-    border-color:#2AACDB;
+    border-color: #2AACDB;
 }
-.dropdown{
+
+.dropdown {
     width: 42rem;
     min-height: 2rem;
     max-height: 50rem;
@@ -76,7 +83,8 @@
     border-radius: 0 0 45px 45px;
     transition: 400ms;
 }
-.notes-container{
+
+.notes-container {
     margin-top: 2rem;
     margin-left: 1.8rem;
     width: 22rem;
@@ -88,7 +96,8 @@
     justify-content: left;
     text-align: start;
 }
-.notes-container-circle{
+
+.notes-container-circle {
     height: 5rem;
     width: 5rem;
     border-radius: 45px;
@@ -96,7 +105,8 @@
     margin-top: 1rem;
     margin-left: .5rem;
 }
-.notes-container-bar{
+
+.notes-container-bar {
     height: 3.6rem;
     width: 16.8rem;
     border-radius: 0px 45px 45px 0px;
@@ -106,11 +116,13 @@
     align-items: center;
     display: flex;
 }
-.bar-text{
+
+.bar-text {
     margin-left: 4rem;
     margin-top: -.1rem;
 }
-.notes-box{
+
+.notes-box {
     width: 15rem;
     min-height: 2rem;
     max-height: 32rem;
@@ -126,12 +138,14 @@
     align-items: center;
     list-style: none;
 }
-.medicine-items{
+
+.medicine-items {
     padding: 0rem;
 }
-.med-entry{
+
+.med-entry {
     padding: .5rem;
-    background-color:#9acee1;
+    background-color: #9acee1;
     display: flex;
     align-items: center;
     margin: .5rem;
@@ -139,20 +153,22 @@
     border-radius: 45px;
     padding-right: 1rem
 }
-.medicine-items li{
+
+.medicine-items li {
     list-style: none;
     padding-left: 0rem;
     text-align: start;
     align-items: center;
     display: flex;
 }
-.med{
+
+.med {
     padding-left: .3rem;
     width: 13rem;
     height: 5rem;
     background-color: #f7f8f8;
     margin-left: 1rem;
-    margin-top:.1rem;
+    margin-top: .1rem;
     padding: .2rem;
     font-size: 1.2rem;
     text-align: center;
@@ -160,13 +176,14 @@
     border-style: solid;
     border-width: 2px;
     border-color: #2AACDB;
-    overflow:hidden;
+    overflow: hidden;
 }
-.med-dosage{
+
+.med-dosage {
     width: 6rem;
     height: 5rem;
     background-color: #f7f8f8;
-    margin-top:.1rem;
+    margin-top: .1rem;
     margin-left: 2rem;
     padding: .2rem;
     font-size: 1.2rem;
@@ -176,12 +193,13 @@
     border-width: 2px;
     border-color: #2AACDB;
 }
-.med-time{
+
+.med-time {
     width: 7rem;
     height: 5rem;
     background-color: #f7f8f8;
     margin-left: 2rem;
-    margin-top:.1rem;
+    margin-top: .1rem;
     padding: .2rem;
     font-size: 1.2rem;
     text-align: center;
@@ -193,22 +211,25 @@
     overflow-y: auto;
     scrollbar-width: thin;
 }
-.note-card{
+
+.note-card {
     background-color: white;
     width: 14rem;
     border-radius: 5px;
     margin-top: .5rem;
     margin-bottom: .5rem;
     margin-left: .2rem;
-    padding:.2rem;
+    padding: .2rem;
 }
-.note-card-doctor{
+
+.note-card-doctor {
     border-bottom: #868484;
     border-bottom-style: solid;
     border-bottom-width: 1px;
-    margin-bottom: .2rem; 
+    margin-bottom: .2rem;
 }
-.note-card-subject{
+
+.note-card-subject {
     color: #e38f8f;
     margin-bottom: .1rem;
 }

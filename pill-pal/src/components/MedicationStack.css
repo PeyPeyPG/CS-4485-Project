@@ -1,4 +1,4 @@
-.med-stack-container{
+.med-stack-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,11 +6,13 @@
     min-height: 100vh;
     background-color: #F5F5F5;
 }
-.med-option-bar{
+
+.med-option-bar {
     min-width: 25rem;
     height: 3rem;
 }
-.add-medication{
+
+.add-medication {
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -21,7 +23,8 @@
     box-shadow: 1px 1px 4px 2px #cecdcd94;
     margin-bottom: .5rem;
 }
-.select-medication{
+
+.select-medication {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -31,20 +34,25 @@
     border-radius: 20px;
     padding: .5rem;
 }
-.search-medication{
+
+.search-medication {
     width: 25rem;
     height: 2rem;
 }
-.search-med-button{
+
+.search-med-button {
     height: 3rem;
     border-radius: 10px;
     border-width: 1px;
     background-color: #E70000;
     color: white;
 }
-.select-med-button{
-    justify-content: start;;
+
+.select-med-button {
+    justify-content: start;
+    ;
 }
+
 .days-of-week-container {
     display: flex;
     flex-direction: column;
@@ -56,8 +64,8 @@
 }
 
 .days-label {
-    white-space: nowrap; 
-    padding-top: 0.25rem; 
+    white-space: nowrap;
+    padding-top: 0.25rem;
 }
 
 .med-dosage-intervals {
@@ -74,7 +82,8 @@
 .day-selector {
     margin-right: 1rem;
 }
-.time-per-day-container{
+
+.time-per-day-container {
     display: flex;
     flex-direction: column;
     justify-content: start;
@@ -85,23 +94,27 @@
     padding: .5rem;
     gap: .3rem;
 }
-.number-times-container{
+
+.number-times-container {
     display: flex;
     justify-content: left;
     align-items: center;
     gap: .5rem;
 }
-.time-clock-container{
+
+.time-clock-container {
     display: flex;
     flex-direction: row;
     align-items: start;
     gap: .3rem;
 }
-.times-container{
+
+.times-container {
     display: flex;
     flex-direction: column;
 }
-.add-medication-button{
+
+.add-medication-button {
     cursor: pointer;
     height: 3rem;
     width: 15rem;
@@ -110,15 +123,17 @@
     border-width: 1px;
     background-color: #E70000;
     color: white;
-    
+
 }
-.user-medication-list{
+
+.user-medication-list {
     display: flex;
     flex-direction: column;
     gap: .8rem;
     list-style: none;
 }
-.medication-item{
+
+.medication-item {
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -129,25 +144,29 @@
     border-radius: 10px;
     box-shadow: 1px 1px 4px 2px #cecdcd94;
 }
-.remove-button{
+
+.remove-button {
     border-radius: 10px;
     border-style: none;
     height: 1.5rem;
     background-color: #000ce7;
     color: white;
 }
-.user-medication-header{
-    margin-bottom:.5rem;
+
+.user-medication-header {
+    margin-bottom: .5rem;
 }
-.medication-item-info-container{
+
+.medication-item-info-container {
     border-right-style: solid;
     border-right-width: 2px;
-    border-right-color:#2AACDB;
+    border-right-color: #2AACDB;
     padding-right: .4rem;
 }
-.interaction-warning{
-    border:1px solid red;
-    padding:8px;
-    margin:12px 0;
-    background:#ffe9e9;
+
+.interaction-warning {
+    border: 1px solid red;
+    padding: 8px;
+    margin: 12px 0;
+    background: #ffe9e9;
 }

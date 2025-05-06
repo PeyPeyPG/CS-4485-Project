@@ -8,23 +8,6 @@ require('dotenv').config();
 const ENCRYPTION_KEY = (process.env.ENCRYPTION_KEY || 'a32characterlongencryptionkey!*&!').padEnd(32, '0').slice(0, 32); // 32 chars
 const IV_LENGTH = 16;
 
-function encrypt(text) {
-    let iv = crypto.randomBytes(IV_LENGTH);
-    let cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
-    let encrypted = cipher.update(text, 'utf8', 'hex');
-    encrypted += cipher.final('hex');
-    return iv.toString('hex') + ':' + encrypted;
-}
-function decrypt(text) {
-    let parts = text.split(':');
-    let iv = Buffer.from(parts.shift(), 'hex');
-    let encryptedText = parts.join(':');
-    let decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
-    let decrypted = decipher.update(encryptedText, 'hex', 'utf8');
-    decrypted += decipher.final('utf8');
-    return decrypted;
-}
-
 // Database configuration
 const config = {
     user: process.env.DB_USER,
