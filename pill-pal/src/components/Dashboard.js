@@ -95,7 +95,7 @@ const Dashboard = () => {
             <div className="medicine-stack-container">
                 <div className="stack-text">Medicine Stack</div>
                 <div className="daily-pill-container">
-                    {["Mon", "Tue", "Wed", "Thur", "Fri", "Sat", "Sun"].map(dayName => (
+                    {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map(dayName => (
                         <div
                             key={dayName}
                             className={day === dayName ? "day-button active" : "day-button"}
